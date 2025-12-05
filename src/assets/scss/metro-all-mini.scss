@@ -1,0 +1,232 @@
+
+.container,
+.container-fluid,
+section,
+header,
+footer,
+aside {
+  margin: 0 auto;
+  position: relative;
+}
+
+.leader,
+.h1,
+h1 {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Roboto", "Ubuntu", "Helvetica Neue", sans-serif;
+  font-weight: 100;
+  font-size: 3rem;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+.bg-hover:hover {
+  background-color: rgba(29, 29, 29, 0.1) !important;
+}
+.bg-hover2:hover {
+  background-color: rgba(29, 29, 29, 0.5) !important;
+}
+.bg-hover-light:hover {
+  background-color: rgba(255, 255, 255, 0.01) !important;
+}
+.bg-hover-light1:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.bg-hover-light2:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+.bg-hover-light3:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+.bg-facebook {
+  background-color: #4267b2;
+}
+.bg-twitter {
+  background-color: #1DA1F2;
+}
+.bg-github {
+  background-color: #24292e;
+}
+.bg-bootstrap {
+  background-color: #563d7c;
+}
+.bg-gitlab {
+  background-color: #e65328;
+}
+.bg-amazon {
+  background-color: #232f3e;
+}
+.bg-black {
+  background-color: #000000 !important;
+}
+.bg-black-active:active {
+  background-color: #000000 !important;
+}
+.bg-black-hover:hover {
+  background-color: #000000 !important;
+}
+.bg-black-focus:focus {
+  background-color: #000000 !important;
+}
+.bg-white {
+  background-color: #ffffff !important;
+}
+.bg-white-active:active {
+  background-color: #ffffff !important;
+}
+.bg-white-hover:hover {
+  background-color: #ffffff !important;
+}
+.bg-white-focus:focus {
+  background-color: #ffffff !important;
+}
+.bg-dark {
+  background-color: #1d1d1d !important;
+}
+.bg-dark-active:active {
+  background-color: #1d1d1d !important;
+}
+.bg-dark-hover:hover {
+  background-color: #1d1d1d !important;
+}
+.bg-dark-focus:focus {
+  background-color: #1d1d1d !important;
+}
+.bg-light {
+  background-color: #f8f8f8 !important;
+}
+.bg-light-active:active {
+  background-color: #f8f8f8 !important;
+}
+.bg-light-hover:hover {
+  background-color: #f8f8f8 !important;
+}
+.bg-light-focus:focus {
+  background-color: #f8f8f8 !important;
+}
+.bg-grayBlue {
+  background-color: #607d8b !important;
+}
+.bg-grayBlue-active:active {
+  background-color: #607d8b !important;
+}
+.bg-grayBlue-hover:hover {
+  background-color: #607d8b !important;
+}
+.bg-grayBlue-focus:focus {
+  background-color: #607d8b !important;
+}
+
+
+.fg-black {
+  color: #000000 !important;
+}
+.fg-black-active:active {
+  color: #000000 !important;
+}
+.fg-black-hover:hover {
+  color: #000000 !important;
+}
+.fg-black-focus:focus {
+  color: #000000 !important;
+}
+.fg-white {
+  color: #ffffff !important;
+}
+.fg-white-active:active {
+  color: #ffffff !important;
+}
+.fg-white-hover:hover {
+  color: #ffffff !important;
+}
+.fg-white-focus:focus {
+  color: #ffffff !important;
+}
+.fg-dark {
+  color: #1d1d1d !important;
+}
+.fg-dark-active:active {
+  color: #1d1d1d !important;
+}
+.fg-dark-hover:hover {
+  color: #1d1d1d !important;
+}
+.fg-dark-focus:focus {
+  color: #1d1d1d !important;
+}
+.fg-light {
+  color: #f8f8f8 !important;
+}
+.fg-light-active:active {
+  color: #f8f8f8 !important;
+}
+.fg-light-hover:hover {
+  color: #f8f8f8 !important;
+}
+.fg-light-focus:focus {
+  color: #f8f8f8 !important;
+}
+.fg-grayBlue {
+  color: #607d8b !important;
+}
+.fg-grayBlue-active:active {
+  color: #607d8b !important;
+}
+.fg-grayBlue-hover:hover {
+  color: #607d8b !important;
+}
+.fg-grayBlue-focus:focus {
+  color: #607d8b !important;
+}
+.fg-grayWhite {
+  color: #f5f5f5 !important;
+}
+.fg-grayWhite-active:active {
+  color: #f5f5f5 !important;
+}
+.fg-grayWhite-hover:hover {
+  color: #f5f5f5 !important;
+}
+.fg-grayWhite-focus:focus {
+  color: #f5f5f5 !important;
+}
+.fg-grayMouse {
+  color: #455a64 !important;
+}
+.fg-grayMouse-active:active {
+  color: #455a64 !important;
+}
+.fg-grayMouse-hover:hover {
+  color: #455a64 !important;
+}
+.fg-grayMouse-focus:focus {
+  color: #455a64 !important;
+}
+.fg-brandColor1 {
+  color: #2ac4f4 !important;
+}
+.fg-brandColor1-active:active {
+  color: #2ac4f4 !important;
+}
+.fg-brandColor1-hover:hover {
+  color: #2ac4f4 !important;
+}
+.fg-brandColor1-focus:focus {
+  color: #2ac4f4 !important;
+}
+.fg-brandColor2 {
+  color: #004d6f !important;
+}
+.fg-brandColor2-active:active {
+  color: #004d6f !important;
+}
+.fg-brandColor2-hover:hover {
+  color: #004d6f !important;
+}
+.fg-brandColor2-focus:focus {
+  color: #004d6f !important;
+}
+
+.h-vh-100 {
+  height: 100vh !important;
+}

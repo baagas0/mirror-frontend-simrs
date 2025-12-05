@@ -1,0 +1,3 @@
+dispatch:
+- url: "rsudbusel.serova.id/*"
+  service: simrs-fe

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>Cetak Surat Kontrol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            background: rgb(204, 204, 204);
+            font-size: 12pt;
+            line-height: 1em;
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        div {
+            background: white;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 5mm;
+            /* box-shadow: 0 0 5mm rgba(0, 0, 0, 0.5); */
+            /*border:2px solid black;*/
+        }
+
+        div[size="A4"] {
+            width: 180mm;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            font-weight: normal;
+            font-size: 12pt;
+            /* line-height: 1em; */
+        }
+
+        span {
+            /* color: red; */
+        }
+
+        .button {
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 6px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .button:hover {
+            background-color: #fff;
+            color: black;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .w-100-flex {
+            width: 100%;
+            display: flex;
+        }
+
+        .custom-table {
+            width: 100%;
+            border: 1px solid #d1d1d1;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 1.5mm 1.5mm;
+            vertical-align: top;
+            /* border:1px solid #333 ; */
+            border: 1px solid #d1d1d1;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 15mm 15mm;
+            /* background-color: red; */
+        }
+
+        @media print {
+
+            body,
+            page {
+                margin: 0;
+                box-shadow: none;
+                font-size: 12pt;
+                line-height: 1em;
+                font-family: 'Roboto', sans-serif !important;
+            }
+
+            #btn-print {
+                display: none !important;
+            }
+
+            td {
+                padding: 1mm 1mm;
+                /* vertical-align: top; */
+                /* border:1px solid #333 ; */
+            }
+
+            td {
+                font-size: 10px;
+            }
+
+            .fs-12 {
+                font-size: 12px;
+            }
+
+            .tr-h-35 {
+                height: 35px;
+            }
+
+            td {
+                border: 1px solid #d1d1d1;
+                border-collapse: collapse;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin-top: 0px;
+                margin-bottom: 0px;
+                font-weight: normal;
+                font-size: 12pt;
+                /* line-height: 1em; */
+            }
+        }
+
+        /* div{
+            page-break-inside: avoid;
+        } */
+        /*table { page-break-inside:auto }*/
+        /*tr    { page-break-inside:avoid; page-break-after:auto }
+        thead { display:table-header-group }
+        tfoot { page-break-inside:avoid; page-break-after:auto  }*/
+
+        /* table { page-break-inside:auto } */
+        /* tr    { page-break-inside:avoid; page-break-after:auto} */
+        /* .border {
+            border: 0.5mm solid black !important
+        } */
+    </style>
+</head>
+
+<body style="position: relative;" id="cetak-rencana-kontrol">
+    <div size="A4">
+        <div class="" style=" align-items: center; width: 99%; margin-bottom: 10px;">
+            <!-- KOP -->
+            <table class="custom-table">
+                <tr>
+                    <td rowspan="2" style="height: 60px;""><img src="http://localhost:8080/static/img/logo/baubau.png" alt="" height="50px"></td>
+                    <td style="height: 25px; align-items: center;vertical-align: middle;">
+                        <h5 style="font-weight: 600; font-size: 25px; line-height: 35px;">RUMAH SAKIT UMUM DAERAH BUTON SELATAN</h5>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td style="height: 15px;">
+                        Jl. Gajah mada kec.batauga kab.buton selatan, sulawesi tenggara
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="text-align: center; vertical-align: middle;font-weight: 600; height: 20px;">Resume Medis</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table class="custom-table">
+                            <tr>
+                                <td>No. Rm</td>
+                                <td>:</td>
+                                <td>a</td>
+
+                                <td>Installasi</td>
+                                <td>:</td>
+                                <td>a</td>
+                            </tr>
+                            <tr>
+                                <td>Nama / JK</td>
+                                <td>:</td>
+                                <td>a</td>
+
+                                <td>Tanggal Lahir</td>
+                                <td>:</td>
+                                <td>a</td>
+                            </tr>
+                            <tr>
+                                <td>DPJP</td>
+                                <td>:</td>
+                                <td>a</td>
+
+                                <td>Umur</td>
+                                <td>:</td>
+                                <td>a</td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Registrasi
+                                    Kunjungan </td>
+                                <td>:</td>
+                                <td>a</td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="text-align: center; vertical-align: middle;font-weight: 600; height: 20px;">Subjective</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table class="custom-table">
+                            <tr>
+                                <td>Tujuan Kunjungan</td>
+                                <td>:</td>
+                                <td>:</td>
+                            </tr>
+                            <tr>
+                                <td>Keluhan Utama</td>
+                                <td>:</td>
+                                <td>:</td>
+                            </tr>
+                            <tr>
+                                <td>Riwayat Kesehatan Saat Ini</td>
+                                <td>:</td>
+                                <td>:</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="text-align: center; vertical-align: middle;font-weight: 600; height: 20px;">Objective</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table class="custom-table">
+                            <tr>
+                                <td>
+                                    <table class="custom-table">
+                                        <tr>
+                                            <td>Keadaan Umum</td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sistolik * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Diastolik * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nadi * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pernafasan * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Keterangan Skrining * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pemeriksaan Fisik * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table class="custom-table">
+                                        <tr>
+                                            <td>Kesadaran * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tinggi Badan * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Berat Badan * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Index Masa Tubuh * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lingkar Kepala * </td>
+                                            <td>:</td>
+                                            <td>:</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="text-align: center; vertical-align: middle;font-weight: 600; height: 20px;">Assesmen</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table class="custom-table" style="margin: 2px;">
+                            <tr>
+                                <td>Tipe Diagnosa</td>
+                                <td>Diagnosa</td>
+                                <td>Keterangan</td>
+                            </tr>
+                            <tr>
+                                <td>ICD</td>
+                                <td>Dyspepsia</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>ICD</td>
+                                <td>Dyspepsia</td>
+                                <td>-</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="text-align: center; vertical-align: middle;font-weight: 600; height: 20px;">Planning</td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="vertical-align: middle;font-weight: 600; height: 20px;">Prosedur :</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table class="custom-table" style="margin: 2px;">
+                            <tr>
+                                <td>Tipe Diagnosa</td>
+                                <td>Diagnosa</td>
+                                <td>Keterangan</td>
+                            </tr>
+                            <tr>
+                                <td>ICD</td>
+                                <td>Dyspepsia</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>ICD</td>
+                                <td>Dyspepsia</td>
+                                <td>-</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="vertical-align: middle;font-weight: 600; height: 20px;">Obat Jadi :</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="vertical-align: middle; height: 10px;">
+                        1. Asam Askorbat (Vitamin C) Tablet 250 mcg (3x1 Tablet Setelah Makan)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="vertical-align: middle; height: 10px;">
+                        2. Asam Askorbat (Vitamin C) Tablet 250 mcg (3x1 Tablet Setelah Makan)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="vertical-align: middle; height: 10px;">
+                        3. Asam Askorbat (Vitamin C) Tablet 250 mcg (3x1 Tablet Setelah Makan)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="vertical-align: middle;font-weight: 600; height: 20px;">Obat Racik :</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="vertical-align: middle; height: 10px;">
+                        1. Puyer Manis (3x1 Tablet Setelah Makan)
+                    </td>
+                </tr>
+            </table>
+
+            <!-- <div style="padding-bottom: 10px"></div> -->
+        </div>
+    </div>
+</body>

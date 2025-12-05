@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@page  {
+ margin:0;
+}
+.content-print { margin: 0; font-family: 'Roboto', sans-serif;font-size: 12pt; }
+.sheet {
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  page-break-after: always;
+}
+
+/** Paper sizes **/
+.content-print.paper-58
+.sheet { width: 58mm;}
+
+.w-100{
+  width: 100%;
+  page-break-inside: avoid;
+}
+
+.w-100-flex{
+  width: 100%;
+  display: flex;
+}
+
+.custom-table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th{
+  padding:1mm 1mm;
+  vertical-align: middle;
+  font-size: 12pt;
+}
+
+.custom-table td{
+  padding:1mm 1mm;
+  vertical-align: top;
+  font-size: 12pt;
+}
+
+.custom-border-paper{
+  border:1px solid black;
+  -webkit-print-color-adjust: exact;
+}
+
+.custom-border-table th{
+  border:1px solid black;
+  -webkit-print-color-adjust: exact;
+}
+
+.custom-border-table td{
+  border:1px solid black;
+  -webkit-print-color-adjust: exact;
+}
+
+h1,h2,h3,h4,h5,h6{
+  margin: 0;
+  padding: 0;
+  font-size: 12pt;
+  font-weight: normal;
+}
+
+span{
+  color: red;
+}
+
+.autowidth{
+  width: 1px;
+  white-space: nowrap
+}
+
+.line{
+  height: 2px;
+  background-color: #000 !important;
+  /* margin-top: 5mm; */
+  -webkit-print-color-adjust: exact;
+}
+
+
+/** For screen preview **/
+@media screen {
+  .content-print { background: #e0e0e0 }
+  .sheet {
+    background: white;
+    box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+    margin: 5mm auto;
+  }
+}
+
+/** Fix for Chrome issue #273306 **/
+@media print {
+  html,body{
+    margin: 0;
+    padding: 0;
+  }
+  .content-print.paper-58 
+  .sheet { width: 58mm;}
+
+  .w-100{
+    width: 100%;
+    page-break-inside: avoid;
+  }
+  
+  .w-100-flex{
+    width: 100%;
+    display: flex;
+  }
+  
+  .custom-table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table th{
+    padding:1mm 1mm;
+    vertical-align: middle;
+    font-size: 12pt;
+  }
+  
+  .custom-table td{
+    padding:1mm 1mm;
+    vertical-align: top;
+    font-size: 12pt;
+  }
+  
+  .custom-border-paper{
+    border:1px solid black;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  h1,h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
+    font-size: 12pt;
+  font-weight: normal;
+  }
+  
+  span{
+    color: red;
+  }
+  
+  .autowidth{
+    width: 1px;
+    white-space: nowrap
+  }
+  
+  .line{
+    height: 2px;
+    background-color: #000 !important;
+    /* margin-top: 5mm; */
+    -webkit-print-color-adjust: exact;
+  }
+
+  .custom-border-table th{
+    border:1px solid black;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .custom-border-table td{
+    border:1px solid black;
+    -webkit-print-color-adjust: exact;
+  }
+}

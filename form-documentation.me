@@ -1,0 +1,311 @@
+// FORM CONFIG
+  - title= "'label form'"
+  - form= "'create'"
+  - API= { // Pokok kalau form=create pake api seeter kalau update pakai getter kalau form undefined callback event 'success'
+    setter: '',
+    getter: ''
+  }
+  - btnSaveLabel: "'Suimpannn'"
+
+// EVENT
+  @back="backTo()"
+  @success="handleForm($event)" // $event = data dari form
+
+// SETTER OR GETTER
+  add 'BypassUri' to using full uri
+  example : {
+    setter: 'kota/provinceByIdBypassUri'
+  }
+  it will return 'kota/provinceByIdBypassUri'
+  if not using BypassUri will return 'kota/provinceById/list'
+
+// VALIDATION
+  - required
+  - integer -> pokok bilangan bulat
+  - numeric -> pokok harus angka
+  - min:3
+  - max:20
+  - max_value:9000 > numeric value representing the greatest value allowed
+  - email
+
+// ALL PROPERTY TO BUILD FORM
+{
+  attr: {}, ​​
+  class: {}, 
+  data: {}, ​​
+  hint: {}, 
+  id: {}, 
+  label: {}, 
+  permission: {}, 
+  placeholder: {}, 
+  show: {}, 
+  type: {}, 
+  validation: {}, 
+  value: {}, 
+  view_data: {}, 
+}
+
+// HOW  TO ASSIGN VALUE TO OTHER FIELD
+// @id = id dari field form lain
+// @key = kunci dari respons api detail
+option : {
+  assign_value: [
+    { 'id': 'nama_bed', 'key': 'nama_ruang' }
+  ]
+}
+
+// HOW  TO FILTER FROM LIST API
+// @id = id dari field form lain
+option : {
+  get_param: [
+    { 'id': 'province_id' }
+  ]
+}
+
+// INPUT NORMAL
+{
+  id: 'name',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Nama',
+  placeholder: 'Isikan nama',
+  type: 'text',
+  validation: ['required'],
+  conditionalShow: [
+    {
+      'code': 'ms_asuransi_id', // field lain yang dijadikan param
+      'operator': 'includes', main-form->createConditions() untuk menambah operator lain
+      'value': ['1', '2', '3'] // value yang dijadikan patokan
+    },
+    // bisa lebih dari satu kondisi
+    {
+      'code': 'jenis_kelamin',
+      'operator': '!=',
+      'value': ['L']
+    }
+  ],
+}
+
+// INPUT DUIT
+{
+  id: 'balance',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Saldo',
+  placeholder: 'Isikan saldo rek kamu',
+  type: 'money',
+  validation: ['required']
+}
+
+// INPUT ANGKA
+{
+  id: 'level_of_satisfaction',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Tingkat Kepuasan',
+  placeholder: 'Isikan tingkat kepuasan kamu',
+  type: 'number',
+  validation: ['required']
+}
+
+// INPUT TANGGAL
+{
+  id: 'date',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Input Aja',
+  placeholder: 'Isikan input aja',
+  type: 'date',
+  validation: ['required']
+}
+
+// INPUT TANGGAL WAKTU
+{
+  id: 'datetime',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Input Aja',
+  placeholder: 'Isikan input aja',
+  type: 'datetime',
+  validation: ['required']
+}
+
+// INPUT TAHUN
+{
+  id: 'year',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Input Aja',
+  placeholder: 'Isikan input aja',
+  type: 'year',
+  validation: ['required']
+}
+
+// INPUT BULAN
+{
+  id: 'month',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Input Aja',
+  placeholder: 'Isikan input aja',
+  type: 'month',
+  validation: ['required']
+}
+
+// INPUT WAKTU
+{
+  id: 'time',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Input Aja',
+  placeholder: 'Isikan input aja',
+  type: 'time',
+  validation: ['required']
+}
+
+// TEXTAREA
+{
+  id: 'name',
+  show: true,
+  class: '', attr: null,
+  value: null,
+  label: 'Nama',
+  placeholder: 'Isikan nama',
+  type: 'textarea',
+  validation: ['required']
+}
+
+// MODAL LOOKUP (radio) STATIC
+{
+  id: 'kamar_id',
+  show: true,
+  class: '', attr: null,
+  setter: 'msKamar',
+  getter: 'msKamar',
+  type: 'lookup-radio',
+  value: '',
+  validation: ['required'],
+  option: {
+    list_pointer: {
+      label: 'label',
+      code: 'code',
+      list: [
+        { label: 'Aktif', code: '1', 'description': 'Kamar ini aktif' },
+        { label: 'Non Aktif', code: '0', 'description': 'Kamar ini non aktif' }
+      ],
+      display: ['label', 'code', 'description'],
+      headerDisplay: ['Status', '', 'Deskripsi'] // (opsional) pastikan jumlah key sama dengan 'diplay', kalau kosong tidak ada header
+    }
+  }
+}
+
+// MODAL LOOKUP (radio) API
+{
+  id: 'kamar_id',
+  show: true,
+  class: '', attr: null,
+  setter: 'msKamar',
+  getter: 'msKamar',
+  type: 'lookup-radio',
+  value: '',
+  validation: ['required'],
+  option: {
+    list_pointer: {
+      label: 'nama_kamar',
+      code: 'id',
+      display: ['nama_kamar', 'jenis_kamar'],
+      headerDisplay: ['Nama Kamar', 'Jenis Kamar']
+    }
+  }
+}
+
+
+// SELECT STATIC
+{
+  id: 'kamar_id',
+  show: true,
+  class: '', attr: null,
+  setter: 'msKamar',
+  getter: 'msKamar',
+  type: 'select',
+  value: '',
+  validation: ['required'],
+  option: {
+    list_pointer: {
+      label: 'label',
+      code: 'code',
+      list: [
+        { label: 'Aktif', code: '1' },
+        { label: 'Non Aktif', code: '0' }
+      ]
+    }
+  }
+}
+
+// SELECT API
+{
+  id: 'kamar_id',
+  show: true,
+  class: '', attr: null,
+  setter: 'msKamar',
+  getter: 'msKamar',
+  type: 'select',
+  value: '',
+  validation: ['required'],
+  option: {
+    list_pointer: {
+      label: 'nama_kamar',
+      code: 'id',
+      display: ['nama_kamar']
+    }
+  }
+}
+
+// RADIO STATIC
+{
+  id: 'kamar_id',
+  show: true,
+  class: '', attr: null,
+  setter: 'msKamar',
+  getter: 'msKamar',
+  type: 'radio',
+  value: '',
+  validation: ['required'],
+  option: {
+    list_pointer: {
+      label: 'label',
+      code: 'code',
+      list: [
+        { label: 'Aktif', code: '1' },
+        { label: 'Non Aktif', code: '0' }
+      ]
+    }
+  }
+}
+
+// RADIO API
+{
+  id: 'kamar_id',
+  show: true,
+  class: '', attr: null,
+  setter: 'msKamar',
+  getter: 'msKamar',
+  type: 'radio',
+  value: '',
+  validation: ['required'],
+  option: {
+    list_pointer: {
+      label: 'nama_kamar',
+      code: 'id',
+      display: ['nama_kamar']
+    }
+  }
+}

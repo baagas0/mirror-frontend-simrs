@@ -1,0 +1,133 @@
+body {
+    background: rgb(204, 204, 204);
+    font-size: 12pt;
+    line-height: 1em;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+div {
+    background: white;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 5mm;
+    /* box-shadow: 0 0 5mm rgba(0, 0, 0, 0.5); */
+    /*border:2px solid black;*/
+}
+
+div[size="A4"] {
+    width: 110mm;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: normal;
+    font-size: 12pt;
+    /* line-height: 1em; */
+}
+
+span {
+    color: red;
+}
+
+.button {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.button:hover {
+    background-color: #fff;
+    color: black;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.w-100-flex {
+    width: 100%;
+    display: flex;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 1.5mm 1.5mm;
+    vertical-align: top;
+    /* border:1px solid #333 ; */
+}
+
+@page {
+    size: A4 portrait;
+    margin: 15mm 15mm;
+    /* background-color: red; */
+}
+
+@media print {
+
+    body,
+    page {
+        margin: 0;
+        box-shadow: none;
+        font-size: 12pt;
+        line-height: 1em;
+        font-family: 'Roboto', sans-serif !important;
+    }
+
+    #btn-print {
+        display: none !important;
+    }
+
+    td {
+        padding: 1.5mm 1.5mm;
+        vertical-align: top;
+        /* border:1px solid #333 ; */
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-weight: normal;
+        font-size: 12pt;
+        /* line-height: 1em; */
+    }
+}
+
+/* div{
+    page-break-inside: avoid;
+} */
+/*table { page-break-inside:auto }*/
+/*tr    { page-break-inside:avoid; page-break-after:auto }
+thead { display:table-header-group }
+tfoot { page-break-inside:avoid; page-break-after:auto  }*/
+
+/* table { page-break-inside:auto } */
+/* tr    { page-break-inside:avoid; page-break-after:auto} */
+/* .border {
+    border: 0.5mm solid black !important
+} */
