@@ -15,7 +15,7 @@
 [v] Pasien Operasi — data pasien yang akan/selesai operasi
 [v] Intra Operasi — pencatatan proses operasi
 [v] Post Operasi — laporan hasil operasis
-[ ] Verifikasi Tagihan Operasi — verifikasi biaya tinsatudakan operasi
+[v] Verifikasi Tagihan Operasi — verifikasi biaya tinsatudakan operasi -- dev
 [v] Laporan Operasi — rekap data hasil operasi
 [v] Mapping Posisi Operasi — pemetaan posisi pasien/tim operasi
 
