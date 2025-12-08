@@ -126,6 +126,7 @@
                   <button @click="tab = 2" class="btn" :class="tab == 2 ? 'btn-success' : 'btn-outline-success'" type="button">Jasa</button>
                   <button @click="tab = 3" class="btn" :class="tab == 3 ? 'btn-success' : 'btn-outline-success'" type="button">Fasilitas</button>
                   <button @click="tab = 4" class="btn" :class="tab == 4 ? 'btn-success' : 'btn-outline-success'" type="button">Penunjang</button>
+                  <button @click="tab = 5" class="btn" :class="tab == 5 ? 'btn-success' : 'btn-outline-success'" type="button">Operasi</button>
                 </b-col>
                 <b-col cols="12">
                   <b-row>
@@ -141,8 +142,11 @@
                     <b-col cols="6" v-show="tab == 4">
                       <PenunjangList :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualPenunjang" :list="listPenunjang" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
                     </b-col>
+                    <b-col cols="6" v-show="tab == 5">
+                      <OperasiList :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualOperasi" :listOperasi="listOperasi" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
+                    </b-col>
                     <b-col cols="6">
-                      <Perhitungan :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :listJualPenunjang="listJualPenunjang" :listJualFasilitas="listJualFasilitas" :listJualJasa="listJualJasa" :listJualBarang="listJualBarang" :isDraft="isDraft" :statusTagihan="statusTagihan" :headerBusy="headerBusy" :isValid="isValid" :isDirty="isDirty" @touchForm="v$.dataHeader.$touch()" @changeVar="changeVar" @resetData="resetData" />
+                      <Perhitungan :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :listJualPenunjang="listJualPenunjang" :listJualFasilitas="listJualFasilitas" :listJualJasa="listJualJasa" :listJualBarang="listJualBarang" :listJualOperasi="listJualOperasi" :isDraft="isDraft" :statusTagihan="statusTagihan" :headerBusy="headerBusy" :isValid="isValid" :isDirty="isDirty" @touchForm="v$.dataHeader.$touch()" @changeVar="changeVar" @resetData="resetData" />
                     </b-col>
                     <b-col cols="12" v-show="tab == 1">
                       <BarangListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listBarang="listJualBarang" :listJual="listJualBarang" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
@@ -155,6 +159,9 @@
                     </b-col>
                     <b-col cols="12" v-show="tab == 4">
                       <PenunjangListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualPenunjang" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
+                    </b-col>
+                    <b-col cols="12" v-show="tab == 5">
+                      <OperasiListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listOperasi="listJualOperasi" :listJual="listJualOperasi" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
                     </b-col>
                   </b-row>
                 </b-col>
@@ -173,7 +180,8 @@
     <FasilitasModalForm :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualFasilitas" :isDraft="isDraft" @changeVar="changeVar" />
     <PenunjangModalForm :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualPenunjang" :isDraft="isDraft" @changeVar="changeVar" />
     <JasaModalForm :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualJasa" :isDraft="isDraft" @changeVar="changeVar" />
-    <ModalRegister :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :listJualPenunjang="listJualPenunjang" :listJualFasilitas="listJualFasilitas" :listJualJasa="listJualJasa" :listJualBarang="listJualBarang" :isDraft="isDraft" :headerBusy="headerBusy" :isValid="isValid" @auto="auto" @changeVar="changeVar" @resetData="resetData" />
+    <OperasiModalForm :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listOperasi="listOperasi" :listJual="listJualOperasi" :isDraft="isDraft" @changeVar="changeVar" />
+    <ModalRegister :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :listJualPenunjang="listJualPenunjang" :listJualFasilitas="listJualFasilitas" :listJualJasa="listJualJasa" :listJualBarang="listJualBarang" :listJualOperasi="listJualOperasi" :isDraft="isDraft" :headerBusy="headerBusy" :isValid="isValid" @auto="auto" @changeVar="changeVar" @resetData="resetData" />
   </div>
 </template>
 
@@ -196,6 +204,9 @@ import FasilitasModalForm from "./fasilitas/fasilitas_modal_form.vue";
 import JasaList from "./jasa/jasa_list.vue";
 import JasaListJual from "./jasa/jasa_list_jual.vue";
 import JasaModalForm from "./jasa/jasa_modal_form.vue";
+import OperasiList from "./operasi/operasi_list.vue";
+import OperasiListJual from "./operasi/operasi_list_jual.vue";
+import OperasiModalForm from "./operasi/operasi_modal_form.vue";
 import Perhitungan from "./perhitungan.vue";
 import ModalPasien from "./modal_pasien.vue";
 import ModalPasienExternal from "./modal_pasien_external.vue";
@@ -225,6 +236,9 @@ export default {
     JasaList,
     JasaListJual,
     JasaModalForm,
+    OperasiList,
+    OperasiListJual,
+    OperasiModalForm,
     Perhitungan,
   },
   name: "input_penjualan",
@@ -305,12 +319,16 @@ export default {
       listJasa: [],
       listJualBarang: [],
       listBarang: [],
+      listJualOperasi: [],
+      listOperasi: [],
       fieldFasilitas: [],
       fieldJasa: [],
       fieldBarang: [],
+      fieldOperasi: [],
       bulk_fasilitas: [],
       bulk_jasa: [],
       bulk_barang: [],
+      bulk_operasi: [],
     };
   },
   validations: {
@@ -369,6 +387,14 @@ export default {
         this.dataPerhitungan.harga_total_barang = totalNew;
       }
     },
+    listJualOperasi(newVar, oldVar) {
+      if (newVar != oldVar) {
+        const totalOld = oldVar.reduce((total, item) => total + (item.total_harga_operasi || 0), 0);
+        const totalNew = newVar.reduce((total, item) => total + (item.total_harga_operasi || 0), 0);
+        this.dataPerhitungan.jumlah = this.dataPerhitungan.jumlah + totalNew - totalOld;
+        this.dataPerhitungan.harga_total_operasi = totalNew;
+      }
+    },
     listJualPenunjang(newVar, oldVar) {
       if (newVar != oldVar) {
         const totalOld = oldVar.reduce((total, item) => total + item.total_harga_penjualan_penunjang || 0, 0);
@@ -396,75 +422,18 @@ export default {
     "dataPerhitungan.jumlah"(newVar, oldVar) {
       if (newVar != oldVar) {
         this.refreshPerhitungan();
-        // this.dataPerhitungan.total = newVar
-        // this.dataPerhitungan.total_penjualan = newVar
-        // this.dataPerhitungan.sub_total = newVar - this.dataPerhitungan.discount
-        // this.dataPerhitungan.nama_jumlah = this.toNumeric(newVar, 'no-idr')
-        // this.dataPerhitungan.nama_sub_total = this.toNumeric(this.dataPerhitungan.sub_total, 'no-idr')
-        // this.dataPerhitungan.nama_total = this.toNumeric(newVar, 'no-idr')
-        // this.dataPerhitungan.nama_total_penjualan = this.toNumeric(newVar, 'no-idr')
-        // //tax
-        // let nominal = this.dataPerhitungan.sub_total * this.dataPerhitungan.tax_persen / 100
-        // let hasil = this.dataPerhitungan.sub_total + nominal
-        // this.dataPerhitungan.tax = nominal
-        // this.dataPerhitungan.total = hasil
-        // this.dataPerhitungan.total_penjualan = hasil
-        // this.dataPerhitungan.nama_total = this.toNumeric(hasil, 'no-idr')
-        // this.dataPerhitungan.nama_total_penjualan = this.toNumeric(hasil, 'no-idr')
-        // this.dataPerhitungan.nama_tax_persen = this.toNumeric(this.dataPerhitungan.tax_persen) + '%' + ' / ' + this.toNumeric(nominal, 'no-idr')
-        // //pembayaran
-        // hasil = this.dataPerhitungan.pembayaran - this.dataPerhitungan.total
-        // this.dataPerhitungan.sisa = hasil
-        // this.dataPerhitungan.nama_sisa = this.toNumeric(hasil, 'no-idr')
       }
     },
     "dataPerhitungan.discount"(newVar, oldVar) {
       if (newVar != oldVar) {
         this.refreshPerhitungan();
-        // let hasil = this.dataPerhitungan.jumlah - this.dataPerhitungan.discount
-        // this.dataPerhitungan.sub_total = hasil
-        // this.dataPerhitungan.nama_sub_total = this.toNumeric(hasil, 'no-idr')
-        // this.dataPerhitungan.nama_discount = this.toNumeric(newVar, 'no-idr')
-        // //tax
-        // let nominal = this.dataPerhitungan.sub_total * this.dataPerhitungan.tax_persen / 100
-        // hasil = this.dataPerhitungan.sub_total + nominal
-        // this.dataPerhitungan.tax = nominal
-        // this.dataPerhitungan.total = hasil
-        // this.dataPerhitungan.total_penjualan = hasil
-        // this.dataPerhitungan.nama_total = this.toNumeric(hasil, 'no-idr')
-        // this.dataPerhitungan.nama_total_penjualan = this.toNumeric(hasil, 'no-idr')
-        // this.dataPerhitungan.nama_tax_persen = this.toNumeric(this.dataPerhitungan.tax_persen) + '%' + ' / ' + this.toNumeric(nominal, 'no-idr')
-        // //pembayaran
-        // hasil = this.dataPerhitungan.pembayaran - this.dataPerhitungan.total
-        // this.dataPerhitungan.sisa = hasil
-        // this.dataPerhitungan.nama_sisa = this.toNumeric(hasil, 'no-idr')
       }
     },
     "dataPerhitungan.tax_persen"(newVar, oldVar) {
       if (newVar != oldVar) {
         this.refreshPerhitungan();
-        // let nominal = this.dataPerhitungan.sub_total * newVar / 100
-        // let hasil = this.dataPerhitungan.sub_total + nominal
-        // this.dataPerhitungan.tax = nominal
-        // this.dataPerhitungan.total = hasil
-        // this.dataPerhitungan.total_penjualan = hasil
-        // this.dataPerhitungan.nama_total = this.toNumeric(hasil, 'no-idr')
-        // this.dataPerhitungan.nama_total_penjualan = this.toNumeric(hasil, 'no-idr')
-        // this.dataPerhitungan.nama_tax_persen = this.toNumeric(newVar) + '%' + ' / ' + this.toNumeric(nominal, 'no-idr')
-        // //pembayaran
-        // hasil = this.dataPerhitungan.pembayaran - this.dataPerhitungan.total
-        // this.dataPerhitungan.sisa = hasil
-        // this.dataPerhitungan.nama_sisa = this.toNumeric(hasil, 'no-idr')
       }
     },
-    // 'dataPerhitungan.pembayaran'(newVar, oldVar){
-    //   if(newVar != oldVar){
-    //     let hasil = newVar - this.dataPerhitungan.total
-    //     this.dataPerhitungan.sisa = hasil
-    //     this.dataPerhitungan.nama_sisa = this.toNumeric(hasil, 'no-idr')
-    //     this.dataPerhitungan.nama_pembayaran = this.toNumeric(newVar, 'no-idr')
-    //   }
-    // },
   },
   async mounted() {
     const vm = this;
@@ -494,10 +463,6 @@ export default {
       vm.dataPerhitungan.total_penjualan = vm.dataPerhitungan.total;
       vm.dataPerhitungan.nama_total = vm.toNumeric(vm.dataPerhitungan.total, "no-idr");
       vm.dataPerhitungan.nama_total_penjualan = vm.toNumeric(vm.dataPerhitungan.total, "no-idr");
-      //pembayaran
-      // hasil = vm.dataPerhitungan.pembayaran - vm.dataPerhitungan.total
-      // vm.dataPerhitungan.sisa = hasil
-      // vm.dataPerhitungan.nama_sisa = vm.toNumeric(hasil, 'no-idr')
     },
     async auto() {
       const vm = this;
@@ -583,6 +548,20 @@ export default {
               nama_total_harga_barang: vm.toNumeric(x.harga_barang_custom * x.qty_barang, "idr"),
             };
           });
+          //operasi
+          vm.listJualOperasi = await data.operasi.map((x) => {
+            return {
+              ...x,
+              total_harga_operasi: x.harga_satuan_custom * x.qty,
+              qty_barang_total: x.qty,
+              nama_qty_barang_total: vm.toNumeric(x.total_stock_barang || 0),
+              nama_qty_barang: vm.toNumeric(x.qty),
+              nama_harga_barang: vm.toNumeric(x.harga_satuan, "idr"),
+              nama_harga_barang_custom: vm.toNumeric(x.harga_satuan_custom, "idr"),
+              nama_total_harga_operasi: vm.toNumeric(x.harga_satuan_custom * x.qty, "idr"),
+            };
+          });
+
           //perhitungan
           vm.dataPerhitungan.discount = data.discount;
           vm.dataPerhitungan.tax_persen = 0;
@@ -762,7 +741,7 @@ export default {
         no_asuransi: null,
 
         refresh: null,
-      };
+      },
       vm.listJualPenunjang = [];
       vm.listPenunjang = [];
       vm.listJualFasilitas = [];
@@ -771,6 +750,8 @@ export default {
       vm.listJasa = [];
       vm.listJualBarang = [];
       vm.listBarang = [];
+      vm.listJualOperasi = [];
+      vm.listOperasi = [];
       vm.v$.$reset();
       vm.headerBusy = false;
     },
@@ -778,6 +759,10 @@ export default {
       if (Array.isArray(data.data)) this[data.to] = [];
       await new Promise((resolve) => setTimeout(resolve, 100));
       // await new Promise(resolve => setTimeout(resolve, 1000));
+      if (data.to == "listJualOperasi") {
+        this.auto();
+        return;
+      }
       this[data.to] = data.data;
       // console.log('changeVar ', data)
     },

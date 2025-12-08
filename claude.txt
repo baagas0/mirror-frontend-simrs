@@ -1,0 +1,2 @@
+1. tambahkan tab operasi di samping kanan tab penunjang, tab ini akan mengelola penjualan barang saat ada tindakan operasi
+2. penjualan barang operasi ini tidak berbeda jauh dengan penjualan barang, pejalari penjualan barang dan salin untuk penjualan operasi

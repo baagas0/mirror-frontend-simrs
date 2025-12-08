@@ -99,10 +99,22 @@
         </template>
       </b-table>
     </b-card>
+    <b-card class="" header-tag="header" header-bg-variant="light">
+      <template #header>
+        <h5 class="mb-0" style="">
+          <strong>Operasi</strong>
+        </h5>
+      </template>
+      <b-table :items="listJualOperasi" :fields="fieldOperasi" responsive show-empty small bordered striped hover style="white-space: nowrap" class="">
+        <template #cell(no)="item">
+          {{ item.index + 1 }}
+        </template>
+      </b-table>
+    </b-card>
     <template #modal-footer>
       <b-button variant="secondary" @click="$bvModal.hide('modal-register')"> Batal </b-button>
       <!-- <b-button variant="primary" @click="register()" :disabled="!bulk_barang.length && !bulk_fasilitas && !bulk_jasa || dataPerhitungan.sisa < 0"> -->
-      <b-button v-if="isDraft == 0" variant="primary" @click="register()" :disabled="busy || (!listJualFasilitas.length && !listJualJasa.length && !listJualBarang.length && !listJualPenunjang.length)"> Save </b-button>
+      <b-button v-if="isDraft == 0" variant="primary" @click="register()" :disabled="busy || (!listJualFasilitas.length && !listJualJasa.length && !listJualBarang.length && !listJualPenunjang.length && !listJualOperasi.length)"> Save </b-button>
       <b-button v-if="isDraft == 1" variant="warning" @click="update()" :disabled="busy"> Update </b-button>
     </template>
   </b-modal>
@@ -113,7 +125,7 @@ export default {
   components: {},
   name: "modal_register",
   emits: ["resetData", "auto"],
-  props: ["dataHeader", "dataPerhitungan", "isDraft", "headerBusy", "listJualJasa", "listJualFasilitas", "listJualBarang", "listJualPenunjang"],
+  props: ["dataHeader", "dataPerhitungan", "isDraft", "headerBusy", "listJualJasa", "listJualFasilitas", "listJualBarang", "listJualPenunjang", "listJualOperasi"],
   data() {
     return {
       showing: false,
@@ -276,6 +288,49 @@ export default {
           class: "text-left",
         },
       ],
+      fieldOperasi: [
+        {
+          key: "no",
+          label: "No",
+          sortDirection: "desc",
+          class: "table-number text-center",
+        },
+        {
+          key: "nama_barang",
+          label: "Barang",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-left",
+        },
+        {
+          key: "nama_satuan",
+          label: "Satuan",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-left",
+        },
+        {
+          key: "nama_harga_barang_custom",
+          label: "Harga",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-left",
+        },
+        {
+          key: "nama_qty_barang",
+          label: "Quantity",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-left",
+        },
+        {
+          key: "nama_total_harga_operasi",
+          label: "Total Harga",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-left",
+        },
+      ],
     };
   },
   watch: {},
@@ -325,6 +380,16 @@ export default {
           qty_barang: x.qty_barang,
         };
       });
+      const bulk_operasi = vm.listJualOperasi.map((x) => {
+        return {
+          ms_barang_id: x.ms_barang_id,
+          keterangan_penjualan_operasi: x.keterangan_penjualan_operasi,
+          harga_pokok_barang: x.harga_pokok_barang,
+          harga_barang: x.harga_barang,
+          harga_barang_custom: x.harga_barang_custom,
+          qty_barang: x.qty_barang,
+        };
+      });
       const register = await this.$_api.post("penjualan/registerBulk", {
         ...vm.dataHeader,
         ...vm.dataPerhitungan,
@@ -339,6 +404,7 @@ export default {
         bulk_penunjang,
         bulk_jasa,
         bulk_barang,
+        bulk_operasi,
       });
       if (register.status == 200) {
         vm.$emit("resetData");
