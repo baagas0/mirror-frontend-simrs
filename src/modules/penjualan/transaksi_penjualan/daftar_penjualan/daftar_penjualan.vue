@@ -92,8 +92,8 @@
               <b-col cols="12" md="12" lg="12">
                 <b-table :items="items" :fields="fields" responsive show-empty small bordered striped hover :busy="tableBusy">
                   <template #cell(is_external)="item">
-                    <b-button v-if="item.item.is_external" type="button" class="btn btn-info"></b-button>
-                    <b-button v-else type="button" class="btn btn-success"></b-button>
+                    <span class="badge badge-primary" v-if="item.item.is_external">External</span>
+                    <span class="badge badge-success" v-else>Internal</span>
                   </template>
                   <template #cell(actions)="item">
                     <div class="text-nowrap">
@@ -161,6 +161,13 @@ export default {
         {
           key: "kode_penjualan",
           label: "No. Penjualan",
+          sortable: false,
+          sortDirection: "desc",
+          class: "text-left",
+        },
+        {
+          key: "no_kunjungan",
+          label: "No. Kunjungan",
           sortable: false,
           sortDirection: "desc",
           class: "text-left",

@@ -141,6 +141,7 @@ export default {
           dataForm.nama_harga_barang_custom = vm.toNumeric(dataForm.harga_barang_custom, "idr");
           dataForm.nama_total_harga_operasi = vm.toNumeric(dataForm.total_harga_operasi, "idr");
           console.log("dataForm", dataForm);
+          console.log("vm.isDraft", vm.isDraft);
           const listJualNew = listJual.concat({ ...dataForm, no: listJual.length + 1, create: true });
           const dataPerhitungan = await vm.hitungPerhitungan(listJualNew, listJual);
           
@@ -154,6 +155,7 @@ export default {
               vm.$store.commit("set_alert", { variant: "danger", msg: "Gagal Register Barang Operasi Penjualan", showing: true });
             }
           } else {
+            console.log('===> operasi_modal_form.vue:159 ~ listJualNew', listJualNew);
             vm.$emit("changeVar", { to: "listJualOperasi", data: listJualNew });
           }
         }

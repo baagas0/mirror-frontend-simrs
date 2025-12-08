@@ -148,19 +148,19 @@
                     <b-col cols="6">
                       <Perhitungan :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :listJualPenunjang="listJualPenunjang" :listJualFasilitas="listJualFasilitas" :listJualJasa="listJualJasa" :listJualBarang="listJualBarang" :listJualOperasi="listJualOperasi" :isDraft="isDraft" :statusTagihan="statusTagihan" :headerBusy="headerBusy" :isValid="isValid" :isDirty="isDirty" @touchForm="v$.dataHeader.$touch()" @changeVar="changeVar" @resetData="resetData" />
                     </b-col>
-                    <b-col cols="12" v-show="tab == 1">
+                    <b-col cols="12" class="mt-6" v-show="tab == 1">
                       <BarangListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listBarang="listJualBarang" :listJual="listJualBarang" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
                     </b-col>
-                    <b-col cols="12" v-show="tab == 2">
+                    <b-col cols="12" class="mt-6" v-show="tab == 2">
                       <JasaListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualJasa" :list="listJasa" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
                     </b-col>
-                    <b-col cols="12" v-show="tab == 3">
+                    <b-col cols="12" class="mt-6" v-show="tab == 3">
                       <FasilitasListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualFasilitas" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
                     </b-col>
-                    <b-col cols="12" v-show="tab == 4">
+                    <b-col cols="12" class="mt-6" v-show="tab == 4">
                       <PenunjangListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listJual="listJualPenunjang" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
                     </b-col>
-                    <b-col cols="12" v-show="tab == 5">
+                    <b-col cols="12" class="mt-6" v-show="tab == 5">
                       <OperasiListJual :dataHeader="dataHeader" :dataPerhitungan="dataPerhitungan" :dataForm="dataForm" :listOperasi="listJualOperasi" :listJual="listJualOperasi" :isDraft="isDraft" :headerBusy="headerBusy" @changeVar="changeVar" />
                     </b-col>
                   </b-row>
@@ -759,10 +759,11 @@ export default {
       if (Array.isArray(data.data)) this[data.to] = [];
       await new Promise((resolve) => setTimeout(resolve, 100));
       // await new Promise(resolve => setTimeout(resolve, 1000));
-      if (data.to == "listJualOperasi") {
-        this.auto();
-        return;
-      }
+
+      // if (data.to == "listJualOperasi") {
+      //   this.auto();
+      //   return;
+      // }
       this[data.to] = data.data;
       // console.log('changeVar ', data)
     },

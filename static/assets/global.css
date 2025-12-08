@@ -165,3 +165,133 @@
 .gap-3 { gap: 3px }
 .gap-2 { gap: 2px }
 .gap-1 { gap: 1px }
+
+
+/* ================================
+   Ultra Compact Modern b-table
+   ================================ */
+
+   .b-table {
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    font-size: 13px;
+  }
+  
+  /* Header */
+  .b-table thead th {
+    background: #f9fafb;
+    color: #374151;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 5px 8px; /* ✅ reduced */
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+  }
+  
+  /* Body cells */
+  .b-table tbody td {
+    padding: 4px 8px; /* ✅ reduced */
+    color: #374151;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+  }
+  
+  /* Hover effect */
+  .b-table tbody tr:hover {
+    background: #f8fafc;
+  }
+  
+  /* Last row border fix */
+  .b-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  /* Striped style */
+  .b-table-striped tbody tr:nth-of-type(odd) {
+    background: #fcfcfd;
+  }
+  
+  /* Buttons inside table */
+  .b-table button,
+  .b-table .btn {
+    padding: 2px 8px; /* ✅ reduced */
+    font-size: 11px;
+    border-radius: 5px;
+  }
+  
+  /* Badges inside table */
+  .b-table .badge {
+    font-size: 10px;
+    padding: 2px 6px; /* ✅ reduced */
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  
+  /* Responsive wrapper */
+  .table-responsive {
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+  }
+  
+  /* Empty state */
+  .b-table-empty {
+    padding: 10px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+  }
+/* ================================
+   Ultra Compact Modern Pagination
+   ================================ */
+
+   .b-pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px; /* small spacing */
+    font-size: 12px;
+  }
+  
+  /* Pagination items */
+  .b-pagination .page-item .page-link {
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    padding: 3px 8px; /* ✅ compact */
+    border-radius: 6px;
+    background: #ffffff;
+    transition: all 0.15s ease;
+    min-width: 28px;
+    text-align: center;
+  }
+  
+  /* Hover */
+  .b-pagination .page-item .page-link:hover {
+    background: #f3f4f6;
+  }
+  
+  /* Active page */
+  .b-pagination .page-item.active .page-link {
+    background: #111827;
+    color: #ffffff;
+    border-color: #111827;
+    font-weight: 600;
+  }
+  
+  /* Disabled state */
+  .b-pagination .page-item.disabled .page-link {
+    color: #9ca3af;
+    background: #f9fafb;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+  }
+  
+  /* Remove sharp edges on first & last */
+  .b-pagination .page-item:first-child .page-link,
+  .b-pagination .page-item:last-child .page-link {
+    border-radius: 6px;
+  }
+    

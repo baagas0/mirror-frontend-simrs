@@ -3,7 +3,7 @@
     <b-card header-tag="header" class="h-100 w-100 m-0 p-0">
       <template #header>
         <h5 class="mb-0">
-          <strong>Daftar Barang Operasi</strong>
+          <strong>Daftar Obat & BMHP</strong>
         </h5>
       </template>
       <b-row>
