@@ -10,52 +10,56 @@
         <b-row class="">
           <b-col cols="4">Jumlah</b-col>
           <b-col cols="auto">:</b-col>
-          <b-col >
+          <b-col>
             <div class="d-flex justify-content-between">
               <span>Rp.</span>
-              <span>{{dataPerhitungan.nama_jumlah}}</span>
+              <span>{{ dataPerhitungan.nama_jumlah }}</span>
             </div>
           </b-col>
         </b-row>
         <b-row class="text-danger">
           <b-col cols="4">Potongan</b-col>
           <b-col cols="auto">:</b-col>
-          <b-col >
+          <b-col>
             <div class="d-flex justify-content-between">
               <span>Rp.</span>
-              <span>{{dataPerhitungan.nama_discount}}</span>
+              <span>{{ dataPerhitungan.nama_discount }}</span>
             </div>
-            <b-row><b-col cols="12"><hr class="mt-1 mb-2"></b-col></b-row>
+            <b-row
+              ><b-col cols="12"><hr class="mt-1 mb-2" /></b-col
+            ></b-row>
           </b-col>
         </b-row>
         <b-row class="">
           <b-col cols="4">Sub Total</b-col>
           <b-col cols="auto">:</b-col>
-          <b-col >
+          <b-col>
             <div class="d-flex justify-content-between">
               <span>Rp.</span>
-              <span>{{dataPerhitungan.nama_sub_total}}</span>
+              <span>{{ dataPerhitungan.nama_sub_total }}</span>
             </div>
           </b-col>
         </b-row>
         <b-row class="">
           <b-col cols="4">Tax (%)</b-col>
           <b-col cols="auto">:</b-col>
-          <b-col >
+          <b-col>
             <div class="d-flex justify-content-between">
               <span></span>
-              <span>{{dataPerhitungan.nama_tax_persen}}</span>
+              <span>{{ dataPerhitungan.nama_tax_persen }}</span>
             </div>
-            <b-row><b-col cols="12"><hr class="mt-1 mb-2"></b-col></b-row>
+            <b-row
+              ><b-col cols="12"><hr class="mt-1 mb-2" /></b-col
+            ></b-row>
           </b-col>
         </b-row>
         <b-row class="">
           <b-col cols="4">Total</b-col>
           <b-col cols="auto">:</b-col>
-          <b-col >
+          <b-col>
             <div class="d-flex justify-content-between">
               <span>Rp.</span>
-              <span>{{dataPerhitungan.nama_total}}</span>
+              <span>{{ dataPerhitungan.nama_total }}</span>
             </div>
           </b-col>
         </b-row>
@@ -103,9 +107,7 @@
         <b-row class="mt-2">
           <b-col cols="12">
             <p class="m-0 p-0">
-              <strong>
-                Note : PPN berlaku untuk pennjualan item rawat jalan & umum
-              </strong>
+              <strong> Note : PPN berlaku untuk pennjualan item rawat jalan & umum </strong>
             </p>
           </b-col>
         </b-row>
@@ -132,7 +134,7 @@
               <b-icon icon="paperclip" aria-hidden="true"></b-icon>
               <div class="ml-1">IDGL</div>
             </b-button>
-            <b-button class="m-1 d-flex" size="sm" variant="danger" @click="$emit('resetData', {local: true})" :disabled="headerBusy">
+            <b-button class="m-1 d-flex" size="sm" variant="danger" @click="$emit('resetData', { local: true })" :disabled="headerBusy">
               <b-icon icon="pencil" aria-hidden="true"></b-icon>
               <div class="ml-1">Reset</div>
             </b-button>
@@ -157,65 +159,58 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col cols="12">
-          </b-col>
+          <b-col cols="12"> </b-col>
         </b-row>
       </div>
     </b-card>
   </div>
 </template>
-  
+
 <script>
-  // import axios from "axios";
-  // import { ipBackend } from "@/ipBackend";
-  import "vue2-datepicker/index.css";
-  
-  export default {
-    components: {
+import "vue2-datepicker/index.css";
+
+export default {
+  components: {},
+  name: "perhitungan",
+  emits: ["resetData", "resetData", "touchForm"],
+  props: ["data", "dataPerhitungan", "isDraft", "headerBusy", "isValid", "isDirty", "statusTagihan"],
+  data() {
+    return {
+      showing: false,
+      variant: "success",
+      msg: "",
+      busy: false,
+    };
+  },
+  watch: {},
+  computed: {},
+  mounted() {
+    // this.getDatas();
+  },
+  methods: {
+    async openRegister() {
+      console.log("openRegister");
+      const vm = this;
+      vm.$emit("touchForm");
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      // if(vm.isValid)
+      // await this.v$.header.$touch();
+      console.log(vm.isValid, vm.isDirty);
+      if (vm.isValid && vm.isDirty) vm.$bvModal.show("modal-register");
     },
-    name: "perhitungan",
-    emits: [ 'resetData', 'resetData', 'touchForm' ],
-    props: [ 'data', 'dataPerhitungan', 'isDraft', 'headerBusy', 'isValid', 'isDirty', 'statusTagihan' ],
-    data() {
-      return {
-        showing: false,
-        variant: "success",
-        msg: "",
-        busy: false,
-      };
+    triggerAlert(event) {
+      let vm = this;
+      vm.$store.commit("set_alert", event);
     },
-    watch: {
+    toNumeric(number, type) {
+      let data = {};
+      if (type == "no-idr") {
+        return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(number).slice(3);
+      } else {
+        if (type == "idr") data = { style: "currency", currency: "IDR" };
+        return new Intl.NumberFormat("id-ID", data).format(number);
+      }
     },
-    computed: {
-    },
-    mounted() {
-      // this.getDatas();
-    },
-    methods: {
-      async openRegister(){
-        console.log('openRegister')
-        const vm = this
-        vm.$emit('touchForm')
-        await new Promise(resolve => setTimeout(resolve, 100));
-        // if(vm.isValid) 
-        // await this.v$.header.$touch();
-        console.log(vm.isValid, vm.isDirty)
-        if (vm.isValid && vm.isDirty) vm.$bvModal.show('modal-register')
-      },
-      triggerAlert(event) {
-        let vm = this;
-        vm.$store.commit("set_alert", event);
-      },
-      toNumeric(number, type){
-        let data = {}
-        if(type == 'no-idr') {
-          return new Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR'}).format(number).slice(3)
-        }else{
-          if(type == 'idr') data = {style: 'currency', currency: 'IDR'}
-          return new Intl.NumberFormat('id-ID', data).format(number)
-        }
-      },
-    },
-  };
+  },
+};
 </script>
-  
