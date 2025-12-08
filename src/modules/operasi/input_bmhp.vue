@@ -126,12 +126,12 @@
           v-if="rowData.rowData.status === 'draft'"
           title="Konfirmasi"
         >
-          <i class="ri-check-line"></i>
+          <i class="ri-check-line"></i> {{ rowData.rowData.status }}
         </button>
         <button
           class="btn btn-sm btn-icon btn-light-warning mr-1"
           @click="cancelItem(rowData.rowData)"
-          v-if="rowData.rowData.status === 'draft' || rowData.rowData.status === 'confirmed'"
+          v-if="rowData.rowData.status === 'draft'"
           title="Batalkan"
         >
           <i class="ri-close-line"></i>
