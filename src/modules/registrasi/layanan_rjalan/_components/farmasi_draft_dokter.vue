@@ -3,88 +3,30 @@
     <template v-if="state === 'list'">
       <div class="row px-3">
         <div class="col-12 d-flex justify-content-end">
-          <button class="btn btn-light-primary" @click="switchState('create')">
-            <i class="ri-add-circle-line"></i> Tambah
-          </button>
+          <button class="btn btn-light-primary" @click="switchState('create')"><i class="ri-add-circle-line"></i> Tambah</button>
         </div>
       </div>
       <div class="row">
-        <div
-          class="col-7"
-          v-for="(item, i) in aResepDetail"
-          :key="'resep-detail' + i"
-        >
-          <div class="card card-custom p-3">
-            <div class="card body bg-light-warning p-3">
-              <div class="row align-items-center">
-                <div class="col-6">
-                  <p class="text-muted mb-0 font-weight-bold font-size-sm">
-                    {{
-                      item.awal_id_obat
-                        ? item.awal_id_obat.substring(0, 10)
-                        : ""
-                    }}
-                  </p>
-                  <h6 class="font-weight-bolder text-dark mb-0 pb-0">
-                    {{ item.awal_nama_obat || "-" }}
-                  </h6>
-                </div>
-                <div class="col-6">
-                  <p class="mb-0 font-weight-bold font-size-sm">
-                    {{ item.awal_signa || "-" }}
-                  </p>
-                  <p class="mb-0 font-weight-bold font-size-sm">
-                    {{ item.awal_harga || "-" }}
-                  </p>
-                  <p class="mb-0 font-weight-bold font-size-sm">
-                    {{ item.awal_qty || "-" }} / {{ item.awal_satuan || "-" }}
-                  </p>
-                  <p class="mb-0 font-weight-bold font-size-sm">
-                    {{ item.awal_aturan_pakai || "-" }}
-                  </p>
-                </div>
-                <!-- <div class="col-6">
-                      <div class="card card-custom">
-                        <div class="card body bg-light-success p-3">
-                          <div class="row align-items-center">
-                            <div class="col-6">
-                              <p class="text-muted mb-0 font-weight-bold font-size-sm">{{ item.final_id_obat ? item.final_id_obat.substring(0, 10) : '' }}</p>
-                              <h6 class="font-weight-bolder text-dark mb-0 pb-0">{{ item.final_nama_obat || '-' }}</h6>
-                            </div>
-                            <div class="col-6">
-                              <p class="mb-0 font-weight-bold font-size-sm">{{ item.final_signa || '-' }}</p>
-                              <p class="mb-0 font-weight-bold font-size-sm">{{ item.final_harga || '-' }}</p>
-                              <p class="mb-0 font-weight-bold font-size-sm">{{ item.final_qty || '-' }} / {{ item.final_satuan || '-' }}</p>
-                            </div>
-                          </div>
-                        </div>
-    
-                      </div>
-                    </div> -->
-              </div>
-            </div>
+        <div class="col-12">
+          <div class="p-3">
+            <h5>- Obat Jadi</h5>
           </div>
         </div>
+        <farmasi-telaah-obat-jadi-list :aResepDetail="aResepDetail"></farmasi-telaah-obat-jadi-list>
+
+        <farmasi-telaah-obat-racik-list :oResep="oResep"></farmasi-telaah-obat-racik-list>
       </div>
       <div class="row px-3" v-if="aResepDetail.length">
         <div class="col-12 d-flex justify-content-end">
-          <button class="btn btn-light-primary" @click="submitData()">
-            Lanjutkan <i class="ri-arrow-right-line"></i>
-          </button>
+          <button class="btn btn-light-primary" @click="submitData()">Lanjutkan <i class="ri-arrow-right-line"></i></button>
         </div>
       </div>
     </template>
     <template v-if="state === 'create'">
       <div class="row px-3">
         <div class="col-12 d-flex justify-content-between align-items-center">
-          <h6 class="font-weight-bolder text-dark mb-0 pb-0">
-            Form Tambah Resep
-          </h6>
-          <a
-            class="btn btn-outline-primary btn-icon btn-circle"
-            @click="switchState('list')"
-            ><i class="ri-arrow-go-back-line p-0"></i
-          ></a>
+          <h6 class="font-weight-bolder text-dark mb-0 pb-0">Form Tambah Resep</h6>
+          <a class="btn btn-outline-primary btn-icon btn-circle" @click="switchState('list')"><i class="ri-arrow-go-back-line p-0"></i></a>
         </div>
         <div class="col-12 mt-3">
           <ValidationObserver v-slot="{ handleSubmit }">
@@ -112,8 +54,7 @@
                         type: 'OBAT',
                       },
                     }"
-                    :valuee="mData.awal_id_obat"
-                  />
+                    :valuee="mData.awal_id_obat" />
                 </div>
                 <div class="col-12">
                   <s-input
@@ -131,17 +72,11 @@
                       pointer: {
                         label: 'name',
                         code: 'kfa_code',
-                        display: [
-                          'kfa_code',
-                          'name',
-                          'manufacturer',
-                          'registrar',
-                        ],
+                        display: ['kfa_code', 'name', 'manufacturer', 'registrar'],
                       },
                       param: {},
                     }"
-                    :valuee="mData.awal_id_obat"
-                  />
+                    :valuee="mData.awal_id_obat" />
                 </div>
                 <div class="col-12">
                   <s-input
@@ -157,8 +92,7 @@
                       value: mData.awal_nama_obat,
                       param: {},
                     }"
-                    :valuee="mData.awal_nama_obat"
-                  />
+                    :valuee="mData.awal_nama_obat" />
                 </div>
                 <div class="col-12">
                   <s-input
@@ -175,8 +109,7 @@
                       param: {},
                     }"
                     :valuee="mData.awal_harga"
-                    :disabled="true"
-                  />
+                    :disabled="true" />
                 </div>
                 <div class="col-12">
                   <s-input
@@ -192,28 +125,32 @@
                       value: mData.awal_signa,
                       param: {},
                     }"
-                    :valuee="mData.awal_signa"
-                  />
+                    :valuee="mData.awal_signa" />
                 </div>
                 <div class="col-4">
-                  <s-input v-model="mData.awal_aturan_pakai" :key="'awal_aturan_pakai'" :id="'awal_aturan_pakai'" :item="{
-                    label: 'Aturan Pakai',
-                    id: 'awal_aturan_pakai',
-                    data: 'awal_aturan_pakai',
-                    type: 'lookup-radio',
-                    validation: ['required'],
-                    value: mData.awal_aturan_pakai,
-                    pointer: {
-                      label: 'label',
-                      code: 'code',
-                      display: ['label'],
-                      list: [
-                        { label: 'Tablet Sesudah Makan', code: 'Tablet Sesudah Makan' },
-                        { label: 'Tablet Sebelum Makan', code: 'Tablet Sebelum Makan' },
-                      ]
-                    },
-                    param: {},
-                  }" :valuee="mData.awal_aturan_pakai" />
+                  <s-input
+                    v-model="mData.awal_aturan_pakai"
+                    :key="'awal_aturan_pakai'"
+                    :id="'awal_aturan_pakai'"
+                    :item="{
+                      label: 'Aturan Pakai',
+                      id: 'awal_aturan_pakai',
+                      data: 'awal_aturan_pakai',
+                      type: 'lookup-radio',
+                      validation: ['required'],
+                      value: mData.awal_aturan_pakai,
+                      pointer: {
+                        label: 'label',
+                        code: 'code',
+                        display: ['label'],
+                        list: [
+                          { label: 'Tablet Sesudah Makan', code: 'Tablet Sesudah Makan' },
+                          { label: 'Tablet Sebelum Makan', code: 'Tablet Sebelum Makan' },
+                        ],
+                      },
+                      param: {},
+                    }"
+                    :valuee="mData.awal_aturan_pakai" />
                 </div>
                 <div class="col-4">
                   <s-input
@@ -229,8 +166,7 @@
                       value: mData.awal_satuan,
                       param: {},
                     }"
-                    :valuee="mData.awal_satuan"
-                  />
+                    :valuee="mData.awal_satuan" />
                 </div>
                 <div class="col-4">
                   <s-input
@@ -246,8 +182,7 @@
                       value: mData.awal_qty,
                       param: {},
                     }"
-                    :valuee="mData.awal_qty"
-                  />
+                    :valuee="mData.awal_qty" />
                 </div>
                 <div class="col-12 align-self-center">
                   <button type="submit" class="btn btn-light-primary mr-3">
@@ -265,11 +200,14 @@
 </template>
 
 <script>
+import FarmasiTelaahObatJadiList from "./farmasi_telaah_obat_jadi_list.vue";
+import FarmasiTelaahObatRacikList from "./farmasi_telaah_obat_racik_list.vue";
 import moment from "moment";
 moment.locale("id");
 
 export default {
   name: "farmasi_draft_dokter",
+  components: { FarmasiTelaahObatJadiList, FarmasiTelaahObatRacikList },
   props: {
     dataRegistrasi: {
       type: Object,
@@ -303,9 +241,7 @@ export default {
     "mData.awal_id_obat": function (newVal, oldVal) {
       this.$_api.single("msBarang", { id: newVal }, newVal).then((res) => {
         this.mData.awal_nama_obat = res.data[0].nama_barang;
-        this.mData.awal_harga = res.data[0].harga_pokok
-          ? parseFloat(res.data[0].harga_pokok)
-          : 0;
+        this.mData.awal_harga = res.data[0].harga_pokok ? parseFloat(res.data[0].harga_pokok) : 0;
       });
     },
   },
@@ -323,11 +259,7 @@ export default {
       const organization = localStorage.getItem("organization_satu_sehat");
 
       // Ambil detail resep
-      const resResep = await this.$_api.list(
-        "resep_detail_rjalan",
-        { resep_rjalan_id: this.oResep.id },
-        this.oResep.id
-      );
+      const resResep = await this.$_api.list("resep_detail_rjalan", { resep_rjalan_id: this.oResep.id }, this.oResep.id);
       const resep = resResep.data;
 
       // Ambil data registrasi
@@ -361,8 +293,7 @@ export default {
             form: {
               coding: [
                 {
-                  system:
-                    "http://terminology.kemkes.go.id/CodeSystem/medication-form",
+                  system: "http://terminology.kemkes.go.id/CodeSystem/medication-form",
                   code: "BS013",
                   display: o.final_satuan || "Tablet",
                 },
@@ -384,8 +315,7 @@ export default {
                 valueCodeableConcept: {
                   coding: [
                     {
-                      system:
-                        "http://terminology.kemkes.go.id/CodeSystem/medication-type",
+                      system: "http://terminology.kemkes.go.id/CodeSystem/medication-type",
                       code: "NC",
                       display: "Non-compound",
                     },
@@ -394,18 +324,18 @@ export default {
               },
             ],
           };
-  
+
           // POST Medication
           const medRes = await this.$_api.post("ihs/request", {
             uri: "Medication",
             method: "post",
             data: medicationPayload,
           });
-  
+
           const medicationId = medRes.data.id;
           resep[idx].ihs_medication_id = medicationId;
           console.log("Medication created:", medicationId);
-  
+
           // 2. Hitung dosage
           let frequency = 1;
           let dose = 1;
@@ -414,7 +344,7 @@ export default {
             frequency = parseInt(parts[0]) || 1;
             dose = parseInt(parts[1]) || 1;
           }
-  
+
           // 3. Payload MedicationRequest
           const medicationRequestPayload = {
             resourceType: "MedicationRequest",
@@ -424,8 +354,7 @@ export default {
               {
                 coding: [
                   {
-                    system:
-                      "http://terminology.hl7.org/CodeSystem/medicationrequest-category",
+                    system: "http://terminology.hl7.org/CodeSystem/medicationrequest-category",
                     code: "outpatient",
                     display: "Outpatient",
                   },
@@ -466,7 +395,7 @@ export default {
                       system: "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
                       value: dose,
                       unit: "TAB",
-                      code: "TAB"
+                      code: "TAB",
                     },
                   },
                 ],
@@ -477,13 +406,13 @@ export default {
                 value: o.final_qty || 0,
                 system: "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
                 unit: "TAB",
-                code: "TAB"
+                code: "TAB",
               },
               performer: {
                 reference: `Organization/${organization}`,
               },
             },
-            
+
             identifier: [
               {
                 system: `http://sys-ids.kemkes.go.id/prescription/${organization}`,
@@ -497,7 +426,7 @@ export default {
               },
             ],
           };
-  
+
           // POST MedicationRequest
           const mrRes = await this.$_api.post("ihs/request", {
             uri: "MedicationRequest",
@@ -505,12 +434,10 @@ export default {
             data: medicationRequestPayload,
           });
           resep[idx].ihs_medication_request_id = mrRes.data.id;
-  
+
           await this.$_api.post("resep_detail_rjalan/update", resep[idx]);
         }
-      } catch (error) {
-        
-      }
+      } catch (error) {}
 
       this.$emit("updateResepData", {
         ...this.oResep,
