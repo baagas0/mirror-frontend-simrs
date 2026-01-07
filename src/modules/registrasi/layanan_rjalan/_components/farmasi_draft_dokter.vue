@@ -12,9 +12,9 @@
             <h5>- Obat Jadi</h5>
           </div>
         </div>
-        <farmasi-telaah-obat-jadi-list :aResepDetail="aResepDetail"></farmasi-telaah-obat-jadi-list>
+        <farmasi-telaah-obat-jadi-list :aResepDetail="aResepDetail" readonly="true"></farmasi-telaah-obat-jadi-list>
 
-        <farmasi-telaah-obat-racik-list :oResep="oResep"></farmasi-telaah-obat-racik-list>
+        <farmasi-telaah-obat-racik-list :oResep="oResep" disableEdit="true" disableAdd="true"></farmasi-telaah-obat-racik-list>
       </div>
       <div class="row px-3" v-if="aResepDetail.length">
         <div class="col-12 d-flex justify-content-end">

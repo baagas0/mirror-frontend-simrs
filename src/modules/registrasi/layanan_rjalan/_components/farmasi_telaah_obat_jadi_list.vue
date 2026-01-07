@@ -15,7 +15,7 @@
                 || '-' }}</p>
               <p class="mb-0 font-weight-bold font-size-sm">{{ item.awal_aturan_pakai || '-' }}</p>
             </div>
-            <div class="col-6">
+            <div class="col-6" v-if="!readonly">
               <div class="card card-custom" style="border-radius: 15px 0px 0px 15px;">
                 <!-- <div class="card-image">
                   <img class="card-img-top" src="https://via.placeholder.com/150x100" alt="Card image cap">
@@ -60,7 +60,7 @@
               <p class="mb-0 font-weight-bold font-size-sm"></p>
               <p class="mb-0 font-weight-bold font-size-sm"></p>
             </div>
-            <div class="col-6">
+            <div class="col-6" v-if="!readonly">
               <div class="card card-custom" style="border-radius: 15px 0px 0px 15px;">
                 <div class="card body bg-light-success" style="border-radius: 15px 0px 0px 15px; height: 80px">
                   <div class="row h-100 align-items-center justify-content-center pointer" @click="$parent.switchState('create')">
@@ -90,6 +90,10 @@
         default() {
           return []
         }
+      },
+      readonly: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
