@@ -127,7 +127,7 @@
                     }"
                     :valuee="mData.awal_signa" />
                 </div>
-                <div class="col-4">
+                <!-- <div class="col-4">
                   <s-input
                     v-model="mData.awal_aturan_pakai"
                     :key="'awal_aturan_pakai'"
@@ -151,6 +151,35 @@
                       param: {},
                     }"
                     :valuee="mData.awal_aturan_pakai" />
+                </div> -->
+                <div class="col-4 d-flex gap-6">
+                  <s-input
+                    v-model="mData.awal_aturan_pakai"
+                    :key="'awal_aturan_pakai'"
+                    :id="'awal_aturan_pakai'"
+                    :item="{
+                      label: 'Aturan Pakai',
+                      id: 'awal_aturan_pakai',
+                      data: 'final_aturan_pakai',
+                      type: 'lookup-radio',
+                      validation: ['required'],
+                      value: mData.awal_aturan_pakai,
+                      api: 'msAturanPakai',
+                      return_object: false,
+                      pointer: {
+                        label: 'name',
+                        code: 'name',
+                        display: ['name'],
+                      },
+                      param: {
+                        type: 'OBAT',
+                      },
+                    }"
+                    :valuee="mData.awal_aturan_pakai" />
+                  <div>
+                    <label for="asda">&ensp;</label>
+                    <ms-aturan-pakai />
+                  </div>
                 </div>
                 <div class="col-4">
                   <s-input
@@ -270,7 +299,7 @@ export default {
           jumlah: 1,
           halaman: 1,
         },
-        this.dataRegistrasi.registrasi_id
+        this.dataRegistrasi.registrasi_id,
       );
       const registrasi = ResRegistrasi.data[0];
 
