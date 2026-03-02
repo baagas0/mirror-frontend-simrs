@@ -8,42 +8,14 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-7" v-for="(item, i) in aResepDetail" :key="'resep-detail' + i">
-          <div class="card card-custom p-3">
-            <div class="card body bg-light-warning p-3">
-              <div class="row align-items-center">
-                <div class="col-6">
-                  <p class="text-muted mb-0 font-weight-bold font-size-sm">{{ item.awal_id_obat ? item.awal_id_obat.substring(0, 10) : '' }}</p>
-                  <h6 class="font-weight-bolder text-dark mb-0 pb-0">{{ item.awal_nama_obat || '-' }}</h6>
-                </div>
-                <div class="col-6">
-                  <p class="mb-0 font-weight-bold font-size-sm">{{ item.awal_signa || '-' }}</p>
-                  <p class="mb-0 font-weight-bold font-size-sm">{{ item.awal_harga || '-' }}</p>
-                  <p class="mb-0 font-weight-bold font-size-sm">{{ item.awal_qty || '-' }} / {{ item.awal_satuan
-                    || '-' }}</p>
-                </div>
-                <!-- <div class="col-6">
-                      <div class="card card-custom">
-                        <div class="card body bg-light-success p-3">
-                          <div class="row align-items-center">
-                            <div class="col-6">
-                              <p class="text-muted mb-0 font-weight-bold font-size-sm">{{ item.final_id_obat ? item.final_id_obat.substring(0, 10) : '' }}</p>
-                              <h6 class="font-weight-bolder text-dark mb-0 pb-0">{{ item.final_nama_obat || '-' }}</h6>
-                            </div>
-                            <div class="col-6">
-                              <p class="mb-0 font-weight-bold font-size-sm">{{ item.final_signa || '-' }}</p>
-                              <p class="mb-0 font-weight-bold font-size-sm">{{ item.final_harga || '-' }}</p>
-                              <p class="mb-0 font-weight-bold font-size-sm">{{ item.final_qty || '-' }} / {{ item.final_satuan || '-' }}</p>
-                            </div>
-                          </div>
-                        </div>
-    
-                      </div>
-                    </div> -->
-              </div>
-            </div>
+        <div class="col-12">
+          <div class="p-3">
+            <h5>- Obat Jadi</h5>
           </div>
         </div>
+        <farmasi-telaah-obat-jadi-list :aResepDetail="aResepDetail" readonly="true"></farmasi-telaah-obat-jadi-list>
+
+        <farmasi-telaah-obat-racik-list :oResep="oResep" disableEdit="true" disableAdd="true"></farmasi-telaah-obat-racik-list>
       </div>
       <div class="row px-3" v-if="aResepDetail.length">
         <div class="col-12 d-flex justify-content-end">
@@ -151,11 +123,17 @@
 </template>
 	
 <script>
+  import FarmasiTelaahObatJadiList from "./farmasi_telaah_obat_jadi_list.vue";
+import FarmasiTelaahObatRacikList from "./farmasi_telaah_obat_racik_list.vue";
 import moment from 'moment'
 moment.locale('id')
 
 export default {
   name: 'farmasi_draft_dokter',
+  components: {
+    FarmasiTelaahObatJadiList,
+    FarmasiTelaahObatRacikList
+  },
   props: {
     dataRegistrasi: {
       type: Object,

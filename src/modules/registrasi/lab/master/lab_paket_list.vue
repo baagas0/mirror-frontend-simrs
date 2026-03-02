@@ -204,8 +204,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -219,8 +219,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -233,8 +233,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -248,8 +248,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -262,8 +262,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -277,8 +277,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -291,8 +291,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -306,8 +306,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -320,8 +320,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },
@@ -335,8 +335,8 @@ export default {
             methods: {
               list: true,
               detail: true,
-              create: { type: 'decimal', validation: [] },
-              update: { type: 'decimal', validation: [] },
+              create: { type: 'text', validation: [] },
+              update: { type: 'text', validation: [] },
               filter: true
             }
           },

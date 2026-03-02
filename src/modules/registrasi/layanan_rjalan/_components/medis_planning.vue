@@ -172,6 +172,8 @@
                         { text: 'Kontrol 3 hari', value: 'kontrol_3_hari' },
                         { text: 'Kontrol 1 minggu', value: 'kontrol_1_minggu' },
                         { text: 'Kontrol 2 minggu', value: 'kontrol_2_minggu' },
+                        { text: 'Kontrol 3 minggu', value: 'kontrol_3_minggu' },
+                        { text: 'Kontrol 4 minggu', value: 'kontrol_4_minggu' },
                       ]"
                       :aria-describedby="ariaDescribedby"
                       name="tindak_lanjut_kontrol"

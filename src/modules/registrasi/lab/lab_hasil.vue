@@ -496,7 +496,24 @@ export default {
                   list_pointer: {
                     label: "label",
                     code: "code",
-                    list: [{ label: "/uL", code: "/uL", description: "/uL" }],
+                    list: [
+                      { label: "/uL", code: "/uL", description: "/uL" },
+                      { label: "gr/dL", code: "gr/dL", description: "gr/dL" },
+                      { label: "Juta/µL", code: "Juta/µL", description: "Juta/µL" },
+                      { label: "fL", code: "fL", description: "fL" },
+                      { label: "Pg", code: "Pg", description: "Pg" },
+                      { label: "%", code: "%", description: "%" },
+                      { label: "mg/dL", code: "mg/dL", description: "mg/dL" },
+                      { label: "U/l", code: "U/l", description: "U/l" },
+                      { label: "mmol/L", code: "mmol/L", description: "mmol/L" },
+                      { label: "LPB", code: "LPB", description: "LPB" },
+                      { label: "LPK", code: "LPK", description: "LPK" },
+                      { label: "µIu/mL", code: "µIu/mL", description: "µIu/mL" },
+                      { label: "pmol/L", code: "pmol/L", description: "pmol/L" },
+                      { label: "ng/mL", code: "ng/mL", description: "ng/mL" },
+                      { label: "Menit", code: "Menit", description: "Menit" },
+
+                    ],
                     display: ["label", "code"],
                     headerDisplay: ["Label Satuan", ""], // (opsional) pastikan jumlah key sama dengan 'diplay', kalau kosong tidak ada header
                   },

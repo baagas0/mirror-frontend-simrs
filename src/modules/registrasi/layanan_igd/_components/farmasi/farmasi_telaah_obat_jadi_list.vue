@@ -2,7 +2,7 @@
   <div class="w-100">
     <div class="col-12" v-for="(item, i) in aResepDetail" :key="'resep-detail' + i">
       <div class="card card-custom p-3">
-        <div class="card body bg-light-warning pt-0 pb-0 pr-0 pl-3">
+        <div class="card body bg-light-warning pt-3 pb-3 pr-0 pl-3">
           <div class="row align-items-center">
             <div class="col-3">
               <p class="text-muted mb-0 font-weight-bold font-size-sm">{{ item.awal_id_obat ? item.awal_id_obat.substring(0, 10) : '' }}</p>
@@ -14,7 +14,7 @@
               <p class="mb-0 font-weight-bold font-size-sm">{{ item.awal_qty || '-' }} / {{ item.awal_satuan
                 || '-' }}</p>
             </div>
-            <div class="col-6">
+            <div class="col-6" v-if="!readonly">
               <div class="card card-custom" style="border-radius: 15px 0px 0px 15px;">
                 <!-- <div class="card-image">
                   <img class="card-img-top" src="https://via.placeholder.com/150x100" alt="Card image cap">
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-12"  v-if="!readonly">
       <div class="card card-custom p-3">
         <div class="card body bg-light-warning pt-0 pb-0 pr-0 pl-3" style="height: 80px;">
           <div class="row align-items-center">
@@ -87,6 +87,13 @@
         required: true,
         default() {
           return []
+        }
+      },
+      readonly: {
+        type: Boolean,
+        required: false,
+        default() {
+          return false
         }
       }
     },
