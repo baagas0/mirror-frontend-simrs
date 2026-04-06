@@ -291,7 +291,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="font-weight-bold">Bibir Kemaluan</label>
+                  <label class="font-weight-bold">Bibir Kemaluan (labium mayora)</label>
                   <textarea
                     v-model="formData.bibir_kemaluan"
                     class="form-control"
@@ -302,7 +302,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="font-weight-bold">Serambi Kemaluan</label>
+                  <label class="font-weight-bold">Serambi Kemaluan (vestibulum vaginae)</label>
                   <textarea
                     v-model="formData.serambi_kemaluan"
                     class="form-control"
@@ -320,11 +320,12 @@
                     rows="2"
                     placeholder="Hasil pemeriksaan selaput dara..."
                   ></textarea>
+                  <small>tampak luka robek lama arah jam 3, 5, 9, 12 yang sampai dasar</small>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="font-weight-bold">Liang Senggama</label>
+                  <label class="font-weight-bold">Liang Senggama (introitus vaginae)</label>
                   <textarea
                     v-model="formData.liang_senggama"
                     class="form-control"
@@ -335,7 +336,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="font-weight-bold">Perineum</label>
+                  <label class="font-weight-bold">Perineum (perineum)</label>
                   <textarea
                     v-model="formData.perineum"
                     class="form-control"
@@ -346,7 +347,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="font-weight-bold">Anus</label>
+                  <label class="font-weight-bold">Lubang Dubur (anus)</label>
                   <textarea
                     v-model="formData.anus"
                     class="form-control"
@@ -492,6 +493,107 @@
             <span class="spinner-border spinner-border-sm" v-if="loading"></span>
             {{ formData.id ? 'Simpan Perubahan' : 'Buat Visum' }}
           </button>
+        </div>
+      </div>
+
+      <div id="cetak-visum" class="page">
+        <div class="kop">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Lambang_Kabupaten_Buton_Selatan.png/200px-Lambang_Kabupaten_Buton_Selatan.png"
+            onerror="this.style.display='none'"
+            alt="Logo"
+          />
+          <div class="kop-text">
+            <div class="pem">PEMERINTAH KABUPATEN BUTON SELATAN</div>
+            <div class="rs">RUMAH SAKIT UMUM DAERAH</div>
+            <div class="adr">
+              Jalan Gajah Mada Nomor. . . Telp. . ./Fax. (0402) &nbsp;|&nbsp;
+              Email : rsudbusel@gmail.com
+            </div>
+            <div class="kota">BATAUGA</div>
+          </div>
+        </div>
+
+        <div class="judul">
+          <div class="pro">"Pro Justitia"</div>
+          <div class="title">VISUM ET REPERTUM</div>
+          <div class="nomor">NOMOR :</div>
+        </div>
+
+        <p class="intro">
+          Atas permintaan tertulis Visum et Repertum dari Polri Daerah Sulawesi
+          Tenggara Resort Buton, Sektor Batauga dengan Nomor B/15/XII/2023/Reskrim
+          yang ditandatangani oleh Helga Riza Deatama, S.Tr.K., pangkat Inspektur
+          Polisi Satu NRP 93051141, maka dengan ini saya Dokter Jaga Instalasi
+          Gawat Darurat RSUD Buton Selatan, menerangkan bahwa pada tanggal 16
+          Desember 2024 pukul 11.54 WITA, telah memeriksa seseorang yang menurut
+          keterangan tersebut adalah:
+        </p>
+
+        <div class="garis"></div>
+
+        <table class="tbl-id">
+          <tr v-for="row in identitas" :key="row.label">
+            <td>{{ row.label }}</td>
+            <td>:</td>
+            <td>{{ row.nilai }}</td>
+          </tr>
+        </table>
+
+        <div class="garis"></div>
+
+        <div class="seksi">HASIL/FAKTA PEMERIKSAAN</div>
+
+        <div class="temuan-group">
+          <div class="temuan-label">
+            a. Perlukaan yang ditemukan pada daerah alat kelamin dan lubang
+            pelepasan.
+          </div>
+          <ul class="temuan-list">
+            <li v-for="t in temuanGenital" :key="t.area">
+              {{ t.area }} : {{ t.nilai }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="temuan-group">
+          <div class="temuan-label">
+            b. Perlukaan pada bagian tubuh yang lain : tidak ada kelainan.
+          </div>
+        </div>
+
+        <div class="temuan-group">
+          <div class="temuan-label">c. Tindakan dan pemeriksaan medis.</div>
+          <ul class="temuan-list">
+            <li v-for="m in tindakanMedis" :key="m.label">
+              {{ m.label }} : {{ m.nilai }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="garis"></div>
+
+        <div class="seksi">KESIMPULAN/INTERPRETASI PEMERIKSAAN</div>
+        <ol class="kesimpulan-list">
+          <li v-for="k in kesimpulan" :key="k.huruf">
+            <span class="huruf">{{ k.huruf }}.</span>
+            <span>{{ k.teks }}</span>
+          </li>
+        </ol>
+
+        <p class="penutup">
+          Demikian Visum et Repertum dibuat berdasarkan kompetensi dan sumpah
+          dokter.
+        </p>
+
+        <div class="ttd">
+          <div class="ttd-inner">
+            <div>Batauga, 28 April 2025</div>
+            <div>Dokter Pemeriksa</div>
+            <div class="gap"></div>
+            <div class="nama">dr. Wa Ode Nurul Amalia</div>
+            <div>NIP. 199509092022032018</div>
+          </div>
         </div>
       </div>
     </div>
@@ -816,4 +918,82 @@ export default {
 .checkbox-single {
   margin: 0;
 }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 20mm 20mm 20mm 25mm;
+    }
+ 
+    .kop {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 3px solid #000;
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+    }
+    .kop img { width: 65px; height: 65px; object-fit: contain; }
+    .kop-text { flex: 1; text-align: center; }
+    .kop-text .pem  { font-size: 10pt; }
+    .kop-text .rs   { font-size: 16pt; font-weight: bold; }
+    .kop-text .adr  { font-size: 9pt; }
+    .kop-text .kota { font-size: 11pt; font-weight: bold; letter-spacing: 2px; }
+ 
+    .judul { text-align: center; margin: 10px 0; line-height: 1.6; }
+    .judul .pro   { font-style: italic; font-size: 11pt; }
+    .judul .title { font-size: 13pt; font-weight: bold; text-decoration: underline; }
+    .judul .nomor { font-size: 11pt; font-weight: bold; }
+ 
+    .intro { text-align: justify; line-height: 1.8; margin-bottom: 8px; font-size: 11.5pt; }
+ 
+    .garis { border-top: 1px solid #000; margin: 8px 0; }
+ 
+    .tbl-id { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin-bottom: 8px; }
+    .tbl-id td { padding: 2px 4px; vertical-align: top; line-height: 1.7; }
+    .tbl-id td:first-child { width: 45mm; }
+    .tbl-id td:nth-child(2) { width: 8mm; text-align: center; }
+ 
+    .seksi { font-size: 11.5pt; font-weight: bold; margin: 10px 0 6px; }
+ 
+    .temuan-group { margin-bottom: 8px; }
+    .temuan-label { font-size: 11.5pt; margin-bottom: 4px; }
+    .temuan-list { list-style: none; padding-left: 10px; }
+    .temuan-list li {
+      font-size: 11.5pt;
+      line-height: 1.8;
+      text-align: justify;
+      padding-left: 14px;
+      position: relative;
+    }
+    .temuan-list li::before { content: '-'; position: absolute; left: 0; }
+ 
+    .kesimpulan-list { list-style: none; }
+    .kesimpulan-list li {
+      display: flex;
+      gap: 8px;
+      font-size: 11.5pt;
+      line-height: 1.8;
+      text-align: justify;
+      margin-bottom: 4px;
+    }
+    .kesimpulan-list li .huruf { flex-shrink: 0; min-width: 16px; font-weight: bold; }
+ 
+    .penutup { font-size: 11.5pt; margin-top: 12px; text-align: justify; line-height: 1.8; }
+ 
+    .ttd { display: flex; justify-content: flex-end; margin-top: 30px; }
+    .ttd-inner { text-align: center; font-size: 11.5pt; line-height: 1.7; }
+    .ttd-inner .gap { height: 50px; }
+    .ttd-inner .nama { text-decoration: underline; font-weight: bold; }
+ 
+    @media screen {
+      body { background: #e0e0e0; }
+      .page { background: #fff; box-shadow: 0 0 12px rgba(0,0,0,.25); margin: 20px auto; }
+    }
+    @media print {
+      @page { size: A4; margin: 0; }
+      body { background: #fff; }
+      .page { padding: 20mm 20mm 20mm 25mm; box-shadow: none; margin: 0; }
+    }
 </style>
