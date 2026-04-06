@@ -102,6 +102,9 @@
                     <div v-else class="text-muted">-</div>
                   </td>
                   <td>
+                    <button class="btn btn-sm btn-secondary mr-1" @click="cetakVisum(item)" title="Cetak">
+                      <i class="ri-printer-line"></i>
+                    </button>
                     <button class="btn btn-sm btn-info mr-1" @click="viewDetail(item)" title="Lihat Detail">
                       <i class="ri-eye-line"></i>
                     </button>
@@ -123,9 +126,14 @@
       <div v-if="isViewingDetail">
         <div class="d-flex justify-content-between align-items-center mb-5">
           <h6 class="font-weight-bolder text-dark">Detail Visum</h6>
-          <button class="btn btn-secondary btn-sm" @click="closeDetail">
-            <i class="ri-arrow-left-line"></i> Kembali
-          </button>
+          <div>
+            <button class="btn btn-primary btn-sm mr-2" @click="cetakVisum(selectedVisum)">
+              <i class="ri-printer-line"></i> Cetak
+            </button>
+            <button class="btn btn-secondary btn-sm" @click="closeDetail">
+              <i class="ri-arrow-left-line"></i> Kembali
+            </button>
+          </div>
         </div>
 
         <!-- Section 1: Pemeriksaan -->
@@ -495,105 +503,219 @@
           </button>
         </div>
       </div>
+    </div>
 
-      <div id="cetak-visum" class="page">
-        <div class="kop">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Lambang_Kabupaten_Buton_Selatan.png/200px-Lambang_Kabupaten_Buton_Selatan.png"
-            onerror="this.style.display='none'"
-            alt="Logo"
-          />
-          <div class="kop-text">
-            <div class="pem">PEMERINTAH KABUPATEN BUTON SELATAN</div>
-            <div class="rs">RUMAH SAKIT UMUM DAERAH</div>
-            <div class="adr">
-              Jalan Gajah Mada Nomor. . . Telp. . ./Fax. (0402) &nbsp;|&nbsp;
-              Email : rsudbusel@gmail.com
-            </div>
-            <div class="kota">BATAUGA</div>
-          </div>
-        </div>
+    <!-- Template Cetak Visum -->
+    <div id="cetak-visum-kjasdgjg"  style="position: relative; display: none;">
+      <div v-if="cetakData" size="A4">
+        <div class="" style="align-items: center; width: 99%; margin-bottom: 10px">
+          <!-- KOP -->
+          <table class="custom-table">
+            <tr>
+              <td rowspan="" style="height: 60px; text-align: center; vertical-align: middle;">
+                <img src="/static/img/logo/baubau.png" alt="Logo RSUD" height="70px">
+              </td>
+              <td style="height: 25px; text-align: center; vertical-align: middle; padding-left: 0.5rem; padding-right: 0.5rem;">
+                <h5 style="font-weight: 600; font-size: 25px; line-height: 35px; margin: 0;">RUMAH SAKIT UMUM DAERAH BUTON SELATAN</h5>
+                <p style="margin-bottom: 0px;">Jl. Gajah Mada Kec. Batauga Kab. Buton Selatan, Sulawesi Tenggara</p>
+              </td>
+            </tr>
+            
 
-        <div class="judul">
-          <div class="pro">"Pro Justitia"</div>
-          <div class="title">VISUM ET REPERTUM</div>
-          <div class="nomor">NOMOR :</div>
-        </div>
+            <tr class="" >
+              <td colspan="3" style="text-align: center; vertical-align: middle; padding-top: 1rem; padding-bottom: 1rem; height: 20px;">
+                <p style="margin-bottom: 0px">“Pro Justitia”</p>
+                <p style="margin-bottom: 0px; font-weight: 700;">VISUM ET REPERTUM</p>
+                <p style="margin-bottom: 0px">Nomor: BUSEL/VISUM/{{ cetakData.nomor_urut || "-" }}</p>
+              </td>
+            </tr>
 
-        <p class="intro">
-          Atas permintaan tertulis Visum et Repertum dari Polri Daerah Sulawesi
-          Tenggara Resort Buton, Sektor Batauga dengan Nomor B/15/XII/2023/Reskrim
-          yang ditandatangani oleh Helga Riza Deatama, S.Tr.K., pangkat Inspektur
-          Polisi Satu NRP 93051141, maka dengan ini saya Dokter Jaga Instalasi
-          Gawat Darurat RSUD Buton Selatan, menerangkan bahwa pada tanggal 16
-          Desember 2024 pukul 11.54 WITA, telah memeriksa seseorang yang menurut
-          keterangan tersebut adalah:
-        </p>
+            <tr class="" >
+              <td colspan="3" style="text-align: left; vertical-align: middle; padding-top: 1rem; height: 20px;">
+                <p style="margin-bottom: 0px">Atas permintaan tertulis Visum et Repertum dari Polri Daerah Sulawesi Tenggara Resort Buton, Sektor Batauga dengan Nomor B/15/XII/2023/Reskrim yang ditandatangani oleh Helga Riza Deatama, S.Tr.K., pangkat Inspektur Polisi Satu NRP 93051141, maka dengan ini saya Dokter Jaga Instalasi Gawat Darurat RSUD Buton Selatan, menerangkan bahwa pada tanggal {{ $moment(cetakData.tanggal_pemeriksaan).locale('id').format('D MMMM YYYY [pukul] HH.mm') }}, telah memeriksa seseorang yang menurut keterangan tersebut adalah: </p>
+              </td>
+            </tr>
 
-        <div class="garis"></div>
+            <tr class="bg-dark">
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px;">
+                VISUM ETIK LENTUM
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <table class="custom-table">
+                  <tr>
+                    <td style="width: 25%">No. Rm</td>
+                    <td style="width: 2%">:</td>
+                    <td style="width: 23%">{{ dataRegistrasi.no_rm || "-" }}</td>
+                    <td style="width: 25%">Nomor Urut</td>
+                    <td style="width: 2%">:</td>
+                    <td style="width: 23%">{{ cetakData.nomor_urut || "-" }}</td>
+                  </tr>
+                  <tr>
+                    <td>Nama / JK</td>
+                    <td>:</td>
+                    <td>
+                      {{ dataRegistrasi.nama_lengkap || "-" }} /
+                      {{ dataRegistrasi.jenis_kelamin | parse("kelamin") }}
+                    </td>
+                    <td>Tanggal Lahir</td>
+                    <td>:</td>
+                    <td>{{ dataRegistrasi.tgl_lahir | parse("date") }}</td>
+                  </tr>
+                  <tr>
+                    <td>Dokter</td>
+                    <td>:</td>
+                    <td>{{ dataRegistrasi.nama_dokter || "-" }}</td>
+                    <td>Umur</td>
+                    <td>:</td>
+                    <td>{{ dataRegistrasi.tgl_lahir | parse("oldLong") }}</td>
+                  </tr>
+                  <tr>
+                    <td>Tanggal Pemeriksaan</td>
+                    <td>:</td>
+                    <td>{{ $moment(cetakData.tanggal_pemeriksaan).format('DD/MM/YYYY HH:mm') }}</td>
+                    <td>Tanggal Registrasi</td>
+                    <td>:</td>
+                    <td>{{ dataRegistrasi.tgl_registrasi | parse("date") }}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-        <table class="tbl-id">
-          <tr v-for="row in identitas" :key="row.label">
-            <td>{{ row.label }}</td>
-            <td>:</td>
-            <td>{{ row.nilai }}</td>
-          </tr>
-        </table>
+            <!-- Section 1: Pemeriksaan -->
+            <tr class="bg-dark">
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px;">
+                Pemeriksaan
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <table class="custom-table">
+                  <tr v-if="cetakData.bibir_kemaluan">
+                    <td style="width: 30%; vertical-align: top;">Bibir Kemaluan</td>
+                    <td style="width: 2%; vertical-align: top;">:</td>
+                    <td style="vertical-align: top;">{{ cetakData.bibir_kemaluan }}</td>
+                  </tr>
+                  <tr v-if="cetakData.serambi_kemaluan">
+                    <td style="vertical-align: top;">Serambi Kemaluan</td>
+                    <td style="vertical-align: top;">:</td>
+                    <td style="vertical-align: top;">{{ cetakData.serambi_kemaluan }}</td>
+                  </tr>
+                  <tr v-if="cetakData.selaput_dara">
+                    <td style="vertical-align: top;">Selaput Dara</td>
+                    <td style="vertical-align: top;">:</td>
+                    <td style="vertical-align: top;">{{ cetakData.selaput_dara }}</td>
+                  </tr>
+                  <tr v-if="cetakData.liang_senggama">
+                    <td style="vertical-align: top;">Liang Senggama</td>
+                    <td style="vertical-align: top;">:</td>
+                    <td style="vertical-align: top;">{{ cetakData.liang_senggama }}</td>
+                  </tr>
+                  <tr v-if="cetakData.perineum">
+                    <td style="vertical-align: top;">Perineum</td>
+                    <td style="vertical-align: top;">:</td>
+                    <td style="vertical-align: top;">{{ cetakData.perineum }}</td>
+                  </tr>
+                  <tr v-if="cetakData.anus">
+                    <td style="vertical-align: top;">Anus</td>
+                    <td style="vertical-align: top;">:</td>
+                    <td style="vertical-align: top;">{{ cetakData.anus }}</td>
+                  </tr>
+                  <tr v-if="cetakData.bagian_tubuh_lain">
+                    <td style="vertical-align: top;">Bagian Tubuh Lain</td>
+                    <td style="vertical-align: top;">:</td>
+                    <td style="vertical-align: top;">{{ cetakData.bagian_tubuh_lain }}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-        <div class="garis"></div>
+            <!-- Section 2: Tindakan Medis -->
+            <tr class="bg-dark">
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px;">
+                Tindakan Medis
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <table class="custom-table">
+                  <tr v-if="cetakData.tes_kehamilan">
+                    <td style="width: 30%">Tes Kehamilan</td>
+                    <td style="width: 2%">:</td>
+                    <td>{{ cetakData.tes_kehamilan }}</td>
+                  </tr>
+                  <tr v-if="cetakData.tinggi_fundus_uteri">
+                    <td>Tinggi Fundus Uteri</td>
+                    <td>:</td>
+                    <td>{{ cetakData.tinggi_fundus_uteri }}</td>
+                  </tr>
+                  <tr>
+                    <td>Rawat Luka</td>
+                    <td>:</td>
+                    <td>{{ cetakData.rawat_luka ? 'Ya' : 'Tidak' }}</td>
+                  </tr>
+                  <tr>
+                    <td>Rawat Inap</td>
+                    <td>:</td>
+                    <td>{{ cetakData.rawat_inap ? 'Ya' : 'Tidak' }}</td>
+                  </tr>
+                  <tr v-if="cetakData.penunjang_lain">
+                    <td>Penunjang Lain</td>
+                    <td>:</td>
+                    <td>{{ cetakData.penunjang_lain }}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-        <div class="seksi">HASIL/FAKTA PEMERIKSAAN</div>
+            <!-- Section 3: Kesimpulan -->
+            <tr class="bg-dark">
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px;">
+                Kesimpulan
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <div v-if="cetakData.kesimpulan_list && cetakData.kesimpulan_list.length > 0">
+                  <div v-for="(kesimpulan, index) in cetakData.kesimpulan_list" :key="index" style="margin-bottom: 15px;">
+                    <strong>Kesimpulan {{ index + 1 }}:</strong>
+                    <p style="margin-top: 5px; margin-bottom: 5px;">{{ kesimpulan.kesimpulan }}</p>
+                    <small style="color: #666;">{{ $moment(kesimpulan.createdAt).format('DD/MM/YYYY HH:mm') }}</small>
+                  </div>
+                </div>
+                <div v-else>
+                  <p>Tidak ada kesimpulan</p>
+                </div>
+              </td>
+            </tr>
 
-        <div class="temuan-group">
-          <div class="temuan-label">
-            a. Perlukaan yang ditemukan pada daerah alat kelamin dan lubang
-            pelepasan.
-          </div>
-          <ul class="temuan-list">
-            <li v-for="t in temuanGenital" :key="t.area">
-              {{ t.area }} : {{ t.nilai }}
-            </li>
-          </ul>
-        </div>
-
-        <div class="temuan-group">
-          <div class="temuan-label">
-            b. Perlukaan pada bagian tubuh yang lain : tidak ada kelainan.
-          </div>
-        </div>
-
-        <div class="temuan-group">
-          <div class="temuan-label">c. Tindakan dan pemeriksaan medis.</div>
-          <ul class="temuan-list">
-            <li v-for="m in tindakanMedis" :key="m.label">
-              {{ m.label }} : {{ m.nilai }}
-            </li>
-          </ul>
-        </div>
-
-        <div class="garis"></div>
-
-        <div class="seksi">KESIMPULAN/INTERPRETASI PEMERIKSAAN</div>
-        <ol class="kesimpulan-list">
-          <li v-for="k in kesimpulan" :key="k.huruf">
-            <span class="huruf">{{ k.huruf }}.</span>
-            <span>{{ k.teks }}</span>
-          </li>
-        </ol>
-
-        <p class="penutup">
-          Demikian Visum et Repertum dibuat berdasarkan kompetensi dan sumpah
-          dokter.
-        </p>
-
-        <div class="ttd">
-          <div class="ttd-inner">
-            <div>Batauga, 28 April 2025</div>
-            <div>Dokter Pemeriksa</div>
-            <div class="gap"></div>
-            <div class="nama">dr. Wa Ode Nurul Amalia</div>
-            <div>NIP. 199509092022032018</div>
-          </div>
+            <!-- Tanda Tangan -->
+            <tr>
+              <td colspan="3">
+                <table class="custom-table" style="margin-top: 30px;">
+                  <tr>
+                    <td style="width: 70%; border: none;"></td>
+                    <td style="border: none;">
+                      <div style="text-align: center;">
+                        <p style="margin: 0; font-weight: 600;">Batauga, {{ $moment().format('DD MMMM YYYY') }}</p>
+                        <p style="margin: 5px 0;">Dokter Pemeriksa</p>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="border: none;"></td>
+                    <td style="border: none;">
+                      <div style="text-align: center; margin-top: 40px;">
+                        <p style="margin: 0; font-weight: 600;">{{ dataRegistrasi.nama_dokter || '-' }}</p>
+                        <p style="margin: 5px 0; font-size: 12px;">NIP. -</p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -601,6 +723,7 @@
 </template>
 
 <script>
+import print from "../../components/print.js";
 export default {
   name: 'VisumForm',
   props: {
@@ -638,7 +761,8 @@ export default {
         rawat_inap: false,
         penunjang_lain: '',
         kesimpulan: []
-      }
+      },
+      cetakData: null
     }
   },
   watch: {
@@ -878,6 +1002,40 @@ export default {
       } catch (error) {
         console.error('Error deleting visum data:', error)
         let message = 'Gagal menghapus data visum'
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message
+        } else if (error.message) {
+          message = error.message
+        }
+        this.$_alert.error({}, message)
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async cetakVisum(item) {
+      this.loading = true
+      try {
+        const response = await this.$_api.post('visum/detailsById', {
+          id: item.id
+        })
+
+        if (response.data) {
+          this.cetakData = response.data
+          console.log('Data untuk cetak:', this.cetakData)
+          let options = {
+            name: "_blank",
+            specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
+            styles: ["/static/assets/cetak/cetak-resume-medis.css"],
+            timeout: 1000,
+            autoClose: true,
+            windowTitle: window.document.title,
+          }
+          print('cetak-visum-kjasdgjg', options)
+        }
+      } catch (error) {
+        console.error('Error loading visum for print:', error)
+        let message = 'Gagal memuat data visum untuk cetak'
         if (error.response && error.response.data && error.response.data.message) {
           message = error.response.data.message
         } else if (error.message) {
