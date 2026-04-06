@@ -31,6 +31,7 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
+                  <th width="120">No & Tanggal</th>
                   <th>Pemeriksaan</th>
                   <th>Tindakan Medis</th>
                   <th>Kesimpulan</th>
@@ -39,6 +40,12 @@
               </thead>
               <tbody>
                 <tr v-for="item in visumList" :key="item.id">
+                  <td>
+                    <div class="font-weight-bolder text-dark">{{ item.nomor_urut }}</div>
+                    <div class="small text-muted">
+                      {{ $moment(item.tanggal_pemeriksaan).format('DD/MM/YYYY HH:mm') }}
+                    </div>
+                  </td>
                   <td>
                     <div v-if="item.bibir_kemaluan" class="small">
                       <strong>Bibir:</strong> {{ truncate(item.bibir_kemaluan, 30) }}
@@ -130,7 +137,10 @@
             <!-- Header section -->
             <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
               <h5 class="mb-0 font-weight-bolder">Pemeriksaan</h5>
-              <small class="text-black">Tanggal: {{ $moment(selectedVisum.createdAt).format('DD/MM/YYYY HH:mm') }}</small>
+              <div class="d-flex justify-content-between">
+                <small class="text-black">Nomor Urut: <span class="font-weight-bolder">{{ selectedVisum.nomor_urut }}</span></small>
+                <small class="text-black">Tanggal Pemeriksaan: <span class="font-weight-bolder">{{ $moment(selectedVisum.tanggal_pemeriksaan).format('DD/MM/YYYY HH:mm') }}</span></small>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-6 mb-3" v-if="selectedVisum.bibir_kemaluan">
@@ -252,6 +262,31 @@
             <!-- Header section -->
             <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
               <h5 class="mb-0 font-weight-bolder">Pemeriksaan</h5>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="font-weight-bold">Tanggal Pemeriksaan <span class="text-danger">*</span></label>
+                  <input
+                    v-model="formData.tanggal_pemeriksaan"
+                    type="datetime-local"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="font-weight-bold">Nomor Urut</label>
+                  <input
+                    :value="formData.nomor_urut"
+                    type="text"
+                    class="form-control"
+                    disabled
+                    placeholder="Otomatis"
+                  />
+                  <small class="text-muted">Nomor urut dihasilkan otomatis (0001, 0002, ...)</small>
+                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-6">
@@ -486,6 +521,8 @@ export default {
       formData: {
         id: null,
         registrasi_id: this.registrasiId,
+        tanggal_pemeriksaan: '',
+        nomor_urut: '',
         bibir_kemaluan: '',
         serambi_kemaluan: '',
         selaput_dara: '',
@@ -598,6 +635,8 @@ export default {
           this.formData = {
             id: visum.id,
             registrasi_id: visum.registrasi_id,
+            tanggal_pemeriksaan: visum.tanggal_pemeriksaan || '',
+            nomor_urut: visum.nomor_urut || '',
             bibir_kemaluan: visum.bibir_kemaluan || '',
             serambi_kemaluan: visum.serambi_kemaluan || '',
             selaput_dara: visum.selaput_dara || '',
@@ -652,6 +691,7 @@ export default {
           response = await this.$_api.post('visum/update', {
             id: this.formData.id,
             registrasi_id: this.formData.registrasi_id,
+            tanggal_pemeriksaan: this.formData.tanggal_pemeriksaan || null,
             bibir_kemaluan: this.formData.bibir_kemaluan || null,
             serambi_kemaluan: this.formData.serambi_kemaluan || null,
             selaput_dara: this.formData.selaput_dara || null,
@@ -670,6 +710,7 @@ export default {
           // Create new
           response = await this.$_api.post('visum/register', {
             registrasi_id: this.registrasiId,
+            tanggal_pemeriksaan: this.formData.tanggal_pemeriksaan || null,
             bibir_kemaluan: this.formData.bibir_kemaluan || null,
             serambi_kemaluan: this.formData.serambi_kemaluan || null,
             selaput_dara: this.formData.selaput_dara || null,
@@ -750,6 +791,8 @@ export default {
       this.formData = {
         id: null,
         registrasi_id: this.registrasiId,
+        tanggal_pemeriksaan: '',
+        nomor_urut: '',
         bibir_kemaluan: '',
         serambi_kemaluan: '',
         selaput_dara: '',
