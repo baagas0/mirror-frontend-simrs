@@ -242,7 +242,13 @@ export default {
         }
       } catch (error) {
         console.error('Error loading gizi data:', error)
-        this.$_alert.error({}, 'Gagal memuat data gizi')
+        let message = 'Gagal memuat data gizi'
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message
+        } else if (error.message) {
+          message = error.message
+        }
+        this.$_alert.error({}, message)
       } finally {
         this.loading = false
       }
@@ -303,12 +309,17 @@ export default {
           response = await this.$_api.post('gizi/register', this.formData)
         }
 
-        this.$_alert.success({}, response.data.message || 'Data gizi berhasil disimpan')
+        this.$_alert.success({}, response.message || 'Data gizi berhasil disimpan')
         await this.loadGiziData()
         this.isEditing = true
       } catch (error) {
         console.error('Error saving gizi data:', error)
-        const message = error.response?.data?.message || 'Gagal menyimpan data gizi'
+        let message = 'Gagal menyimpan data gizi'
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message
+        } else if (error.message) {
+          message = error.message
+        }
         this.$_alert.error({}, message)
       } finally {
         this.loading = false
@@ -350,7 +361,13 @@ export default {
         this.isEditing = false
       } catch (error) {
         console.error('Error deleting gizi data:', error)
-        this.$_alert.error({}, 'Gagal menghapus data gizi')
+        let message = 'Gagal menghapus data gizi'
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message
+        } else if (error.message) {
+          message = error.message
+        }
+        this.$_alert.error({}, message)
       } finally {
         this.loading = false
       }
