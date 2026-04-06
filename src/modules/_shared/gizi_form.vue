@@ -1,10 +1,5 @@
 <template>
   <div class="card card-custom">
-    <div class="card-header p-3 pb-0">
-      <div class="card-title">
-        <h5 class="font-weight-bolder text-dark">Data Gizi Pasien</h5>
-      </div>
-    </div>
     <div class="card-body p-4">
       <!-- Loading State -->
       <div class="d-flex justify-content-center" v-if="loading && !isEditing">

@@ -1,9 +1,9 @@
 runtime: nodejs20
 # PRODUCTION
-service: simrs-fe
+# service: simrs-fe
 
 # STAGING
-# service: simrs-fe-stagging
+service: simrs-fe-stagging
 
 # env: flex
 # runtime_config:
