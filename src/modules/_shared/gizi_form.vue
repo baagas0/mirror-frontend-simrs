@@ -7,23 +7,89 @@
     </div>
     <div class="card-body p-4">
       <!-- Loading State -->
-      <div class="d-flex justify-content-center" v-if="loading">
+      <div class="d-flex justify-content-center" v-if="loading && !isEditing">
         <div class="spinner spinner-track spinner-primary mr-15"></div>
       </div>
 
-      <!-- Empty State -->
-      <div v-else-if="!existingGiziData && !isEditing" class="text-center py-10">
-        <img :src="'./static/img/default/no_data_table.svg'" class="max-w-250px" alt="" />
-        <h5 class="font-weight-bolder mt-5">Data gizi belum tersedia</h5>
-        <p class="text-muted">Pasien ini belum memiliki data diet dan nutrisi</p>
-        <button class="btn btn-primary mt-3" @click="startCreate">
-          <i class="ri-file-add-line"></i> Buat Data Diet
-        </button>
+      <!-- Table View -->
+      <div v-if="!isEditing">
+        <!-- Empty State -->
+        <div v-if="giziList.length === 0" class="text-center py-10">
+          <img :src="'./static/img/default/no_data_table.svg'" class="max-w-250px" alt="" />
+          <h5 class="font-weight-bolder mt-5">Data gizi belum tersedia</h5>
+          <p class="text-muted">Pasien ini belum memiliki data diet dan nutrisi</p>
+          <button class="btn btn-primary mt-3" @click="startCreate">
+            <i class="ri-file-add-line"></i> Buat Data Diet
+          </button>
+        </div>
+
+        <!-- Gizi Table -->
+        <div v-else>
+          <div class="d-flex justify-content-between align-items-center mb-5">
+            <h6 class="font-weight-bolder text-dark">Daftar Gizi ({{ giziList.length }})</h6>
+            <button class="btn btn-primary btn-sm" @click="startCreate">
+              <i class="ri-add-line"></i> Tambah Data
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Jenis Diet</th>
+                  <th>Nutrisi</th>
+                  <th>Larangan Makan</th>
+                  <th>Jadwal Makan</th>
+                  <th>Status</th>
+                  <th width="150">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in giziList" :key="index">
+                  <td>
+                    <div v-if="item.nama_jenis_diet" class="font-weight-bold">{{ item.nama_jenis_diet }}</div>
+                    <small class="text-muted" v-if="item.kode_jenis_diet">{{ item.kode_jenis_diet }}</small>
+                    <div v-else class="text-muted">-</div>
+                  </td>
+                  <td>
+                    <div v-if="item.nama_nutrisi" class="font-weight-bold">{{ item.nama_nutrisi }}</div>
+                    <small class="text-muted" v-if="item.kode_nutrisi">{{ item.kode_nutrisi }}</small>
+                    <div v-else class="text-muted">-</div>
+                  </td>
+                  <td>
+                    <div v-if="item.nama_larangan_makan" class="font-weight-bold">{{ item.nama_larangan_makan }}</div>
+                    <small class="text-muted" v-if="item.kode_larangan_makan">{{ item.kode_larangan_makan }}</small>
+                    <div v-else class="text-muted">-</div>
+                  </td>
+                  <td>
+                    <span v-if="item.jadwal_makan && item.jadwal_makan.length > 0" class="badge badge-primary">
+                      {{ item.jadwal_makan.join(', ') }}
+                    </span>
+                    <span v-else class="text-muted">-</span>
+                  </td>
+                  <td>
+                    <span v-if="item.status_diet === 'baru'" class="badge badge-info">Baru</span>
+                    <span v-else-if="item.status_diet === 'aktif'" class="badge badge-success">Aktif</span>
+                    <span v-else-if="item.status_diet === 'revisi'" class="badge badge-warning">Revisi</span>
+                    <span v-else class="badge badge-secondary">{{ item.status_diet }}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-warning mr-1" @click="editRecord(item)">
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" @click="confirmDelete(item)">
+                      <i class="ri-delete-bin-line"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      <!-- Form State -->
+      <!-- Form View -->
       <div v-else>
-        <form @submit.prevent="submitForm">
           <div class="row">
             <!-- Left Column: Basic Info -->
             <div class="col-xl-6 col-md-6 col-sm-12">
@@ -147,28 +213,18 @@
           <div class="row">
             <div class="col-12">
               <div class="d-flex justify-content-end mt-5">
-                <button type="button" class="btn btn-secondary mr-2" @click="cancelEdit" v-if="isEditing">
+                <button type="button" class="btn btn-secondary mr-2" @click="cancelEdit">
                   <i class="ri-close-line"></i> Batal
                 </button>
                 <button type="submit" class="btn btn-primary" :disabled="loading">
                   <i class="ri-save-line" v-if="!loading"></i>
                   <span class="spinner-border spinner-border-sm" v-if="loading"></span>
-                  {{ isEditing ? 'Simpan Perubahan' : 'Buat Data Diet' }}
+                  {{ formData.id ? 'Simpan Perubahan' : 'Buat Data Diet' }}
                 </button>
               </div>
             </div>
           </div>
         </form>
-
-        <!-- Delete Button (Only in Edit Mode with Existing Data) -->
-        <div class="row" v-if="isEditing && existingGiziData">
-          <div class="col-12">
-            <hr />
-            <button class="btn btn-danger" @click="confirmDelete">
-              <i class="ri-delete-bin-line"></i> Hapus Data Diet
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -191,6 +247,7 @@ export default {
     return {
       loading: false,
       isEditing: false,
+      giziList: [],
       formData: {
         id: null,
         registrasi_id: this.registrasiId,
@@ -204,7 +261,6 @@ export default {
         jadwal_makan: [],
         status_diet: 'baru'
       },
-      existingGiziData: null,
       jadwalPagi: false,
       jadwalSiang: false,
       jadwalSore: false,
@@ -230,15 +286,13 @@ export default {
         const response = await this.$_api.post('gizi/list', {
           registrasi_id: this.registrasiId,
           halaman: 1,
-          jumlah: 10
+          jumlah: 999
         })
 
-        if (response.data && response.data.length > 0) {
-          this.existingGiziData = response.data[0]
-          this.populateForm(this.existingGiziData)
+        if (response.data) {
+          this.giziList = response.data
         } else {
-          this.existingGiziData = null
-          this.resetForm()
+          this.giziList = []
         }
       } catch (error) {
         console.error('Error loading gizi data:', error)
@@ -279,7 +333,10 @@ export default {
       this.jadwalSiang = this.formData.jadwal_makan.includes('Siang')
       this.jadwalSore = this.formData.jadwal_makan.includes('Sore')
       this.jadwalMalam = this.formData.jadwal_makan.includes('Malam')
+    },
 
+    editRecord(item) {
+      this.populateForm(item)
       this.isEditing = true
     },
 
@@ -311,7 +368,7 @@ export default {
 
         this.$_alert.success({}, response.message || 'Data gizi berhasil disimpan')
         await this.loadGiziData()
-        this.isEditing = true
+        this.isEditing = false
       } catch (error) {
         console.error('Error saving gizi data:', error)
         let message = 'Gagal menyimpan data gizi'
@@ -328,15 +385,11 @@ export default {
 
     cancelEdit() {
       this.isEditing = false
-      if (this.existingGiziData) {
-        this.populateForm(this.existingGiziData)
-      } else {
-        this.resetForm()
-      }
+      this.resetForm()
     },
 
-    async confirmDelete() {
-      if (!this.existingGiziData || !this.existingGiziData.id) {
+    async confirmDelete(item) {
+      if (!item || !item.id) {
         this.$_alert.error({}, 'Tidak ada data untuk dihapus')
         return
       }
@@ -344,21 +397,20 @@ export default {
       this.$_alert.confirm(
         { title: 'Hapus Data Diet', text: 'Apakah Anda yakin ingin menghapus data diet ini?' },
         async () => {
-          await this.deleteGizi()
+          await this.deleteGizi(item)
         }
       )
     },
 
-    async deleteGizi() {
+    async deleteGizi(item) {
       this.loading = true
       try {
         await this.$_api.post('gizi/delete', {
-          id: this.existingGiziData.id
+          id: item.id
         })
 
         this.$_alert.success({}, 'Data gizi berhasil dihapus')
         await this.loadGiziData()
-        this.isEditing = false
       } catch (error) {
         console.error('Error deleting gizi data:', error)
         let message = 'Gagal menghapus data gizi'
