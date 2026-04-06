@@ -123,10 +123,15 @@
 
         <!-- Section 1: Pemeriksaan -->
         <div class="card card-custom mb-5" v-if="selectedVisum">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h5 class="mb-0 font-weight-bolder">Pemeriksaan</h5>
-          </div>
+          </div> -->
           <div class="card-body">
+            <!-- Header section -->
+            <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
+              <h5 class="mb-0 font-weight-bolder">Pemeriksaan</h5>
+              <small class="text-black">Tanggal: {{ $moment(selectedVisum.createdAt).format('DD/MM/YYYY HH:mm') }}</small>
+            </div>
             <div class="row">
               <div class="col-md-6 mb-3" v-if="selectedVisum.bibir_kemaluan">
                 <label class="font-weight-bold">Bibir Kemaluan</label>
@@ -162,10 +167,13 @@
 
         <!-- Section 2: Tindakan Medis -->
         <div class="card card-custom mb-5" v-if="selectedVisum">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
-          </div>
+          </div> -->
           <div class="card-body">
+            <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
+              <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
+            </div>
             <div class="row">
               <div class="col-md-6 mb-3" v-if="selectedVisum.tes_kehamilan">
                 <label class="font-weight-bold">Tes Kehamilan</label>
@@ -199,10 +207,10 @@
 
         <!-- Section 3: Kesimpulan -->
         <div class="card card-custom" v-if="selectedVisum && selectedVisum.kesimpulan_list">
-          <div class="card-header">
-            <h5 class="mb-0 font-weight-bolder">Kesimpulan ({{ selectedVisum.kesimpulan_list.length }})</h5>
-          </div>
           <div class="card-body">
+            <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
+              <h5 class="mb-0 font-weight-bolder">Kesimpulan ({{ selectedVisum.kesimpulan_list.length }})</h5>
+            </div>
             <div v-if="selectedVisum.kesimpulan_list.length === 0" class="text-center py-5">
               <p class="text-muted">Tidak ada kesimpulan</p>
             </div>
@@ -237,10 +245,14 @@
 
         <!-- Section 1: Pemeriksaan -->
         <div class="card card-custom mb-5">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h5 class="mb-0 font-weight-bolder">Pemeriksaan</h5>
-          </div>
+          </div> -->
           <div class="card-body">
+            <!-- Header section -->
+            <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
+              <h5 class="mb-0 font-weight-bolder">Pemeriksaan</h5>
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -325,10 +337,13 @@
 
         <!-- Section 2: Tindakan Medis -->
         <div class="card card-custom mb-5">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
-          </div>
+          </div> -->
           <div class="card-body">
+            <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
+              <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -358,7 +373,7 @@
                   <div class="checkbox mt-4">
                     <label class="checkbox checkbox-single">
                       <input type="checkbox" v-model="formData.rawat_luka" />
-                      <span></span> Ya
+                      <span> </span> &ensp; Ya
                     </label>
                   </div>
                 </div>
@@ -369,7 +384,7 @@
                   <div class="checkbox mt-4">
                     <label class="checkbox checkbox-single">
                       <input type="checkbox" v-model="formData.rawat_inap" />
-                      <span></span> Ya
+                      <span></span> &ensp; Ya
                     </label>
                   </div>
                 </div>
@@ -391,15 +406,21 @@
 
         <!-- Section 3: Kesimpulan (Multiple) -->
         <div class="card card-custom mb-5">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
               <h5 class="mb-0 font-weight-bolder">Kesimpulan</h5>
               <button class="btn btn-primary btn-sm" @click="addKesimpulan">
                 <i class="ri-add-line"></i> Tambah Kesimpulan
               </button>
             </div>
-          </div>
+          </div> -->
           <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center" style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
+              <h5 class="mb-0 font-weight-bolder">Kesimpulan</h5>
+              <button class="btn btn-primary btn-sm" @click="addKesimpulan">
+                <i class="ri-add-line"></i> Tambah Kesimpulan
+              </button>
+            </div>
             <div v-if="formData.kesimpulan.length === 0" class="text-center py-5">
               <p class="text-muted">Belum ada kesimpulan. Klik "Tambah Kesimpulan" untuk menambahkan.</p>
             </div>
