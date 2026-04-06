@@ -85,70 +85,53 @@
 
       <!-- Form View -->
       <div v-else>
+        <form @submit.prevent="submitForm">
           <div class="row">
             <!-- Left Column: Basic Info -->
             <div class="col-xl-6 col-md-6 col-sm-12">
               <div class="form-group">
-                <label>Kode Jenis Diet</label>
-                <input
+                <label>Jenis Diet</label>
+                <select
                   v-model="formData.kode_jenis_diet"
-                  type="text"
                   class="form-control"
-                  placeholder="Masukkan kode jenis diet"
-                />
+                  @change="onJenisDietChange"
+                >
+                  <option value="">-- Pilih Jenis Diet --</option>
+                  <option v-for="item in jenisDietOptions" :key="item.code" :value="item.code">
+                    {{ item.label }}
+                  </option>
+                </select>
               </div>
 
               <div class="form-group">
-                <label>Nama Jenis Diet</label>
-                <input
-                  v-model="formData.nama_jenis_diet"
-                  type="text"
-                  class="form-control"
-                  placeholder="Masukkan nama jenis diet"
-                />
-              </div>
-
-              <div class="form-group">
-                <label>Kode Nutrisi</label>
-                <input
+                <label>Nutrisi</label>
+                <select
                   v-model="formData.kode_nutrisi"
-                  type="text"
                   class="form-control"
-                  placeholder="Masukkan kode nutrisi"
-                />
-              </div>
-
-              <div class="form-group">
-                <label>Nama Nutrisi</label>
-                <input
-                  v-model="formData.nama_nutrisi"
-                  type="text"
-                  class="form-control"
-                  placeholder="Masukkan nama nutrisi"
-                />
+                  @change="onNutrisiChange"
+                >
+                  <option value="">-- Pilih Nutrisi --</option>
+                  <option v-for="item in nutrisiOptions" :key="item.code" :value="item.code">
+                    {{ item.label }}
+                  </option>
+                </select>
               </div>
             </div>
 
             <!-- Right Column: Restrictions & Schedule -->
             <div class="col-xl-6 col-md-6 col-sm-12">
               <div class="form-group">
-                <label>Kode Larangan Makan</label>
-                <input
+                <label>Larangan Makan</label>
+                <select
                   v-model="formData.kode_larangan_makan"
-                  type="text"
                   class="form-control"
-                  placeholder="Masukkan kode larangan makan"
-                />
-              </div>
-
-              <div class="form-group">
-                <label>Nama Larangan Makan</label>
-                <input
-                  v-model="formData.nama_larangan_makan"
-                  type="text"
-                  class="form-control"
-                  placeholder="Masukkan nama larangan makan"
-                />
+                  @change="onLaranganMakanChange"
+                >
+                  <option value="">-- Pilih Larangan Makan --</option>
+                  <option v-for="item in laranganMakanOptions" :key="item.code" :value="item.code">
+                    {{ item.label }}
+                  </option>
+                </select>
               </div>
 
               <div class="form-group">
@@ -259,7 +242,40 @@ export default {
       jadwalPagi: false,
       jadwalSiang: false,
       jadwalSore: false,
-      jadwalMalam: false
+      jadwalMalam: false,
+      jenisDietOptions: [
+        { label: 'Anjuran peningkatan cairan', code: '113148007' },
+        { label: 'Diet rendah garam', code: '226208002' },
+        { label: 'Diet rendah lemak', code: '226211005' },
+        { label: 'Diet rendah gula', code: '226210006' },
+        { label: 'Diet tinggi protein', code: '226209005' },
+        { label: 'Diet diabetes', code: '226212003' },
+        { label: 'Diet penurunan berat badan', code: '226213008' },
+        { label: 'Diet penambahan berat badan', code: '703977005' },
+        { label: 'Diet tinggi serat', code: '226215001' },
+        { label: 'Diet cair', code: '225373002' },
+        { label: 'Diet lunak', code: '225372007' },
+        { label: 'Diet bubur / lumat', code: '225374008' },
+      ],
+      nutrisiOptions: [
+        { label: 'Air mineral', code: '444695006' },
+        { label: 'Karbohidrat', code: '226356002' },
+        { label: 'Protein', code: '226358001' },
+        { label: 'Lemak', code: '226359009' },
+        { label: 'Natrium', code: '226360004' },
+        { label: 'Vitamin', code: '226357006' },
+        { label: 'Cairan', code: '226361000' },
+      ],
+      laranganMakanOptions: [
+        { label: 'Soft drink (Minuman bersoda)', code: '1296980001' },
+        { label: 'Fast food (Makanan cepat saji)', code: '227415009' },
+        { label: 'Fried food (Makanan gorengan)', code: '227416005' },
+        { label: 'Processed meat (Daging olahan)', code: '227417001' },
+        { label: 'High sugar food (Makanan tinggi gula)', code: '227418006' },
+        { label: 'Salty snack (Makanan tinggi garam)', code: '227419003' },
+        { label: 'Caffeinated drink (Minuman berkafein)', code: '227420009' },
+        { label: 'Alcoholic beverage (Minuman beralkohol)', code: '227421008' },
+      ]
     }
   },
   watch: {
@@ -417,6 +433,42 @@ export default {
         this.$_alert.error({}, message)
       } finally {
         this.loading = false
+      }
+    },
+
+    onJenisDietChange() {
+      if (this.formData.kode_jenis_diet) {
+        const selected = this.jenisDietOptions.find(item => item.code === this.formData.kode_jenis_diet)
+        if (selected) {
+          this.formData.kode_jenis_diet = selected.code
+          this.formData.nama_jenis_diet = selected.label
+        }
+      } else {
+        this.formData.nama_jenis_diet = ''
+      }
+    },
+
+    onNutrisiChange() {
+      if (this.formData.kode_nutrisi) {
+        const selected = this.nutrisiOptions.find(item => item.code === this.formData.kode_nutrisi)
+        if (selected) {
+          this.formData.kode_nutrisi = selected.code
+          this.formData.nama_nutrisi = selected.label
+        }
+      } else {
+        this.formData.nama_nutrisi = ''
+      }
+    },
+
+    onLaranganMakanChange() {
+      if (this.formData.kode_larangan_makan) {
+        const selected = this.laranganMakanOptions.find(item => item.code === this.formData.kode_larangan_makan)
+        if (selected) {
+          this.formData.kode_larangan_makan = selected.code
+          this.formData.nama_larangan_makan = selected.label
+        }
+      } else {
+        this.formData.nama_larangan_makan = ''
       }
     },
 
