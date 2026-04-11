@@ -80,23 +80,100 @@
           </button>
         </div>
 
-        <!-- Tabs -->
-        <ul class="nav nav-tabs nav-tabs-line mb-5">
-          <li class="nav-item">
-            <a class="nav-link pointer" @click="switchTab('monitoring')" :class="{ active: activeTab === 'monitoring' }">
-              <span class="nav-icon"><i class="flaticon2-monitor"></i></span>
-              <span class="nav-text">Monitoring</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link pointer" @click="switchTab('catatan_dokter')" :class="{ active: activeTab === 'catatan_dokter' }">
-              <span class="nav-icon"><i class="flaticon2-talk"></i></span>
-              <span class="nav-text">Catatan Dokter</span>
-            </a>
-          </li>
-        </ul>
+        <!-- Create New Form (Simple) -->
+        <div v-if="!formData.id">
+          <div class="card card-custom bg-light">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Durasi (jam) <span class="text-danger">*</span></label>
+                    <input
+                      v-model.number="formData.durasi"
+                      type="number"
+                      class="form-control"
+                      min="1"
+                      max="72"
+                      placeholder="24"
+                    />
+                    <small class="text-muted">Durasi observasi dalam jam (1-72)</small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Waktu Mulai <span class="text-danger">*</span></label>
+                    <input
+                      v-model="formData.jam_start"
+                      type="datetime-local"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Waktu Selesai</label>
+                    <input
+                      v-model="formData.jam_end"
+                      type="datetime-local"
+                      class="form-control"
+                    />
+                    <small class="text-muted">Opsional, isi saat observasi selesai</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Interval Vital Sign</label>
+                    <input
+                      v-model.number="formData.interval_vital_sign"
+                      type="number"
+                      class="form-control"
+                      min="1"
+                      placeholder="1"
+                    />
+                    <small class="text-muted">Interval pencatatan vital sign (jam)</small>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="alert alert-info">
+                <i class="ri-information-line"></i>
+                Data lainnya (infus, obat, tindakan, vital sign, catatan dokter, keputusan akhir) dapat diupdate setelah observasi dibuat melalui tombol Edit.
+              </div>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-secondary mr-2" @click="cancelEdit">
+                  <i class="ri-close-line"></i> Batal
+                </button>
+                <button class="btn btn-primary" @click="submitForm" :disabled="loading">
+                  <i class="ri-save-line" v-if="!loading"></i>
+                  <span class="spinner-border spinner-border-sm" v-if="loading"></span>
+                  {{ loading ? 'Menyimpan...' : 'Buat Observasi' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <!-- Tab Contents -->
+        <!-- Edit Form (Complete with Tabs) -->
+        <div v-if="formData.id">
+          <!-- Tabs -->
+          <ul class="nav nav-tabs nav-tabs-line mb-5">
+            <li class="nav-item">
+              <a class="nav-link pointer" @click="switchTab('monitoring')" :class="{ active: activeTab === 'monitoring' }">
+                <span class="nav-icon"><i class="flaticon2-monitor"></i></span>
+                <span class="nav-text">Monitoring</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pointer" @click="switchTab('catatan_dokter')" :class="{ active: activeTab === 'catatan_dokter' }">
+                <span class="nav-icon"><i class="flaticon2-talk"></i></span>
+                <span class="nav-text">Catatan Dokter</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Tab Contents -->
         <div v-if="activeTab === 'monitoring'">
           <!-- Observation Header Fields -->
           <div class="row">
@@ -489,6 +566,7 @@
               {{ formData.id ? 'Simpan Perubahan' : 'Buat Observasi' }}
             </button>
           </div>
+        </div>
         </div>
       </div>
 
