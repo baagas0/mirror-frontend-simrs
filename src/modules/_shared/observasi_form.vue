@@ -190,7 +190,7 @@
                     <div class="card-title">
                       <h6 class="font-weight-bolder text-dark">Observasi Vital</h6>
                     </div>
-                    <div>
+                    <div class="d-flex justify-content-end align-items-center">
                       <button class="btn btn-primary btn-sm" @click="resetVitalForm"><i class="ri-add-line"></i> Tambah Vital</button>
                     </div>
                   </div>
@@ -314,21 +314,13 @@
                           <div class="card-body">
                             <!-- Infus Input Form -->
                             <div class="form-group mb-3">
-                              <input
-                                v-model="infusInput"
-                                type="text"
-                                class="form-control"
-                                placeholder="Contoh: RL, NaCl, Dextrose"
-                                @keyup.enter="addInfus"
-                              />
+                              <input v-model="infusInput" type="text" class="form-control" placeholder="Contoh: RL, NaCl, Dextrose" @keyup.enter="addInfus" />
                             </div>
-                            <button class="btn btn-sm btn-primary mb-3" @click="addInfus" :disabled="!infusInput.trim()">
-                              <i class="ri-add-line"></i> Tambah
-                            </button>
+                            <button class="btn btn-sm btn-primary mb-3" @click="addInfus" :disabled="!infusInput.trim()"><i class="ri-add-line"></i> Tambah</button>
 
                             <!-- Infus List -->
                             <div v-if="infusList.length > 0" class="mt-3">
-                              <div class="mb-2" style="max-height: 150px; overflow-y: auto;">
+                              <div class="mb-2" style="max-height: 150px; overflow-y: auto">
                                 <div v-for="(item, index) in infusList" :key="'infus-' + index" class="d-flex align-items-center mb-2">
                                   <span class="flex-grow-1">{{ item }}</span>
                                   <button class="btn btn-sm btn-danger" @click="removeInfus(index)">
@@ -373,16 +365,13 @@
                                     type: 'OBAT',
                                   },
                                 }"
-                                :valuee="obatInput"
-                              />
+                                :valuee="obatInput" />
                             </div>
-                            <button class="btn btn-sm btn-primary mb-3" @click="addObat" :disabled="!obatInput || !obatInput.ms_barang_id">
-                              <i class="ri-add-line"></i> Tambah
-                            </button>
+                            <button class="btn btn-sm btn-primary mb-3" @click="addObat" :disabled="!obatInput || !obatInput.ms_barang_id"><i class="ri-add-line"></i> Tambah</button>
 
                             <!-- Obat List -->
                             <div v-if="obatList.length > 0" class="mt-3">
-                              <div class="mb-2" style="max-height: 150px; overflow-y: auto;">
+                              <div class="mb-2" style="max-height: 150px; overflow-y: auto">
                                 <div v-for="(item, index) in obatList" :key="'obat-' + index" class="d-flex align-items-center mb-2">
                                   <span class="flex-grow-1">{{ item.nama_barang }}</span>
                                   <button class="btn btn-sm btn-danger" @click="removeObat(index)">
@@ -425,16 +414,13 @@
                                   },
                                   param: {},
                                 }"
-                                :valuee="tindakanInput"
-                              />
+                                :valuee="tindakanInput" />
                             </div>
-                            <button class="btn btn-sm btn-primary mb-3" @click="addTindakan" :disabled="!tindakanInput || !tindakanInput.ms_jasa_id">
-                              <i class="ri-add-line"></i> Tambah
-                            </button>
+                            <button class="btn btn-sm btn-primary mb-3" @click="addTindakan" :disabled="!tindakanInput || !tindakanInput.ms_jasa_id"><i class="ri-add-line"></i> Tambah</button>
 
                             <!-- Tindakan List -->
                             <div v-if="tindakanList.length > 0" class="mt-3">
-                              <div class="mb-2" style="max-height: 150px; overflow-y: auto;">
+                              <div class="mb-2" style="max-height: 150px; overflow-y: auto">
                                 <div v-for="(item, index) in tindakanList" :key="'tindakan-' + index" class="d-flex align-items-center mb-2">
                                   <span class="flex-grow-1">{{ item.nama_jasa }}</span>
                                   <button class="btn btn-sm btn-danger" @click="removeTindakan(index)">
@@ -458,7 +444,7 @@
             <!-- Final Decision Section -->
             <div class="row mt-5">
               <div class="col-12">
-                <div class="card card-custom" style="background-color: #f0f0f0">
+                <div class="card card-custom" style="background-color: #ffffff">
                   <div class="card-body">
                     <h6 class="font-weight-bolder text-dark mb-4">Keputusan Akhir</h6>
                     <div class="row">
@@ -468,7 +454,7 @@
                             <label class="radio radio-solid">
                               <input type="radio" v-model="formData.keputusan_akhir" value="Pulang (pengobatan selesai)" />
                               <span></span>
-                              Pulang (pengobatan selesai)
+                              &ensp;Pulang (pengobatan selesai)
                             </label>
                           </div>
                         </div>
@@ -479,7 +465,7 @@
                             <label class="radio radio-solid">
                               <input type="radio" v-model="formData.keputusan_akhir" value="Rawat Inap" />
                               <span></span>
-                              Rawat Inap
+                              &ensp;Rawat Inap
                             </label>
                           </div>
                         </div>
@@ -490,7 +476,7 @@
                             <label class="radio radio-solid">
                               <input type="radio" v-model="formData.keputusan_akhir" value="Rujuk Internal" />
                               <span></span>
-                              Rujuk Internal
+                              &ensp;Rujuk Internal
                             </label>
                           </div>
                         </div>
@@ -501,7 +487,7 @@
                             <label class="radio radio-solid">
                               <input type="radio" v-model="formData.keputusan_akhir" value="Rujuk Eksternal" />
                               <span></span>
-                              Rujuk Eksternal
+                              &ensp;Rujuk Eksternal
                             </label>
                           </div>
                         </div>
@@ -889,7 +875,7 @@ export default {
     async addObat() {
       if (this.obatInput && this.obatInput.ms_barang_id) {
         // Check if already exists
-        const exists = this.obatList.find(item => item.ms_barang_id === this.obatInput.ms_barang_id);
+        const exists = this.obatList.find((item) => item.ms_barang_id === this.obatInput.ms_barang_id);
         if (!exists) {
           this.obatList.push({ ...this.obatInput });
           this.obatInput = null;
@@ -908,7 +894,7 @@ export default {
     async addTindakan() {
       if (this.tindakanInput && this.tindakanInput.ms_jasa_id) {
         // Check if already exists
-        const exists = this.tindakanList.find(item => item.ms_jasa_id === this.tindakanInput.ms_jasa_id);
+        const exists = this.tindakanList.find((item) => item.ms_jasa_id === this.tindakanInput.ms_jasa_id);
         if (!exists) {
           this.tindakanList.push({ ...this.tindakanInput });
           this.tindakanInput = null;
@@ -927,25 +913,28 @@ export default {
     updateFormDataFromLists() {
       // Convert arrays to comma-separated strings
       this.formData.infus = this.infusList.join(",");
-      this.formData.obat = this.obatList.map(item => item.ms_barang_id).join(",");
-      this.formData.tindakan = this.tindakanList.map(item => item.ms_jasa_id).join(",");
+      this.formData.obat = this.obatList.map((item) => item.ms_barang_id).join(",");
+      this.formData.tindakan = this.tindakanList.map((item) => item.ms_jasa_id).join(",");
     },
 
     async parseTherapyFromBackend(infusStr, obatStr, tindakanStr) {
       // Parse infus (simple comma-separated text)
       if (infusStr && infusStr.trim()) {
-        this.infusList = infusStr.split(",").filter(item => item.trim()).map(item => item.trim());
+        this.infusList = infusStr
+          .split(",")
+          .filter((item) => item.trim())
+          .map((item) => item.trim());
       } else {
         this.infusList = [];
       }
 
       // Parse obat (comma-separated IDs) - need to fetch details
       if (obatStr && obatStr.trim()) {
-        const obatIds = obatStr.split(",").filter(id => id.trim());
+        const obatIds = obatStr.split(",").filter((id) => id.trim());
         if (obatIds.length > 0) {
           try {
             const response = await this.$_api.post("msBarang/list", {
-              ms_barang_id: obatIds.join(","),
+              ms_barang_ids: obatIds.join(","),
               halaman: 1,
               jumlah: 999,
             });
@@ -967,11 +956,11 @@ export default {
 
       // Parse tindakan (comma-separated IDs) - need to fetch details
       if (tindakanStr && tindakanStr.trim()) {
-        const tindakanIds = tindakanStr.split(",").filter(id => id.trim());
+        const tindakanIds = tindakanStr.split(",").filter((id) => id.trim());
         if (tindakanIds.length > 0) {
           try {
             const response = await this.$_api.post("msJasa/list", {
-              ms_jasa_id: tindakanIds.join(","),
+              ms_jasa_ids: tindakanIds.join(","),
               halaman: 1,
               jumlah: 999,
             });
