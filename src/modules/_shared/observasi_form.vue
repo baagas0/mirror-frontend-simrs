@@ -307,25 +307,144 @@
                   </div>
                   <div class="card-body">
                     <div class="row">
+                      <!-- Infus Repeater -->
                       <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="font-weight-bold">Infus</label>
-                          <textarea v-model="formData.infus" class="form-control" rows="3" placeholder="Contoh: RL, NaCl, Dextrose"></textarea>
-                          <small class="text-muted">Pisahkan dengan koma (,)</small>
+                        <label class="font-weight-bold mb-3">Infus</label>
+                        <div class="card card-custom bg-light">
+                          <div class="card-body">
+                            <!-- Infus Input Form -->
+                            <div class="form-group mb-3">
+                              <input
+                                v-model="infusInput"
+                                type="text"
+                                class="form-control"
+                                placeholder="Contoh: RL, NaCl, Dextrose"
+                                @keyup.enter="addInfus"
+                              />
+                            </div>
+                            <button class="btn btn-sm btn-primary mb-3" @click="addInfus" :disabled="!infusInput.trim()">
+                              <i class="ri-add-line"></i> Tambah
+                            </button>
+
+                            <!-- Infus List -->
+                            <div v-if="infusList.length > 0" class="mt-3">
+                              <div class="mb-2" style="max-height: 150px; overflow-y: auto;">
+                                <div v-for="(item, index) in infusList" :key="'infus-' + index" class="d-flex align-items-center mb-2">
+                                  <span class="flex-grow-1">{{ item }}</span>
+                                  <button class="btn btn-sm btn-danger" @click="removeInfus(index)">
+                                    <i class="ri-delete-bin-line"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div v-else class="text-muted text-center py-2">
+                              <small>Belum ada data infus</small>
+                            </div>
+                          </div>
                         </div>
                       </div>
+
+                      <!-- Obat Repeater -->
                       <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="font-weight-bold">Obat</label>
-                          <textarea v-model="formData.obat" class="form-control" rows="3" placeholder="Contoh: uuid1,uuid2,uuid3"></textarea>
-                          <small class="text-muted">Pisahkan UUID dengan koma (,)</small>
+                        <label class="font-weight-bold mb-3">Obat</label>
+                        <div class="card card-custom bg-light">
+                          <div class="card-body">
+                            <!-- Obat Input Form -->
+                            <div class="form-group mb-3">
+                              <s-input
+                                v-model="obatInput"
+                                :key="'obat_input'"
+                                :id="'obat_input'"
+                                :item="{
+                                  label: '',
+                                  id: 'obat_input',
+                                  data: 'obat_input',
+                                  type: 'lookup-radio',
+                                  value: obatInput,
+                                  api: 'msBarang',
+                                  return_object: true,
+                                  pointer: {
+                                    label: 'nama_barang',
+                                    code: 'ms_barang_id',
+                                    display: ['nama_barang'],
+                                  },
+                                  param: {
+                                    type: 'OBAT',
+                                  },
+                                }"
+                                :valuee="obatInput"
+                              />
+                            </div>
+                            <button class="btn btn-sm btn-primary mb-3" @click="addObat" :disabled="!obatInput || !obatInput.ms_barang_id">
+                              <i class="ri-add-line"></i> Tambah
+                            </button>
+
+                            <!-- Obat List -->
+                            <div v-if="obatList.length > 0" class="mt-3">
+                              <div class="mb-2" style="max-height: 150px; overflow-y: auto;">
+                                <div v-for="(item, index) in obatList" :key="'obat-' + index" class="d-flex align-items-center mb-2">
+                                  <span class="flex-grow-1">{{ item.nama_barang }}</span>
+                                  <button class="btn btn-sm btn-danger" @click="removeObat(index)">
+                                    <i class="ri-delete-bin-line"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div v-else class="text-muted text-center py-2">
+                              <small>Belum ada data obat</small>
+                            </div>
+                          </div>
                         </div>
                       </div>
+
+                      <!-- Tindakan Repeater -->
                       <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="font-weight-bold">Tindakan</label>
-                          <textarea v-model="formData.tindakan" class="form-control" rows="3" placeholder="Contoh: uuid1,uuid2"></textarea>
-                          <small class="text-muted">Pisahkan UUID dengan koma (,)</small>
+                        <label class="font-weight-bold mb-3">Tindakan</label>
+                        <div class="card card-custom bg-light">
+                          <div class="card-body">
+                            <!-- Tindakan Input Form -->
+                            <div class="form-group mb-3">
+                              <s-input
+                                v-model="tindakanInput"
+                                :key="'tindakan_input'"
+                                :id="'tindakan_input'"
+                                :item="{
+                                  label: '',
+                                  id: 'tindakan_input',
+                                  data: 'tindakan_input',
+                                  type: 'lookup-radio',
+                                  value: tindakanInput,
+                                  api: 'msJasa',
+                                  return_object: true,
+                                  pointer: {
+                                    label: 'nama_jasa',
+                                    code: 'ms_jasa_id',
+                                    display: ['nama_jasa'],
+                                  },
+                                  param: {},
+                                }"
+                                :valuee="tindakanInput"
+                              />
+                            </div>
+                            <button class="btn btn-sm btn-primary mb-3" @click="addTindakan" :disabled="!tindakanInput || !tindakanInput.ms_jasa_id">
+                              <i class="ri-add-line"></i> Tambah
+                            </button>
+
+                            <!-- Tindakan List -->
+                            <div v-if="tindakanList.length > 0" class="mt-3">
+                              <div class="mb-2" style="max-height: 150px; overflow-y: auto;">
+                                <div v-for="(item, index) in tindakanList" :key="'tindakan-' + index" class="d-flex align-items-center mb-2">
+                                  <span class="flex-grow-1">{{ item.nama_jasa }}</span>
+                                  <button class="btn btn-sm btn-danger" @click="removeTindakan(index)">
+                                    <i class="ri-delete-bin-line"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div v-else class="text-muted text-center py-2">
+                              <small>Belum ada data tindakan</small>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -486,6 +605,13 @@ export default {
         tindakan: "",
         keputusan_akhir: "",
       },
+      // Therapy repeater data
+      infusInput: "",
+      infusList: [],
+      obatInput: null,
+      obatList: [],
+      tindakanInput: null,
+      tindakanList: [],
     };
   },
   watch: {
@@ -555,6 +681,7 @@ export default {
       this.selectedObservasi = null;
       this.vitalSignsList = [];
       this.resetForm();
+      this.resetTherapyLists();
     },
 
     switchTab(tab) {
@@ -566,6 +693,7 @@ export default {
       this.selectedObservasi = null;
       this.vitalSignsList = [];
       this.resetForm();
+      this.resetTherapyLists();
     },
 
     async editRecord(item) {
@@ -594,6 +722,8 @@ export default {
           this.isFormMode = true;
           // Load vital signs for this observation
           await this.loadVitalSigns();
+          // Parse therapy data from backend
+          await this.parseTherapyFromBackend(observasi.infus, observasi.obat, observasi.tindakan);
         }
       } catch (error) {
         console.error("Error loading observasi for edit:", error);
@@ -740,6 +870,135 @@ export default {
       this.isEditingVital = false;
     },
 
+    // Therapy repeater methods
+    addInfus() {
+      if (this.infusInput && this.infusInput.trim()) {
+        this.infusList.push(this.infusInput.trim());
+        this.infusInput = "";
+        this.updateFormDataFromLists();
+      }
+    },
+
+    removeInfus(index) {
+      this.infusList.splice(index, 1);
+      this.updateFormDataFromLists();
+    },
+
+    async addObat() {
+      if (this.obatInput && this.obatInput.ms_barang_id) {
+        // Check if already exists
+        const exists = this.obatList.find(item => item.ms_barang_id === this.obatInput.ms_barang_id);
+        if (!exists) {
+          this.obatList.push({ ...this.obatInput });
+          this.obatInput = null;
+          this.updateFormDataFromLists();
+        } else {
+          this.$_alert.error({}, "Obat sudah ada dalam daftar");
+        }
+      }
+    },
+
+    removeObat(index) {
+      this.obatList.splice(index, 1);
+      this.updateFormDataFromLists();
+    },
+
+    async addTindakan() {
+      if (this.tindakanInput && this.tindakanInput.ms_jasa_id) {
+        // Check if already exists
+        const exists = this.tindakanList.find(item => item.ms_jasa_id === this.tindakanInput.ms_jasa_id);
+        if (!exists) {
+          this.tindakanList.push({ ...this.tindakanInput });
+          this.tindakanInput = null;
+          this.updateFormDataFromLists();
+        } else {
+          this.$_alert.error({}, "Tindakan sudah ada dalam daftar");
+        }
+      }
+    },
+
+    removeTindakan(index) {
+      this.tindakanList.splice(index, 1);
+      this.updateFormDataFromLists();
+    },
+
+    updateFormDataFromLists() {
+      // Convert arrays to comma-separated strings
+      this.formData.infus = this.infusList.join(",");
+      this.formData.obat = this.obatList.map(item => item.ms_barang_id).join(",");
+      this.formData.tindakan = this.tindakanList.map(item => item.ms_jasa_id).join(",");
+    },
+
+    async parseTherapyFromBackend(infusStr, obatStr, tindakanStr) {
+      // Parse infus (simple comma-separated text)
+      if (infusStr && infusStr.trim()) {
+        this.infusList = infusStr.split(",").filter(item => item.trim()).map(item => item.trim());
+      } else {
+        this.infusList = [];
+      }
+
+      // Parse obat (comma-separated IDs) - need to fetch details
+      if (obatStr && obatStr.trim()) {
+        const obatIds = obatStr.split(",").filter(id => id.trim());
+        if (obatIds.length > 0) {
+          try {
+            const response = await this.$_api.post("msBarang/list", {
+              ms_barang_id: obatIds.join(","),
+              halaman: 1,
+              jumlah: 999,
+            });
+            if (response.data && response.data.length > 0) {
+              this.obatList = response.data;
+            } else {
+              this.obatList = [];
+            }
+          } catch (error) {
+            console.error("Error loading obat details:", error);
+            this.obatList = [];
+          }
+        } else {
+          this.obatList = [];
+        }
+      } else {
+        this.obatList = [];
+      }
+
+      // Parse tindakan (comma-separated IDs) - need to fetch details
+      if (tindakanStr && tindakanStr.trim()) {
+        const tindakanIds = tindakanStr.split(",").filter(id => id.trim());
+        if (tindakanIds.length > 0) {
+          try {
+            const response = await this.$_api.post("msJasa/list", {
+              ms_jasa_id: tindakanIds.join(","),
+              halaman: 1,
+              jumlah: 999,
+            });
+            if (response.data && response.data.length > 0) {
+              this.tindakanList = response.data;
+            } else {
+              this.tindakanList = [];
+            }
+          } catch (error) {
+            console.error("Error loading tindakan details:", error);
+            this.tindakanList = [];
+          }
+        } else {
+          this.tindakanList = [];
+        }
+      } else {
+        this.tindakanList = [];
+      }
+    },
+
+    resetTherapyLists() {
+      this.infusList = [];
+      this.obatList = [];
+      this.tindakanList = [];
+      this.infusInput = "";
+      this.obatInput = null;
+      this.tindakanInput = null;
+    },
+
     async submitForm() {
       // Validate required fields
       if (!this.formData.durasi || this.formData.durasi < 1 || this.formData.durasi > 72) {
@@ -756,6 +1015,9 @@ export default {
         this.$_alert.error({}, "Waktu selesai harus setelah waktu mulai");
         return;
       }
+
+      // Update formData from therapy lists before submitting
+      this.updateFormDataFromLists();
 
       this.loading = true;
       try {
@@ -796,6 +1058,7 @@ export default {
         this.selectedObservasi = null;
         this.vitalSignsList = [];
         this.resetForm();
+        this.resetTherapyLists();
       } catch (error) {
         console.error("Error saving observasi data:", error);
         let message = "Gagal menyimpan data observasi";
