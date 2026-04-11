@@ -31,6 +31,7 @@ const module = {
     { name: 'Layanan IGD Farmasi', label: 'Layanan IGD Farmasi', icon: null, path: '/layanan_igd/farmasi', component: () => import('./layanan_igd/farmasi.vue') },
     { name: 'Layanan IGD Gizi', label: 'Layanan IGD Gizi', icon: null, path: '/layanan_igd/gizi', component: () => import('./layanan_igd/gizi.vue') },
     { name: 'Layanan IGD Visum', label: 'Layanan IGD Visum', icon: null, path: '/layanan_igd/visum', component: () => import('./layanan_igd/visum.vue') },
+    { name: 'Layanan IGD Observasi', label: 'Layanan IGD Observasi', icon: null, path: '/layanan_igd/observasi', component: () => import('./layanan_igd/observasi.vue') },
     { name: 'Layanan IGD resume medis', label: 'Layanan IGD resume medis', icon: null, path: '/layanan_igd/resume_medis', component: () => import('./layanan_igd/medis.vue') },
     { name: 'BMHP IGD', label: 'Input BMHP IGD', icon: null, path: '/layanan_igd/bmhp', component: () => import('./layanan_igd/bmhp.vue') },
     { name: 'Layanan Labolatorium IGD', label: 'Layanan Labolatorium IGD', icon: null, path: '/layanan_igd/lab_regis', component: () => import('./layanan_igd/lab_regis_igd.vue') },
