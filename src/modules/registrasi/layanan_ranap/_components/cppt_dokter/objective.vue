@@ -25,9 +25,11 @@
         <form @submit.prevent="handleSubmit(onSubmitEvaluasi)" autocomplete="off">
           <div class="row">
             <div class="col-6">
-                <div class="row">
-                  <div class="col-6">
-                    <s-input v-model="mData.sistolik" :item="{
+              <div class="row">
+                <div class="col-6">
+                  <s-input
+                    v-model="mData.sistolik"
+                    :item="{
                       label: 'Sistolik',
                       id: 'sistolik',
                       data: 'sistolik',
@@ -36,10 +38,13 @@
                       suffix: 'mmhg',
                       class: '',
                       validation: ['required'],
-                    }" :valuee="mData.sistolik" />
-                  </div>
-                  <div class="col-6">
-                    <s-input v-model="mData.diastolik" :item="{
+                    }"
+                    :valuee="mData.sistolik" />
+                </div>
+                <div class="col-6">
+                  <s-input
+                    v-model="mData.diastolik"
+                    :item="{
                       label: 'Diastolik',
                       id: 'diastolik',
                       data: 'diastolik',
@@ -48,10 +53,13 @@
                       suffix: 'mmhg',
                       class: '',
                       validation: ['required'],
-                    }" :valuee="mData.diastolik" />
-                  </div>
-                  <div class="col-6">
-                    <s-input v-model="mData.nadi" :item="{
+                    }"
+                    :valuee="mData.diastolik" />
+                </div>
+                <div class="col-6">
+                  <s-input
+                    v-model="mData.nadi"
+                    :item="{
                       label: 'Nadi',
                       id: 'nadi',
                       data: 'nadi',
@@ -60,10 +68,13 @@
                       suffix: 'x/menit',
                       class: '',
                       validation: ['required'],
-                    }" :valuee="mData.nadi" />
-                  </div>
-                  <div class="col-6">
-                    <s-input v-model="mData.pernafasan" :item="{
+                    }"
+                    :valuee="mData.nadi" />
+                </div>
+                <div class="col-6">
+                  <s-input
+                    v-model="mData.pernafasan"
+                    :item="{
                       label: 'Pernafasan',
                       id: 'pernafasan',
                       data: 'pernafasan',
@@ -72,10 +83,13 @@
                       suffix: 'x/menit',
                       class: '',
                       validation: ['required'],
-                    }" :valuee="mData.pernafasan" />
-                  </div>
-                  <div class="col-6">
-                    <s-input v-model="mData.suhu" :item="{
+                    }"
+                    :valuee="mData.pernafasan" />
+                </div>
+                <div class="col-6">
+                  <s-input
+                    v-model="mData.suhu"
+                    :item="{
                       label: 'Suhu',
                       id: 'suhu',
                       data: 'suhu',
@@ -84,10 +98,13 @@
                       suffix: '&deg;C',
                       class: '',
                       validation: ['required'],
-                    }" :valuee="mData.suhu" />
-                  </div>
-                  <div class="col-6">
-                    <s-input v-model="mData.saturasi_oksigen" :item="{
+                    }"
+                    :valuee="mData.suhu" />
+                </div>
+                <div class="col-6">
+                  <s-input
+                    v-model="mData.saturasi_oksigen"
+                    :item="{
                       label: 'Saturasi Oksigen',
                       id: 'saturasi_oksigen',
                       data: 'saturasi_oksigen',
@@ -96,14 +113,19 @@
                       suffix: '%',
                       class: '',
                       validation: ['required'],
-                    }" :valuee="mData.saturasi_oksigen" />
-                  </div>
+                    }"
+                    :valuee="mData.saturasi_oksigen" />
                 </div>
+              </div>
             </div>
             <div class="col-6">
-                <div class="row">
-                  <div class="col-12">
-                    <s-input v-model="mData.kesadaran_pasien" :key="'kesadaran_pasien'" :id="'kesadaran_pasien'" :item="{
+              <div class="row">
+                <div class="col-12">
+                  <s-input
+                    v-model="mData.kesadaran_pasien"
+                    :key="'kesadaran_pasien'"
+                    :id="'kesadaran_pasien'"
+                    :item="{
                       label: 'Kesadaran Pasien',
                       id: 'kesadaran_pasien',
                       data: 'kesadaran_pasien',
@@ -120,13 +142,18 @@
                           { label: 'Sopor', code: 'Sopor' },
                           { label: 'Coma', code: 'Coma' },
                           { label: 'Apatis', code: 'Apatis' },
-                        ]
+                        ],
                       },
                       param: {},
-                    }" :valuee="mData.kesadaran_pasien" />
-                  </div>
-                  <div class="col-12">
-                    <s-input v-model="mData.kebutuhan_oksigen" :key="'kebutuhan_oksigen'" :id="'kebutuhan_oksigen'" :item="{
+                    }"
+                    :valuee="mData.kesadaran_pasien" />
+                </div>
+                <div class="col-12">
+                  <s-input
+                    v-model="mData.kebutuhan_oksigen"
+                    :key="'kebutuhan_oksigen'"
+                    :id="'kebutuhan_oksigen'"
+                    :item="{
                       label: 'Kebutuhan Oksigen',
                       id: 'kebutuhan_oksigen',
                       data: 'kebutuhan_oksigen',
@@ -140,14 +167,28 @@
                         list: [
                           { label: 'Ada', code: 'Ada' },
                           { label: 'Tidak Ada', code: 'Tidak Ada' },
-                        ]
+                        ],
                       },
                       param: {},
-                    }" :valuee="mData.kebutuhan_oksigen" />
-                  </div>
+                    }"
+                    :valuee="mData.kebutuhan_oksigen" />
                 </div>
+                <div class="col-12">
+                  <s-input
+                    v-model="mData.catatan_dokter"
+                    :item="{
+                      label: 'Catatan Dokter',
+                      id: 'catatan_dokter',
+                      data: 'catatan_dokter',
+                      value: mData.catatan_dokter,
+                      type: 'textarea',
+                      class: '',
+                      validation: [],
+                    }"
+                    :valuee="mData.catatan_dokter" />
+                </div>
+              </div>
             </div>
-
           </div>
           <!-- <template>
             <div class="col-12 align-self-center p-0">
@@ -162,64 +203,63 @@
     </div>
   </div>
 </template>
-  
+
 <script>
-  import moment from 'moment'
-  moment.locale('id')
-  
-  export default {
-    name: 'medis_objective',
-    props: {
-			dataRegistrasi: {
-				type: Object,
-				required: true,
-				default () {
-					return {}
-				}
-			},
-      mData: {
-        type: Object,
-        required: true,
-        default () {
-          return {}
-        }
-      }
-    },
-    data () {
-      return {
-        // mData: {}
-      }
-    },
-    watch: {
-      mData: {
-        deep: true,
-        immediate: false,
-        handler (to, from) {
-          this.$emit('dataChange', true)
-        }
-      },
-      'mData.tinggi_badan': function (newVal, oldVal){
-        console.log('te', this.mData)
-        let bb = this.mData.berat_badan
-        let tb = this.mData.tinggi_badan/100
-        let v = bb && tb ? (bb/(tb*tb)) : 0
-        this.mData.index_masa_tubuh = v.toFixed(2)
-      },
-      'mData.berat_badan': function (newVal, oldVal){
-        console.log('te1', this.mData)
-        let bb = this.mData.berat_badan
-        let tb = this.mData.tinggi_badan/100
-        let v = bb && tb ? (bb/(tb*tb)) : 0
-        this.mData.index_masa_tubuh = v.toFixed(2)
+import moment from "moment";
+moment.locale("id");
+
+export default {
+  name: "medis_objective",
+  props: {
+    dataRegistrasi: {
+      type: Object,
+      required: true,
+      default() {
+        return {};
       },
     },
-    mounted () {
+    mData: {
+      type: Object,
+      required: true,
+      default() {
+        return {};
+      },
     },
-    methods: {
-      onSubmitEvaluasi (data) {
-        // console.log(data)
-        this.$emit('submit', { key: 'objective', data: this.mData })
-      }
-    }
-  }
+  },
+  data() {
+    return {
+      // mData: {}
+    };
+  },
+  watch: {
+    mData: {
+      deep: true,
+      immediate: false,
+      handler(to, from) {
+        this.$emit("dataChange", true);
+      },
+    },
+    "mData.tinggi_badan": function (newVal, oldVal) {
+      console.log("te", this.mData);
+      let bb = this.mData.berat_badan;
+      let tb = this.mData.tinggi_badan / 100;
+      let v = bb && tb ? bb / (tb * tb) : 0;
+      this.mData.index_masa_tubuh = v.toFixed(2);
+    },
+    "mData.berat_badan": function (newVal, oldVal) {
+      console.log("te1", this.mData);
+      let bb = this.mData.berat_badan;
+      let tb = this.mData.tinggi_badan / 100;
+      let v = bb && tb ? bb / (tb * tb) : 0;
+      this.mData.index_masa_tubuh = v.toFixed(2);
+    },
+  },
+  mounted() {},
+  methods: {
+    onSubmitEvaluasi(data) {
+      // console.log(data)
+      this.$emit("submit", { key: "objective", data: this.mData });
+    },
+  },
+};
 </script>
