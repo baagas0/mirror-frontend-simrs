@@ -661,6 +661,14 @@
           </template>
 
           <div class="col-12">
+            <div class="simple-card">
+              <div class="simple-card-header" :style="{ backgroundColor: kategori_triage.color }" style="color: #ffff">
+                <p class="mb-0">{{ kategori_triage.label }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
             <s-input
               v-model="mData.kesimpulan_triage"
               :item="{
@@ -699,6 +707,16 @@ export default {
       required: true,
       default() {
         return {};
+      },
+    },
+    kategori_triage: {
+      type: Object,
+      required: false,
+      default() {
+        return {
+          color: "#6c757d",
+          label: "",
+        };
       },
     },
   },

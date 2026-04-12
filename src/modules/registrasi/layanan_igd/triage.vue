@@ -244,7 +244,7 @@
                     <triage-pemeriksaan-vital :objectDataAssesmen="objectTriage" :mData="dataAssesmen.pemeriksaan_vital"></triage-pemeriksaan-vital>
 
                     <!-- Anamnesa -->
-                    <triage-kategori-triage :objectDataAssesmen="objectTriage" :mData="dataAssesmen.kategori_triage"></triage-kategori-triage>
+                    <triage-kategori-triage :objectDataAssesmen="objectTriage" :mData="dataAssesmen.kategori_triage" :kategori_triage="kategori_triage"></triage-kategori-triage>
 
                     <!-- Anatomi -->
                     <triage-anatomi :is_validasi="false" :objectDataAssesmen="objectTriage" :mData="dataAssesmen.anatomi"></triage-anatomi>
@@ -267,7 +267,7 @@
       </div>
     </div>
 
-    <div id="cetak-triage-igd" style="position: relative; display: none">
+    <div id="cetak-triage-igd" style="position: relative">
       <div size="A4">
         <div class="" style="align-items: center; width: 99%; margin-bottom: 10px">
           <!-- KOP -->
@@ -283,11 +283,8 @@
               <td style="height: 15px">Jl. Gajah mada kec.batauga kab.buton selatan, sulawesi tenggara</td>
             </tr>
 
-            <tr
-              :style="{
-                backgroundColor: getTriageColor(dataAssesmen.kategori_triage.assesmen_triage_kategori),
-              }">
-              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">{{ dataAssesmen.kategori_triage.assesmen_triage_kategori }}: {{ dataAssesmen.kategori_triage.assesmen_triage_kategori_text }}</td>
+            <tr :style="{ backgroundColor: kategori_triage.color }">
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">{{ kategori_triage.label }}</td>
             </tr>
             <tr class="bg-dark">
               <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">Pasien</td>
@@ -609,6 +606,41 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.updateScroll);
+  },
+  computed: {
+    kategori_triage() {
+      if (!this.dataAssesmen || !this.dataAssesmen.kategori_triage)
+        return {
+          color: "#6c757d",
+          label: "",
+        };
+      const jalan_nafas = this.dataAssesmen.kategori_triage.jalan_nafas_kategori || "";
+      const ketidakmampuan_fisik = this.dataAssesmen.kategori_triage.ketidakmampuan_fisik_kategori || "";
+      const nadi_carotis = this.dataAssesmen.kategori_triage.nadi_carotis_kategori || "";
+      const pernafasan = this.dataAssesmen.kategori_triage.pernafasan_kategori || "";
+      const assesmen_triage = this.dataAssesmen.kategori_triage.assesmen_triage_kategori || "";
+
+      let indexKategori = 0;
+      if (jalan_nafas.includes("Kategori 4") || ketidakmampuan_fisik.includes("Kategori 4") || nadi_carotis.includes("Kategori 4") || pernafasan.includes("Kategori 4") || assesmen_triage.includes("Kategori 4")) {
+        indexKategori = 3;
+      }
+      if (jalan_nafas.includes("Kategori 3") || ketidakmampuan_fisik.includes("Kategori 3") || nadi_carotis.includes("Kategori 3") || pernafasan.includes("Kategori 3") || assesmen_triage.includes("Kategori 3")) {
+        indexKategori = 2;
+      }
+      if (jalan_nafas.includes("Kategori 2") || ketidakmampuan_fisik.includes("Kategori 2") || nadi_carotis.includes("Kategori 2") || pernafasan.includes("Kategori 2") || assesmen_triage.includes("Kategori 2")) {
+        indexKategori = 1;
+      }
+      if (jalan_nafas.includes("Kategori 1") || ketidakmampuan_fisik.includes("Kategori 1") || nadi_carotis.includes("Kategori 1") || pernafasan.includes("Kategori 1") || assesmen_triage.includes("Kategori 1")) {
+        indexKategori = 0;
+      }
+
+      const kategoriColor = ["#dc3545", "#ffc107", "#26cc01", "#b6b6b6"];
+      const kategoriLabel = ["Immediate", "Emergency", "Urgent / Gawat", "Meninggal"];
+      return {
+        color: kategoriColor[indexKategori],
+        label: kategoriLabel[indexKategori],
+      };
+    },
   },
   methods: {
     getTriageColor(kategori) {
