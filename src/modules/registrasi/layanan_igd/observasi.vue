@@ -6,8 +6,34 @@
         <card-registrasi-igd @selected="selectRegistrasi" :type="'observasi'"/>
       </div>
 
+      <!-- Column 2: Loading State -->
+      <div class="col-xl-9 col-md-9 col-sm-12" v-if="loading">
+        <div class="card card-custom mb-5">
+          <div class="card-body d-flex justify-content-center">
+            <div class="spinner spinner-track spinner-primary"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Error State -->
+      <div class="col-xl-9 col-md-9 col-sm-12" v-else-if="errorMessage">
+        <div class="card card-custom mb-5">
+          <div class="card-body text-center">
+            <img :src="'./static/img/default/no_data_table.svg'" class="max-w-250px" alt="" />
+            <h3 class="mt-3 font-weight-bolder text-dark">{{ errorMessage || '-' }}</h3>
+            <button
+              class="btn btn-light-primary mt-3"
+              v-if="errorMessage.includes('Assesmen Medis')"
+              @click="$router.push({ name: 'Layanan IGD assesmen medis', query: { registrasi_id: registrasiId } })"
+            >
+              Assesmen Medis <i class="ri-arrow-right-line"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Column 2: Observasi Form -->
-      <div class="col-xl-9 col-md-9 col-sm-12" v-if="dataRegistrasi && dataRegistrasi.id">
+      <div class="col-xl-9 col-md-9 col-sm-12" v-else-if="dataRegistrasi && dataRegistrasi.id && !errorMessage">
         <!-- Patient Info Card -->
         <div class="card card-custom mb-5">
           <div class="card-body">
@@ -59,14 +85,61 @@ export default {
   data() {
     return {
       dataRegistrasi: {},
-      registrasiId: ''
+      registrasiId: '',
+      loading: false,
+      errorMessage: ''
     }
   },
   methods: {
-    selectRegistrasi(e) {
+    async selectRegistrasi(e) {
       if (e && e.registrasi_id !== undefined) {
         this.dataRegistrasi = e
         this.registrasiId = e.registrasi_id || ''
+
+        if (!this.registrasiId) return
+
+        this.loading = true
+        this.errorMessage = ''
+
+        try {
+          // CEK 1: Cek apakah assesmen medis sudah ada
+          const assesmenMedis = await this.$_api.list('assesment_medis_igd', {
+            registrasi_id: e.registrasi_id,
+            page: 1,
+            limit: 99999
+          })
+
+          if (assesmenMedis.data.length === 0) {
+            this.errorMessage = 'Assesmen medis tidak ditemukan!'
+            this.$_alert.error({}, 'Assesmen medis tidak ditemukan!')
+            this.dataRegistrasi = {}
+            this.registrasiId = ''
+            return
+          }
+
+          const dataAssesmenMedis = assesmenMedis.data[0]
+
+          // CEK 2: Cek apakah assesmen medis sudah divalidasi
+          if (dataAssesmenMedis.is_validasi === false) {
+            this.errorMessage = 'Assesmen medis belum divalidasi!'
+            this.$_alert.error({}, 'Assesmen medis belum divalidasi!')
+            this.dataRegistrasi = {}
+            this.registrasiId = ''
+            return
+          }
+
+          // Jika semua cek OK, tampilkan form observasi
+          console.log('Assesmen medis valid, menampilkan form observasi')
+
+        } catch (error) {
+          console.error('Error checking assesmen medis:', error)
+          this.errorMessage = 'Gagal memvalidasi data assesmen medis'
+          this.$_alert.error({}, 'Gagal memvalidasi data assesmen medis')
+          this.dataRegistrasi = {}
+          this.registrasiId = ''
+        } finally {
+          this.loading = false
+        }
       }
     }
   }
