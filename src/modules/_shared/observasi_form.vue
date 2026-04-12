@@ -132,8 +132,14 @@
           <ul class="nav nav-tabs nav-tabs-line mb-5">
             <li class="nav-item">
               <a class="nav-link pointer" @click="switchTab('monitoring')" :class="{ active: activeTab === 'monitoring' }">
-                <span class="nav-icon"><i class="flaticon2-monitor"></i></span>
+                <span class="nav-icon"><i class="flaticon2-dashboard"></i></span>
                 <span class="nav-text">Monitoring</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pointer" @click="switchTab('implementasi_keperawatan')" :class="{ active: activeTab === 'implementasi_keperawatan' }">
+                <span class="nav-icon"><i class="flaticon2-nurse"></i></span>
+                <span class="nav-text">Implementasi Keperawatan</span>
               </a>
             </li>
             <li class="nav-item">
@@ -535,6 +541,147 @@
               </button>
             </div>
           </div>
+
+          <div v-if="activeTab === 'implementasi_keperawatan'">
+            <div class="row">
+              <!-- Left Panel: Evaluasi List -->
+              <div class="col-md-6">
+                <div class="card card-custom">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <h6 class="font-weight-bolder text-dark">Daftar Evaluasi ({{ evaluasiList.length }})</h6>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                      <button class="btn btn-primary btn-sm" @click="showEvaluasiModal()"><i class="ri-add-line"></i> Tambah Evaluasi</button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <!-- Loading State -->
+                    <div v-if="evaluasiLoading" class="text-center py-5">
+                      <div class="spinner spinner-track spinner-primary mr-15"></div>
+                      <p class="mt-3">Memuat data...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div v-else-if="evaluasiList.length === 0" class="text-center py-5">
+                      <i class="ri-clipboard-line" style="font-size: 48px; color: #ccc"></i>
+                      <p class="text-muted mt-3">Belum ada data evaluasi</p>
+                    </div>
+
+                    <!-- Evaluasi List -->
+                    <div v-else class="evaluasi-list">
+                      <div v-for="item in evaluasiList" :key="item.id" class="evaluasi-item mb-3 p-3 border rounded" :class="{ 'active-evaluasi': selectedEvaluasi && selectedEvaluasi.id === item.id }" @click="selectEvaluasi(item)" style="cursor: pointer; transition: all 0.2s">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="flex-grow-1">
+                            <div class="font-weight-bolder text-dark mb-1">
+                              {{ $moment(item.waktu_evaluasi).format("DD/MM/YYYY HH:mm") }}
+                            </div>
+                            <div class="text-muted small mb-2"><i class="ri-user-nurse-line"></i> {{ item.perawat_nama || "-" }}</div>
+                            <div v-if="item.tindak_lanjut" class="mb-1">
+                              <span class="badge badge-info">Tindak Lanjut:</span>
+                              <span class="ml-1">{{ item.tindak_lanjut }}</span>
+                            </div>
+                            <div v-if="item.catatan" class="text-muted small mt-2"><i class="ri-file-text-line"></i> {{ item.catatan.substring(0, 100) }}{{ item.catatan.length > 100 ? "..." : "" }}</div>
+                          </div>
+                          <div class="ml-2">
+                            <span class="badge" :class="item.status === 'aktif' ? 'badge-success' : 'badge-secondary'">
+                              {{ item.status === "aktif" ? "Aktif" : "Non-Aktif" }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="mt-2 d-flex justify-content-end">
+                          <button class="btn btn-sm btn-info mr-1" @click.stop="editEvaluasi(item)" title="Edit">
+                            <i class="ri-pencil-line"></i>
+                          </button>
+                          <button class="btn btn-sm btn-danger" @click.stop="confirmDeleteEvaluasi(item)" title="Hapus">
+                            <i class="ri-delete-bin-line"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Panel: Implementasi -->
+              <div class="col-md-6">
+                <div class="card card-custom">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <h6 class="font-weight-bolder text-dark">
+                        Implementasi
+                        <span v-if="selectedEvaluasi">( Evaluasi Terpilih )</span>
+                        <span v-else class="text-muted">( Pilih evaluasi terlebih dahulu )</span>
+                      </h6>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                      <button class="btn btn-primary btn-sm" @click="showImplementasiModal()" :disabled="!selectedEvaluasi"><i class="ri-add-line"></i> Tambah Implementasi</button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <!-- Empty State - No Evaluasi Selected -->
+                    <div v-if="!selectedEvaluasi" class="text-center py-5">
+                      <i class="ri-cursor-line" style="font-size: 48px; color: #ccc"></i>
+                      <p class="text-muted mt-3">Pilih evaluasi dari daftar di sebelah kiri</p>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div v-else-if="implementasiLoading" class="text-center py-5">
+                      <div class="spinner spinner-track spinner-primary mr-15"></div>
+                      <p class="mt-3">Memuat data...</p>
+                    </div>
+
+                    <!-- Empty State - No Implementasi -->
+                    <div v-else-if="implementasiList.length === 0" class="text-center py-5">
+                      <i class="ri-task-line" style="font-size: 48px; color: #ccc"></i>
+                      <p class="text-muted mt-3">Belum ada data implementasi untuk evaluasi ini</p>
+                    </div>
+
+                    <!-- Implementasi List -->
+                    <div v-else class="implementasi-list">
+                      <div v-for="item in implementasiList" :key="item.id" class="implementasi-item mb-3 p-3 border rounded bg-light">
+                        <div class="mb-2">
+                          <span class="badge badge-primary">Jenis:</span>
+                          <span class="ml-1 font-weight-bold">{{ item.jenis_implementasi || "-" }}</span>
+                        </div>
+                        <div v-if="item.diagnosa_nama" class="mb-2">
+                          <span class="badge badge-secondary">Diagnosa:</span>
+                          <span class="ml-1">{{ item.diagnosa_nama }}</span>
+                        </div>
+                        <div v-if="item.respon_pasien" class="mb-2">
+                          <div class="font-weight-bold">Respon Pasien:</div>
+                          <div class="text-muted">{{ item.respon_pasien }}</div>
+                        </div>
+                        <div v-if="item.implementasi" class="mb-2">
+                          <div class="font-weight-bold">Implementasi:</div>
+                          <div class="text-muted">{{ item.implementasi.substring(0, 150) }}{{ item.implementasi.length > 150 ? "..." : "" }}</div>
+                        </div>
+                        <div class="mt-2 d-flex justify-content-end">
+                          <button class="btn btn-sm btn-info mr-1" @click="editImplementasi(item)" title="Edit">
+                            <i class="ri-pencil-line"></i>
+                          </button>
+                          <button class="btn btn-sm btn-danger" @click="confirmDeleteImplementasi(item)" title="Hapus">
+                            <i class="ri-delete-bin-line"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-secondary mr-2" @click="cancelEdit"><i class="ri-close-line"></i> Batal</button>
+              <button class="btn btn-primary" @click="submitForm" :disabled="loading">
+                <i class="ri-save-line" v-if="!loading"></i>
+                <span class="spinner-border spinner-border-sm" v-if="loading"></span>
+                {{ formData.id ? "Simpan Perubahan" : "Buat Observasi" }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -543,6 +690,122 @@
         <div class="spinner spinner-track spinner-primary mr-15"></div>
         <p class="mt-3">Memproses data...</p>
       </div>
+
+      <!-- Evaluasi Modal -->
+      <b-modal ref="evaluasiModal" id="evaluasiModal" size="lg" :title="evaluasiFormData.id ? 'Edit Evaluasi' : 'Tambah Evaluasi'" hide-footer>
+        <div class="form-group">
+          <label class="font-weight-bold">Perawat <span class="text-danger">*</span></label>
+          <s-input
+            v-model="evaluasiFormData.perawat"
+            :key="'evaluasi_perawat'"
+            :id="'evaluasi_perawat'"
+            :item="{
+              label: '',
+              id: 'evaluasi_perawat',
+              data: 'evaluasi_perawat',
+              type: 'lookup-radio',
+              validation: [],
+              value: evaluasiFormData.perawat,
+              api: 'msDokter',
+              return_object: true,
+              pointer: {
+                label: 'nama_dokter',
+                code: 'ms_dokter_id',
+                display: ['nama_dokter'],
+              },
+              param: {
+                type: 'PERAWAT',
+              },
+            }"
+            :valuee="evaluasiFormData.perawat" />
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">Waktu Evaluasi <span class="text-danger">*</span></label>
+          <input v-model="evaluasiFormData.waktu_evaluasi" type="datetime-local" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">Tindak Lanjut</label>
+          <input v-model="evaluasiFormData.tindak_lanjut" type="text" class="form-control" placeholder="Tindak lanjut evaluasi" />
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">Catatan</label>
+          <textarea v-model="evaluasiFormData.catatan" class="form-control" rows="5" placeholder="Catatan evaluasi"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">Status</label>
+          <select v-model="evaluasiFormData.status" class="form-control">
+            <option value="aktif">Aktif</option>
+            <option value="non-aktif">Non-Aktif</option>
+          </select>
+        </div>
+
+        <hr />
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-secondary mr-2" @click="closeEvaluasiModal()"><i class="ri-close-line"></i> Batal</button>
+          <button class="btn btn-primary" @click="saveEvaluasi" :disabled="loading || evaluasiSaving">
+            <i class="ri-save-line" v-if="!loading && !evaluasiSaving"></i>
+            <span class="spinner-border spinner-border-sm" v-if="loading || evaluasiSaving"></span>
+            {{ evaluasiSaving ? "Menyimpan..." : "Simpan" }}
+          </button>
+        </div>
+      </b-modal>
+
+      <!-- Implementasi Modal -->
+      <b-modal ref="implementasiModal" id="implementasiModal" size="lg" :title="implementasiFormData.id ? 'Edit Implementasi' : 'Tambah Implementasi'" hide-footer>
+        <div class="form-group">
+          <label class="font-weight-bold">Diagnosa</label>
+          <s-input
+            v-model="implementasiFormData.diagnosa"
+            :key="'implementasi_diagnosa'"
+            :id="'implementasi_diagnosa'"
+            :item="{
+              label: '',
+              id: 'implementasi_diagnosa',
+              data: 'implementasi_diagnosa',
+              type: 'lookup-radio',
+              validation: [],
+              api: 'ms_diagnosa',
+              return_object: true,
+              pointer: {
+                label: 'nama_diagnosa',
+                code: 'id',
+                display: ['nama_diagnosa'],
+              },
+              param: {},
+            }"
+            :valuee="implementasiFormData.diagnosa" />
+          {{ implementasiFormData.diagnosa }}
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">Jenis Implementasi</label>
+          <input v-model="implementasiFormData.jenis_implementasi" type="text" class="form-control" placeholder="Contoh: Pemberian obat, Perawatan luka, dll" />
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">Respon Pasien</label>
+          <input v-model="implementasiFormData.respon_pasien" type="text" class="form-control" placeholder="Respon pasien terhadap tindakan" />
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">Implementasi</label>
+          <textarea v-model="implementasiFormData.implementasi" class="form-control" rows="8" placeholder="Detail implementasi keperawatan"></textarea>
+        </div>
+
+        <hr />
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-secondary mr-2" @click="closeImplementasiModal()"><i class="ri-close-line"></i> Batal</button>
+          <button class="btn btn-primary" @click="saveImplementasi" :disabled="loading || implementasiSaving">
+            <i class="ri-save-line" v-if="!loading && !implementasiSaving"></i>
+            <span class="spinner-border spinner-border-sm" v-if="loading || implementasiSaving"></span>
+            {{ implementasiSaving ? "Menyimpan..." : "Simpan" }}
+          </button>
+        </div>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -583,7 +846,7 @@ export default {
       formData: {
         id: null,
         registrasi_id: this.registrasiId,
-        durasi: 24,
+        durasi: 3,
         jam_start: "",
         jam_end: null,
         interval_vital_sign: 1,
@@ -600,6 +863,34 @@ export default {
       obatList: [],
       tindakanInput: null,
       tindakanList: [],
+      // Evaluasi data
+      evaluasiList: [],
+      evaluasiLoading: false,
+      evaluasiSaving: false,
+      selectedEvaluasi: null,
+      evaluasiFormData: {
+        id: null,
+        observasi_id: "",
+        perawat_id: "",
+        perawat: null,
+        waktu_evaluasi: "",
+        tindak_lanjut: "",
+        catatan: "",
+        status: "aktif",
+      },
+      // Implementasi data
+      implementasiList: [],
+      implementasiLoading: false,
+      implementasiSaving: false,
+      implementasiFormData: {
+        id: null,
+        observasi_evaluasi_id: "",
+        ms_diagnosa_id: "",
+        diagnosa: null,
+        jenis_implementasi: "",
+        respon_pasien: "",
+        implementasi: "",
+      },
     };
   },
   watch: {
@@ -712,6 +1003,8 @@ export default {
           await this.loadVitalSigns();
           // Parse therapy data from backend
           await this.parseTherapyFromBackend(observasi.infus, observasi.obat, observasi.tindakan);
+          // Load evaluasi list
+          await this.loadEvaluasiList();
         }
       } catch (error) {
         console.error("Error loading observasi for edit:", error);
@@ -1079,6 +1372,311 @@ export default {
         keputusan_akhir: "",
       };
     },
+
+    // ========== Evaluasi Methods ==========
+    async loadEvaluasiList() {
+      if (!this.selectedObservasi || !this.selectedObservasi.id) return;
+
+      this.evaluasiLoading = true;
+      try {
+        const response = await this.$_api.post("observasi_evaluasi/list", {
+          observasi_id: this.selectedObservasi.id,
+          halaman: 1,
+          jumlah: 999,
+        });
+
+        if (response.data) {
+          this.evaluasiList = response.data;
+        } else {
+          this.evaluasiList = [];
+        }
+      } catch (error) {
+        console.error("Error loading evaluasi data:", error);
+        this.$_alert.error({}, "Gagal memuat data evaluasi");
+      } finally {
+        this.evaluasiLoading = false;
+      }
+    },
+
+    selectEvaluasi(item) {
+      this.selectedEvaluasi = item;
+      this.loadImplementasiList();
+    },
+
+    showEvaluasiModal() {
+      this.resetEvaluasiForm();
+      this.$refs.evaluasiModal.show();
+    },
+
+    closeEvaluasiModal() {
+      this.$refs.evaluasiModal.hide();
+      this.resetEvaluasiForm();
+    },
+
+    editEvaluasi(item) {
+      this.evaluasiFormData = {
+        id: item.id,
+        observasi_id: item.observasi_id,
+        perawat_id: item.perawat_id,
+        perawat: {
+          ms_dokter_id: item.perawat_id,
+          nama_dokter: item.perawat_nama,
+        },
+        waktu_evaluasi: item.waktu_evaluasi ? item.waktu_evaluasi.substring(0, 16) : "",
+        tindak_lanjut: item.tindak_lanjut || "",
+        catatan: item.catatan || "",
+        status: item.status || "aktif",
+      };
+      this.$refs.evaluasiModal.show();
+    },
+
+    async saveEvaluasi() {
+      // Validation
+      if (!this.evaluasiFormData.perawat || !this.evaluasiFormData.perawat.ms_dokter_id) {
+        this.$_alert.error({}, "Perawat harus dipilih");
+        return;
+      }
+
+      if (!this.evaluasiFormData.waktu_evaluasi) {
+        this.$_alert.error({}, "Waktu evaluasi harus diisi");
+        return;
+      }
+
+      this.evaluasiSaving = true;
+      try {
+        let response;
+        if (this.evaluasiFormData.id) {
+          // Update existing
+          response = await this.$_api.post("observasi_evaluasi/update", {
+            id: this.evaluasiFormData.id,
+            observasi_id: this.evaluasiFormData.observasi_id || this.selectedObservasi.id,
+            perawat_id: this.evaluasiFormData.perawat.ms_dokter_id,
+            waktu_evaluasi: this.evaluasiFormData.waktu_evaluasi || null,
+            tindak_lanjut: this.evaluasiFormData.tindak_lanjut || null,
+            catatan: this.evaluasiFormData.catatan || null,
+            status: this.evaluasiFormData.status || "aktif",
+          });
+        } else {
+          // Create new
+          response = await this.$_api.post("observasi_evaluasi/register", {
+            observasi_id: this.selectedObservasi.id,
+            perawat_id: this.evaluasiFormData.perawat.ms_dokter_id,
+            waktu_evaluasi: this.evaluasiFormData.waktu_evaluasi || null,
+            tindak_lanjut: this.evaluasiFormData.tindak_lanjut || null,
+            catatan: this.evaluasiFormData.catatan || null,
+            status: this.evaluasiFormData.status || "aktif",
+          });
+        }
+
+        this.$_alert.success({}, response.message || "Data evaluasi berhasil disimpan");
+        this.closeEvaluasiModal();
+        await this.loadEvaluasiList();
+      } catch (error) {
+        console.error("Error saving evaluasi data:", error);
+        let message = "Gagal menyimpan data evaluasi";
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message;
+        } else if (error.message) {
+          message = error.message;
+        }
+        this.$_alert.error({}, message);
+      } finally {
+        this.evaluasiSaving = false;
+      }
+    },
+
+    async confirmDeleteEvaluasi(item) {
+      if (!item || !item.id) {
+        this.$_alert.error({}, "Tidak ada data untuk dihapus");
+        return;
+      }
+
+      this.$_alert.confirm({ title: "Hapus Data Evaluasi", text: "Apakah Anda yakin ingin menghapus data evaluasi ini?" }, async () => {
+        await this.deleteEvaluasi(item);
+      });
+    },
+
+    async deleteEvaluasi(item) {
+      this.evaluasiLoading = true;
+      try {
+        await this.$_api.post("observasi_evaluasi/delete", {
+          id: item.id,
+        });
+
+        this.$_alert.success({}, "Data evaluasi berhasil dihapus");
+
+        // If deleted evaluasi was selected, clear selection
+        if (this.selectedEvaluasi && this.selectedEvaluasi.id === item.id) {
+          this.selectedEvaluasi = null;
+          this.implementasiList = [];
+        }
+
+        await this.loadEvaluasiList();
+      } catch (error) {
+        console.error("Error deleting evaluasi data:", error);
+        let message = "Gagal menghapus data evaluasi";
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message;
+        } else if (error.message) {
+          message = error.message;
+        }
+        this.$_alert.error({}, message);
+      } finally {
+        this.evaluasiLoading = false;
+      }
+    },
+
+    resetEvaluasiForm() {
+      this.evaluasiFormData = {
+        id: null,
+        observasi_id: "",
+        perawat_id: "",
+        perawat: null,
+        waktu_evaluasi: "",
+        tindak_lanjut: "",
+        catatan: "",
+        status: "aktif",
+      };
+    },
+
+    // ========== Implementasi Methods ==========
+    async loadImplementasiList() {
+      if (!this.selectedEvaluasi || !this.selectedEvaluasi.id) return;
+
+      this.implementasiLoading = true;
+      try {
+        const response = await this.$_api.post("observasi_evaluasi_implementasi/list", {
+          observasi_evaluasi_id: this.selectedEvaluasi.id,
+          halaman: 1,
+          jumlah: 999,
+        });
+
+        if (response.data) {
+          this.implementasiList = response.data;
+        } else {
+          this.implementasiList = [];
+        }
+      } catch (error) {
+        console.error("Error loading implementasi data:", error);
+        this.$_alert.error({}, "Gagal memuat data implementasi");
+      } finally {
+        this.implementasiLoading = false;
+      }
+    },
+
+    showImplementasiModal() {
+      this.resetImplementasiForm();
+      this.$refs.implementasiModal.show();
+    },
+
+    closeImplementasiModal() {
+      this.$refs.implementasiModal.hide();
+      this.resetImplementasiForm();
+    },
+
+    editImplementasi(item) {
+      this.implementasiFormData = {
+        id: item.id,
+        observasi_evaluasi_id: item.observasi_evaluasi_id,
+        ms_diagnosa_id: item.ms_diagnosa_id,
+        diagnosa: {
+          ms_diagnosa_id: item.ms_diagnosa_id,
+          nama_diagnosa: item.diagnosa_nama,
+        },
+        jenis_implementasi: item.jenis_implementasi || "",
+        respon_pasien: item.respon_pasien || "",
+        implementasi: item.implementasi || "",
+      };
+      this.$refs.implementasiModal.show();
+    },
+
+    async saveImplementasi() {
+      this.implementasiSaving = true;
+      try {
+        let response;
+        if (this.implementasiFormData.id) {
+          // Update existing
+          response = await this.$_api.post("observasi_evaluasi_implementasi/update", {
+            id: this.implementasiFormData.id,
+            observasi_evaluasi_id: this.implementasiFormData.observasi_evaluasi_id || this.selectedEvaluasi.id,
+            ms_diagnosa_id: this.implementasiFormData.diagnosa ? this.implementasiFormData.diagnosa.id : null,
+            jenis_implementasi: this.implementasiFormData.jenis_implementasi || null,
+            respon_pasien: this.implementasiFormData.respon_pasien || null,
+            implementasi: this.implementasiFormData.implementasi || null,
+          });
+        } else {
+          // Create new
+          response = await this.$_api.post("observasi_evaluasi_implementasi/register", {
+            observasi_evaluasi_id: this.selectedEvaluasi.id,
+            ms_diagnosa_id: this.implementasiFormData.diagnosa ? this.implementasiFormData.diagnosa.id : null,
+            jenis_implementasi: this.implementasiFormData.jenis_implementasi || null,
+            respon_pasien: this.implementasiFormData.respon_pasien || null,
+            implementasi: this.implementasiFormData.implementasi || null,
+          });
+        }
+
+        this.$_alert.success({}, response.message || "Data implementasi berhasil disimpan");
+        this.closeImplementasiModal();
+        await this.loadImplementasiList();
+      } catch (error) {
+        console.error("Error saving implementasi data:", error);
+        let message = "Gagal menyimpan data implementasi";
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message;
+        } else if (error.message) {
+          message = error.message;
+        }
+        this.$_alert.error({}, message);
+      } finally {
+        this.implementasiSaving = false;
+      }
+    },
+
+    async confirmDeleteImplementasi(item) {
+      if (!item || !item.id) {
+        this.$_alert.error({}, "Tidak ada data untuk dihapus");
+        return;
+      }
+
+      this.$_alert.confirm({ title: "Hapus Data Implementasi", text: "Apakah Anda yakin ingin menghapus data implementasi ini?" }, async () => {
+        await this.deleteImplementasi(item);
+      });
+    },
+
+    async deleteImplementasi(item) {
+      this.implementasiLoading = true;
+      try {
+        await this.$_api.post("observasi_evaluasi_implementasi/delete", {
+          id: item.id,
+        });
+
+        this.$_alert.success({}, "Data implementasi berhasil dihapus");
+        await this.loadImplementasiList();
+      } catch (error) {
+        console.error("Error deleting implementasi data:", error);
+        let message = "Gagal menghapus data implementasi";
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message;
+        } else if (error.message) {
+          message = error.message;
+        }
+        this.$_alert.error({}, message);
+      } finally {
+        this.implementasiLoading = false;
+      }
+    },
+
+    resetImplementasiForm() {
+      this.implementasiFormData = {
+        id: null,
+        observasi_evaluasi_id: "",
+        ms_diagnosa_id: "",
+        diagnosa: null,
+        jenis_implementasi: "",
+        respon_pasien: "",
+        implementasi: "",
+      };
+    },
   },
 };
 </script>
@@ -1086,5 +1684,32 @@ export default {
 <style scoped>
 .pointer {
   cursor: pointer;
+}
+
+.evaluasi-item {
+  transition: all 0.2s ease;
+}
+
+.evaluasi-item:hover {
+  background-color: #f0f0f0;
+  border-color: #007bff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+}
+
+.evaluasi-item.active-evaluasi {
+  background-color: #e8f4ff;
+  border-color: #007bff !important;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.implementasi-item {
+  transition: all 0.2s ease;
+}
+
+.implementasi-item:hover {
+  background-color: #f8f9fa !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 </style>
