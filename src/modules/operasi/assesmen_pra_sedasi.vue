@@ -3,7 +3,7 @@
     <div class="card mb-1 w-100">
       <div class="card-header border-0 pt-5">
         <h3 class="card-title mb-0 align-items-start flex-column justify-content-center">
-          <span class="card-label font-weight-bolder text-dark">Assesmen Anastesi</span>
+          <span class="card-label font-weight-bolder text-dark">Assesmen Pra Sedasi</span>
         </h3>
         <div class="card-toolbar my-0 align-items-center">
           <div class="d-flex align-items-center">
@@ -115,273 +115,269 @@
 
           <!-- asd -->
           <!-- ========================================================= -->
-          <!-- EDUKASI TINDAKAN ANESTESI / PEMBIUSAN -->
+          <!-- ASESMEN PRA SEDASI -->
           <!-- ========================================================= -->
           <div class="row mb-4">
             <div class="col-12">
-              <h6 class="text-center"><strong>EDUKASI TINDAKAN ANESTESI / PEMBIUSAN</strong></h6>
+              <h6 class="text-center"><strong>ASESMEN PRA SEDASI</strong></h6>
 
-              <p>Pembiusan pada dasarnya dibagi menjadi 3 macam yaitu: <strong>Anestesi Umum</strong>, <strong>Anestesi Regional</strong> dan <strong>Sedasi</strong>. Masing-masing jenis pembiusan memiliki kelebihan dan kekurangannya. Komplikasi yang dapat terjadi juga berbeda, seperti uraian berikut:</p>
+              <!-- KAJIAN SISTEM -->
+              <h6><strong>DIISI OLEH DOKTER</strong></h6>
+              <h6><strong>KAJIAN SISTEM</strong></h6>
 
-              <ol class="pl-3">
-                <li>
-                  <strong>Anestesi Umum</strong>
-                  <p>Merupakan teknik pembiusan dengan bius total, dimana pasien tidak sadar, tidak dapat dirangsang dan tidak merasa sakit. Obat bius untuk anestesi umum disuntikkan ke dalam pembuluh darah atau dengan gas anestesi yang dapat dihirup.</p>
-                  <ul>
-                    <li><strong>Kelebihan:</strong> saat operasi pasien tidak sadar, tidak nyeri, lama pembiusan dapat disesuaikan dengan lamanya operasi.</li>
-                    <li><strong>Kelemahan:</strong> sebelum operasi pasien wajib berpuasa dan pasca operasi pasien harus sadar penuh sebelum bisa diberi minum.</li>
-                    <li>
-                      <strong>Komplikasi / efek samping:</strong>
-                      <ul>
-                        <li>Mual, muntah, menggigil, pusing, mengantuk, sakit tenggorokan</li>
-                        <li>Aspirasi (masuknya isi lambung ke paru-paru)</li>
-                        <li>Kesulitan pemasangan alat bantu napas</li>
-                        <li>Alergi obat anestesi</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Hilangnya gigi</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sakit dada</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Masalah mobilisasi leher</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Denyut jantung tidak normal</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Leher pendek</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Muntah</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Batuk</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Susah kencing</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Infeksi saluran nafas atas</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Kejang</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Kelainan tulang belakang</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Pingsan</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Sedang hamil</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Obesitas</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Stroke</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td colspan="3"></td>
+                  </tr>
+                </tbody>
+              </table>
 
-                <li>
-                  <strong>Anestesi Regional (Spinal / Epidural)</strong>
-                  <p>Merupakan pembiusan yang hanya meliputi daerah perut ke bawah dengan pasien tetap sadar tanpa merasakan nyeri.</p>
-                  <ul>
-                    <li><strong>Kelebihan:</strong> bila tidak mual/muntah pasca bedah bisa langsung minum/makan.</li>
-                    <li><strong>Kelemahan:</strong> pasca bedah berbaring dan tidak boleh duduk ± 6 jam.</li>
-                    <li>
-                      <strong>Komplikasi / efek samping:</strong>
-                      <ul>
-                        <li>Mual, muntah</li>
-                        <li>Sakit kepala</li>
-                        <li>Kesulitan buang air kecil</li>
-                        <li>Alergi obat</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
+              <p><strong>Keterangan:</strong> ........................................................................................................................................................................................</p>
 
-                <li>
-                  <strong>Sedasi (Sedasi Ringan, Sedang dan Dalam)</strong>
-                  <p>Pada sedasi ringan pasien mengantuk tetapi masih dapat bernapas spontan. Pada sedasi sedang dan dalam pasien tidur dan tidak mudah dibangunkan.</p>
-                  <ul>
-                    <li><strong>Kelebihan:</strong> pasien dalam keadaan mengantuk dan tidur selama tindakan.</li>
-                    <li><strong>Kelemahan:</strong> sebelum tindakan sedasi wajib berpuasa.</li>
-                    <li>
-                      <strong>Komplikasi:</strong>
-                      <ul>
-                        <li>Mual, muntah, menggigil, pusing</li>
-                        <li>Alergi obat</li>
-                        <li>Aspirasi</li>
-                        <li>Kemungkinan pemasangan alat bantu napas</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ol>
+              <!-- PEMERIKSAAN FISIK -->
+              <h6><strong>PEMERIKSAAN FISIK</strong></h6>
 
-              <p><strong>Analgesia pasca bedah:</strong></p>
-              <ul>
-                <li>Intravena</li>
-                <li>Oral</li>
-                <li>Epidural</li>
-              </ul>
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Tinggi</td>
+                    <td>............... cm</td>
+                    <td>Berat</td>
+                    <td>............... Kg</td>
+                    <td>TD</td>
+                    <td>............... mmHg</td>
+                  </tr>
+                  <tr>
+                    <td>Nadi</td>
+                    <td>............... x/menit</td>
+                    <td>Suhu</td>
+                    <td>............... °C</td>
+                    <td colspan="2"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- KEADAAN UMUM -->
+              <h6><strong>KEADAAN UMUM</strong></h6>
+
+              <p>Skor mallampati : .........................................................................................................................</p>
+              <p>Paru-paru : .....................................................................................................................................</p>
+              <p>Jantung : ........................................................................................................................................</p>
+              <p>Abdomen : ....................................................................................................................................</p>
+              <p>Ekstremitas : .................................................................................................................................</p>
+              <p>Neurologi (bila dapat diperiksa) : ..............................................................................................</p>
+              <p>Keterangan : .................................................................................................................................</p>
+
+              <!-- LAB -->
+              <h6><strong>LABORATORIUM (bila tersedia)</strong></h6>
+
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Hb / Ht</td>
+                    <td>........................</td>
+                    <td>Leukosit</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>CT / BT</td>
+                    <td>........................</td>
+                    <td>Trombosit</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>Glukosa Darah</td>
+                    <td>........................</td>
+                    <td>Na / Cl</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>Tes Kehamilan</td>
+                    <td>........................</td>
+                    <td>Ureum</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>Kalium</td>
+                    <td>........................</td>
+                    <td>Kreatinin</td>
+                    <td>........................</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- ASA -->
+              <h6><strong>DIAGNOSIS ASA CLASIFICATION</strong></h6>
+
+              <p>1. ........................................................................ ☐ ASA 1 Pasien normal yang sehat</p>
+              <p>........................................................................ ☐ ASA 2 Pasien dengan penyakit sistemik ringan</p>
+              <p>2. ........................................................................ ☐ ASA 3 Pasien dengan penyakit sistemik berat</p>
+              <p>........................................................................ ☐ ASA 4 Pasien dengan penyakit sistemik berat yang mengancam nyawa</p>
+
+              <!-- PERENCANAAN -->
+              <h6><strong>PERENCANAAN ANESTESIA & SEDASI</strong></h6>
+
+              <p>☐ Sedasi : .................................................................................................................................</p>
+              <p>☐ G A : .......................................................................................................................................</p>
+              <p>☐ Regional : ☐ S A B ☐ Epidural ☐ Kaudal ☐ Blok Perifer</p>
+
+              <!-- PERSIAPAN -->
+              <h6><strong>PERSIAPAN PRA ANESTESI</strong></h6>
+
+              <p>Puasa mulai : Jam ................. Tanggal .......................</p>
+              <p>Rencana tiba di OK : Jam ................. Tanggal .......................</p>
+              <p>Rencana Operasi : Jam ................. Tanggal .......................</p>
+
+              <div class="text-right" style="margin-top: 40px">
+                <p>DPJD Anestesiologi</p>
+                <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000; width: 250px; margin-left: auto"></div>
+                <p class="mb-0">(........................................)</p>
+              </div>
             </div>
           </div>
 
           <!-- ========================================================= -->
-          <!-- PEMBERIAN INFORMASI -->
+          <!-- ASESMEN PRA SEDASI (LANJUTAN) -->
           <!-- ========================================================= -->
           <div class="row mb-4">
             <div class="col-12">
-              <h6 class="text-center"><strong>PEMBERIAN INFORMASI</strong></h6>
+              <h6 class="text-center"><strong>ASESMEN PRA SEDASI (LANJUTAN)</strong></h6>
+
+              <h6><strong>DI ISI OLEH PASIEN</strong></h6>
+
+              <!-- KEBIASAAN -->
+              <h6><strong>KEBIASAAN</strong></h6>
 
               <table class="table table-bordered">
                 <tbody>
                   <tr>
-                    <td width="25%"><strong>Dokter Pelaksana Tindakan</strong></td>
-                    <td>:</td>
-                    <td>{{ selectedJadwal.nama_dokter || "-" }}</td>
+                    <td>Merokok</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
                   </tr>
                   <tr>
-                    <td><strong>Pemberi Informasi</strong></td>
-                    <td>:</td>
-                    <td>{{ selectedJadwal.nama_dokter || "-" }}</td>
+                    <td>Alcohol</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
                   </tr>
                   <tr>
-                    <td><strong>Penerima Informasi</strong></td>
-                    <td>:</td>
-                    <td>{{ selectedJadwal.nama_lengkap || "-" }}</td>
+                    <td>Kopi / Teh / Cola</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
+                  </tr>
+                  <tr>
+                    <td>Olahraga rutin</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
                   </tr>
                 </tbody>
               </table>
 
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th width="5%">No</th>
-                    <th width="35%">Jenis Informasi</th>
-                    <th>Isi Informasi</th>
-                    <th width="10%">Check List (√)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Diagnosa</td>
-                    <td>-</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Tindakan Anestesi</td>
-                    <td>Anestesi Umum / Regional / Sedasi</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Indikasi Tindakan</td>
-                    <td>-</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Tujuan</td>
-                    <td>-</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>Resiko Tindakan dan Komplikasi</td>
-                    <td>Terlampir di lembar edukasi</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>Prognosis</td>
-                    <td>-</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td rowspan="3">7</td>
-                    <td>a. Anestesi Umum</td>
-                    <td>Resusitasi s/d Perawatan ke ICU</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>b. Regional (SAB / Epidural)</td>
-                    <td>Anestesi Umum s/d Resusitasi</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>c. Sedasi</td>
-                    <td>Intubasi s/d Resusitasi</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                  <tr>
-                    <td>8</td>
-                    <td>Lain-lain</td>
-                    <td>-</td>
-                    <td class="text-center">☐</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+              <!-- PENGOBATAN -->
+              <h6><strong>PENGOBATAN</strong></h6>
 
-          <!-- ========================================================= -->
-          <!-- PERNYATAAN DOKTER -->
-          <!-- ========================================================= -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <p class="mb-2">Dengan ini menyatakan bahwa saya (dokter) telah menerangkan hal-hal di atas secara benar, jelas dan memberi kesempatan untuk bertanya dan atau berdiskusi</p>
+              <p>Obat resep : ..............................................................................................................................</p>
+              <p>Obat bebas (Vitamin, herbal) : ...............................................................................................</p>
+              <p>Penggunaan Aspirin rutin : Y ☐ T ☐ Dosis dan frekuensi : .............................................</p>
+              <p>Obat anti sakit : Y ☐ T ☐ Dosis dan frekuensi : ...............................................................</p>
+              <p>Alergi obat : Y ☐ T ☐ Daftar obat dan tipe reaksi : ........................................................</p>
+              <p>Alergi makanan : ......................................................................................................................</p>
 
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <td width="60%">&nbsp;</td>
-                    <td width="40%">
-                      <div class="text-center">
-                        <p class="mb-1"><strong>Tanda Tangan</strong></p>
-                        <div class="signature-box" style="height: 60px; border-bottom: 1px solid #000"></div>
-                        <p class="mb-0 mt-1">({{ selectedJadwal.nama_dokter || "Dokter" }})</p>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+              <!-- RIWAYAT -->
+              <h6><strong>RIWAYAT PENYAKIT PASIEN</strong></h6>
 
-          <!-- ========================================================= -->
-          <!-- PERNYATAAN PASIEN -->
-          <!-- ========================================================= -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <p class="mb-2">Dengan ini menyatakan bahwa saya (pasien/keluarga pasien) telah menerima informasi dari dokter sebagaimana di atas dan telah memahaminya.</p>
+              <p>Perdarahan yang tidak normal : Y ☐ T ☐</p>
+              <p>Pembekuan darah tidak normal : Y ☐ T ☐</p>
+              <p>Sakit maag : Y ☐ T ☐</p>
+              <p>Anemia : Y ☐ T ☐</p>
+              <p>Asma : Y ☐ T ☐</p>
+              <p>Diabetes : Y ☐ T ☐</p>
+              <p>Pingsan : Y ☐ T ☐</p>
 
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <td width="60%">&nbsp;</td>
-                    <td width="40%">
-                      <div class="text-center">
-                        <p class="mb-1"><strong>Tanda Tangan</strong></p>
-                        <div class="signature-box" style="height: 60px; border-bottom: 1px solid #000"></div>
-                        <p class="mb-0 mt-1">({{ selectedJadwal.nama_lengkap || "Pasien/Keluarga" }})</p>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <p>Jelaskan penyakit yang dijawab "YA" :</p>
+              <p>......................................................................................................................................................</p>
 
-              <p class="mb-0">
-                <em> Bila pasien tidak kompeten atau tidak mau/bisa menerima informasi, maka penerima informasi adalah wali atau keluarga terdekat. </em>
-              </p>
-            </div>
-          </div>
+              <p>Apakah pasien pernah mendapatkan transfusi darah ? Y ☐ T ☐</p>
+              <p>Apakah pasien pernah diperiksa untuk diagnosis HIV ? Y ☐ T ☐</p>
+              <p>Hasil pemeriksaan HIV : Positif ☐ Negatif ☐</p>
 
-          <!-- ========================================================= -->
-          <!-- PERNYATAAN PERSETUJUAN TINDAKAN -->
-          <!-- ========================================================= -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <h6 class="text-center"><strong>PERNYATAAN PERSETUJUAN TINDAKAN</strong></h6>
+              <p>Apakah pasien memakai: Lensa Kontak Y ☐ T ☐ Kacamata Y ☐ T ☐ Alat bantu dengar Y ☐ T ☐ Gigi palsu Y ☐ T ☐</p>
 
-              <p>Yang bertanda tangan di bawah ini, nama (Wali Pasien) ..................................................... Umur ................. Thn, L / P Alamat .............................................................................................................................</p>
+              <p>Riwayat operasi, tahun dan jenis operasi :</p>
+              <p>......................................................................................................................................................</p>
 
-              <p>Dengan ini menyatakan SETUJU untuk dilakukan tindakan ..................................................... Terhadap pasien: {{ selectedJadwal.nama_lengkap || "-" }}, Umur {{ selectedJadwal.umur || "-" }} thn, {{ selectedJadwal.jenis_kelamin === "L" ? "Laki-laki" : "Perempuan" }}, No. Rekam Medis {{ selectedJadwal.no_rm || "-" }}</p>
+              <p>Tanggal terakhir kali periksa kesehatan ke dokter :</p>
+              <p>......................................................................................................................................................</p>
 
-              <p>Saya memahami perlunya dan manfaat tindakan tersebut sebagaimana telah dijelaskan seperti di atas kepada saya, termasuk resiko dan komplikasi yang mungkin timbul, apabila tindakan tersebut dilakukan dan saya bertanggungjawab atas resiko yang terjadi atas persetujuan/penolakan tersebut dan tidak akan melakukan tuntutan apapun.</p>
+              <!-- KHUSUS PEREMPUAN -->
+              <h6><strong>KHUSUS PASIEN PEREMPUAN</strong></h6>
 
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <td colspan="4" class="text-center">Batauga, {{ getCurrentDate() }} Jam {{ getCurrentTime() }}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-center">
-                      <p class="mb-1"><strong>Yang menyatakan</strong></p>
-                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000"></div>
-                      <p class="mb-0">(........................................)</p>
-                    </td>
-                    <td class="text-center">
-                      <p class="mb-1"><strong>Saksi Keluarga</strong></p>
-                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000"></div>
-                      <p class="mb-0">(........................................)</p>
-                    </td>
-                    <td class="text-center">
-                      <p class="mb-1"><strong>Saksi Petugas Rumah Sakit</strong></p>
-                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000"></div>
-                      <p class="mb-0">(........................................)</p>
-                    </td>
-                    <td class="text-center">
-                      <p class="mb-1"><strong>Dokter Anestesi</strong></p>
-                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000"></div>
-                      <p class="mb-0">(........................................)</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <p>Jumlah kehamilan ........................ Jumlah anak ........................</p>
+              <p>Menstruasi terakhir ........................ Menyusui Y ☐ T ☐</p>
             </div>
           </div>
         </div>
