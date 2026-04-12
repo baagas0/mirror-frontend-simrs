@@ -6,22 +6,11 @@
         <!-- {{ scrollPosition }} -->
       </div>
       <div class="col-xl-9 col-md-9 col-sm-12">
-        <div
-          class="card card-custom mb-5 card-sticky"
-          v-if="dataRegistrasi && registrasi_id"
-        >
+        <div class="card card-custom mb-5 card-sticky" v-if="dataRegistrasi && registrasi_id">
           <div class="card-body ribbon ribbon-right">
             <!-- <pre>{{ objectDataAssesmen }}</pre> -->
-            <div
-              class="ribbon-target"
-              :class="{ 'bg-warning': !is_validasi, 'bg-success': is_validasi }"
-              style="top: 10px; right: 0px"
-            >
-              {{ is_validasi ? "Sudah" : "Belum" }} Validasi
-            </div>
-            <div
-              class="d-flex flex-row justify-content-between align-items-center"
-            >
+            <div class="ribbon-target" :class="{ 'bg-warning': !is_validasi, 'bg-success': is_validasi }" style="top: 10px; right: 0px">{{ is_validasi ? "Sudah" : "Belum" }} Validasi</div>
+            <div class="d-flex flex-row justify-content-between align-items-center">
               <div>
                 <h5 class="font-weight-bolder text-dark mb-0 pb-0">
                   {{ dataRegistrasi.nama_lengkap || "-" }}
@@ -30,25 +19,12 @@
                   RM {{ dataRegistrasi.no_rm || "-" }} /
                   {{ dataRegistrasi.tgl_registrasi | parse("date") }}
                 </p>
-                <p class="text-muted mb-0 font-weight-bold font-size-sm">
-                  {{ dataRegistrasi.jenis_kelamin | parse("kelamin") }} /
-                  {{ dataRegistrasi.tgl_lahir | parse("old") }}th
-                </p>
+                <p class="text-muted mb-0 font-weight-bold font-size-sm">{{ dataRegistrasi.jenis_kelamin | parse("kelamin") }} / {{ dataRegistrasi.tgl_lahir | parse("old") }}th</p>
                 <p class="text-muted mb-0 font-weight-bold font-size-sm">
                   {{ dataRegistrasi.nama_dokter }}
                 </p>
 
-                <button
-                  class="btn btn-warning mt-3"
-                  v-if="
-                    !loadingAssesmen &&
-                    !is_validasi &&
-                    objectDataAssesmen.assesment_medis_igd_id
-                  "
-                  @click="doValidasi()"
-                >
-                  Validasi Sekarang
-                </button>
+                <button class="btn btn-warning mt-3" v-if="!loadingAssesmen && !is_validasi && objectDataAssesmen.assesment_medis_igd_id" @click="doValidasi()">Validasi Sekarang</button>
 
                 <!-- SATU SEHAT -->
                 <SatuSehat
@@ -60,22 +36,9 @@
                       date: objectDataAssesmen.updatedAt,
                     },
                   ]"
-                  v-if="
-                    !loadingAssesmen &&
-                    objectDataAssesmen.assesment_medis_igd_id
-                  "
-                ></SatuSehat>
+                  v-if="!loadingAssesmen && objectDataAssesmen.assesment_medis_igd_id"></SatuSehat>
 
-                <button
-                  class="btn btn-primary mt-3"
-                  v-if="
-                    !loadingAssesmen &&
-                    objectDataAssesmen.assesment_medis_igd_id
-                  "
-                  @click="cetakResumeMedis('cetak-resume-medis')"
-                >
-                  <i class="ri-printer-line"></i> Cetak Resume Medis1
-                </button>
+                <button class="btn btn-primary mt-3" v-if="!loadingAssesmen && objectDataAssesmen.assesment_medis_igd_id" @click="cetakResumeMedis('cetak-resume-medis')"><i class="ri-printer-line"></i> Cetak Resume Medis1</button>
               </div>
               <div class="text-center">
                 <h6 class="font-weight-bolder text-dark">KNJ</h6>
@@ -101,213 +64,51 @@
             <div class="spinner spinner-track spinner-primary"></div>
           </div>
         </div>
-        <template
-          v-else-if="
-            dataRegistrasi &&
-            registrasi_id &&
-            objectDataAssesmen.assesment_medis_igd_id &&
-            dataAssesmen &&
-            dataAssesmen.subjective &&
-            dataAssesmen.objective &&
-            dataAssesmen.planning
-          "
-        >
+        <template v-else-if="dataRegistrasi && registrasi_id && objectDataAssesmen.assesment_medis_igd_id && dataAssesmen && dataAssesmen.subjective && dataAssesmen.objective && dataAssesmen.planning">
           <div class="row no-gutters mb-5 nav nav-primary nav-pills gap-8">
-            <a
-              @click="switchActiveTab('subjective')"
-              :class="
-                activeTab === 'subjective'
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Subjective</a
-            >
-            <a
-              @click="switchActiveTab('objective')"
-              :class="
-                activeTab === 'objective'
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Objective</a
-            >
-            <a
-              @click="switchActiveTab('gcs')"
-              :class="
-                activeTab === 'gcs' ? 'btn-primary' : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >GCS</a
-            >
-            <a
-              @click="switchActiveTab('ews')"
-              :class="
-                activeTab === 'ews' ? 'btn-primary' : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Early Warning System</a
-            >
-            <a
-              @click="switchActiveTab('pemeriksaan_multiorgan')"
-              :class="
-                activeTab === 'pemeriksaan_multiorgan'
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Pemeriksaan Multiorgan</a
-            >
-            <a
-              @click="switchActiveTab('assesment')"
-              :class="
-                activeTab === 'assesment'
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Assesment</a
-            >
-            <a
-              @click="switchActiveTab('planning')"
-              :class="
-                activeTab === 'planning' ? 'btn-primary' : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Planning</a
-            >
-            <a
-              @click="switchActiveTab('lapor_dpjb')"
-              :class="
-                activeTab === 'lapor_dpjb'
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Lapor DPJP</a
-            >
-            <a
-              @click="switchActiveTab('tindak_lanjut')"
-              :class="
-                activeTab === 'tindak_lanjut'
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-              class="btn"
-              style="flex-grow: 1"
-              >Tindak Lanjut</a
-            >
+            <a @click="switchActiveTab('subjective')" :class="activeTab === 'subjective' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Subjective</a>
+            <a @click="switchActiveTab('objective')" :class="activeTab === 'objective' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Objective</a>
+            <a @click="switchActiveTab('gcs')" :class="activeTab === 'gcs' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">GCS</a>
+            <a @click="switchActiveTab('ews')" :class="activeTab === 'ews' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Early Warning System</a>
+            <a @click="switchActiveTab('pemeriksaan_multiorgan')" :class="activeTab === 'pemeriksaan_multiorgan' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Pemeriksaan Multiorgan</a>
+            <a @click="switchActiveTab('assesment')" :class="activeTab === 'assesment' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Assesment</a>
+            <a @click="switchActiveTab('planning')" :class="activeTab === 'planning' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Planning</a>
+            <a @click="switchActiveTab('lapor_dpjb')" :class="activeTab === 'lapor_dpjb' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Lapor DPJP</a>
+            <a @click="switchActiveTab('tindak_lanjut')" :class="activeTab === 'tindak_lanjut' ? 'btn-primary' : 'btn-outline-primary'" class="btn" style="flex-grow: 1">Tindak Lanjut</a>
           </div>
 
           <template v-if="activeTab === 'subjective'">
-            <medis-subjective
-              v-if="dataAssesmen && dataAssesmen.subjective"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.subjective"
-              @submit="updateAssesmen"
-            ></medis-subjective>
+            <medis-subjective v-if="dataAssesmen && dataAssesmen.subjective" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.subjective" @submit="updateAssesmen"></medis-subjective>
           </template>
           <template v-if="activeTab === 'objective'">
-            <medis-objective
-              v-if="dataAssesmen && dataAssesmen.objective"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.objective"
-              @submit="updateAssesmen"
-            ></medis-objective>
+            <medis-objective v-if="dataAssesmen && dataAssesmen.objective" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.objective" @submit="updateAssesmen"></medis-objective>
           </template>
           <template v-if="activeTab === 'gcs'">
-            <medis-gcs
-              v-if="dataAssesmen && dataAssesmen.gcs"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.gcs"
-              @submit="updateAssesmen"
-            ></medis-gcs>
+            <medis-gcs v-if="dataAssesmen && dataAssesmen.gcs" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.gcs" @submit="updateAssesmen"></medis-gcs>
           </template>
           <template v-if="activeTab === 'ews'">
-            <medis-ews
-              v-if="dataAssesmen && dataAssesmen.ews"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.ews"
-              @submit="updateAssesmen"
-            ></medis-ews>
+            <medis-ews v-if="dataAssesmen && dataAssesmen.ews" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.ews" @submit="updateAssesmen"></medis-ews>
           </template>
           <template v-if="activeTab === 'pemeriksaan_multiorgan'">
-            <medis-pemeriksaan-multiorgan
-              v-if="dataAssesmen && dataAssesmen.pemeriksaan_multiorgan"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.pemeriksaan_multiorgan"
-              @submit="updateAssesmen"
-            ></medis-pemeriksaan-multiorgan>
+            <medis-pemeriksaan-multiorgan v-if="dataAssesmen && dataAssesmen.pemeriksaan_multiorgan" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.pemeriksaan_multiorgan" @submit="updateAssesmen"></medis-pemeriksaan-multiorgan>
           </template>
           <template v-if="activeTab === 'assesment'">
-            <medis-assesment
-              v-if="dataAssesmen && dataAssesmen.assesment"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.assesment"
-              @submit="updateAssesmen"
-            ></medis-assesment>
+            <medis-assesment v-if="dataAssesmen && dataAssesmen.assesment" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.assesment" @submit="updateAssesmen"></medis-assesment>
           </template>
           <template v-if="activeTab === 'planning'">
-            <medis-planning
-              v-if="dataAssesmen && dataAssesmen.planning"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.planning"
-              :objectPenjualan="objectPenjualan"
-              @submit="updateAssesmen"
-            ></medis-planning>
+            <medis-planning v-if="dataAssesmen && dataAssesmen.planning" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.planning" :objectPenjualan="objectPenjualan" @submit="updateAssesmen"></medis-planning>
           </template>
           <template v-if="activeTab === 'lapor_dpjb'">
-            <medis-lapor-dpjb
-              v-if="dataAssesmen && dataAssesmen.lapor_dpjb"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.lapor_dpjb"
-              @submit="updateAssesmen"
-            ></medis-lapor-dpjb>
+            <medis-lapor-dpjb v-if="dataAssesmen && dataAssesmen.lapor_dpjb" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.lapor_dpjb" @submit="updateAssesmen"></medis-lapor-dpjb>
           </template>
           <template v-if="activeTab === 'tindak_lanjut'">
-            <medis-tindak-lanjut
-              v-if="dataAssesmen && dataAssesmen.tindak_lanjut"
-              :is_validasi="is_validasi"
-              :objectDataAssesmen="objectDataAssesmen"
-              :dataRegistrasi="dataRegistrasi"
-              :mData="dataAssesmen.tindak_lanjut"
-              @submit="updateAssesmen"
-            ></medis-tindak-lanjut>
+            <medis-tindak-lanjut v-if="dataAssesmen && dataAssesmen.tindak_lanjut" :is_validasi="is_validasi" :objectDataAssesmen="objectDataAssesmen" :dataRegistrasi="dataRegistrasi" :mData="dataAssesmen.tindak_lanjut" @submit="updateAssesmen"></medis-tindak-lanjut>
           </template>
         </template>
         <template v-else>
           <div class="card card-custom">
             <div class="card-body text-center">
-              <img
-                :src="'./static/img/default/no_data_table.svg'"
-                class="max-w-250px"
-                alt=""
-              />
+              <img :src="'./static/img/default/no_data_table.svg'" class="max-w-250px" alt="" />
               <h3 v-if="info_alert" class="mt-3 font-weight-bolder text-dark">
                 {{ info_alert || "-" }}
               </h3>
@@ -319,8 +120,7 @@
                     name: 'Layanan IGD keperawatan',
                     query: { registrasi_id: registrasi_id },
                   })
-                "
-              >
+                ">
                 Assesmen Keperawatan <i class="ri-arrow-right-line"></i>
               </button>
             </div>
@@ -330,57 +130,23 @@
     </div>
     <div id="cetak-resume-medis" style="position: relative; display: none">
       <div size="A4">
-        <div
-          class=""
-          style="align-items: center; width: 99%; margin-bottom: 10px"
-        >
+        <div class="" style="align-items: center; width: 99%; margin-bottom: 10px">
           <!-- KOP -->
-          <table
-            class="custom-table"
-            v-if="
-              dataAssesmen &&
-              dataAssesmen.subjective &&
-              dataAssesmen.objective &&
-              dataAssesmen.assesment &&
-              dataAssesmen.planning
-            "
-          >
+          <table class="custom-table" v-if="dataAssesmen && dataAssesmen.subjective && dataAssesmen.objective && dataAssesmen.assesment && dataAssesmen.planning">
             <tr>
               <td rowspan="2" style="height: 60px">
                 <img :src="$_config.logo.lg" alt="" height="70px" />
               </td>
-              <td
-                style="
-                  height: 25px;
-                  align-items: center;
-                  vertical-align: middle;
-                "
-              >
-                <h5
-                  style="font-weight: 600; font-size: 25px; line-height: 35px"
-                >
-                  RUMAH SAKIT UMUM DAERAH BUTON SELATAN
-                </h5>
+              <td style="height: 25px; align-items: center; vertical-align: middle">
+                <h5 style="font-weight: 600; font-size: 25px; line-height: 35px">RUMAH SAKIT UMUM DAERAH BUTON SELATAN</h5>
               </td>
             </tr>
             <tr>
-              <td style="height: 15px">
-                Jl. Gajah mada kec.batauga kab.buton selatan, sulawesi tenggara
-              </td>
+              <td style="height: 15px">Jl. Gajah mada kec.batauga kab.buton selatan, sulawesi tenggara</td>
             </tr>
 
             <tr class="bg-dark">
-              <td
-                colspan="3"
-                style="
-                  text-align: center;
-                  vertical-align: middle;
-                  font-weight: 600;
-                  height: 20px;
-                "
-              >
-                Resume Medis
-              </td>
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">Resume Medis</td>
             </tr>
             <tr>
               <td colspan="3">
@@ -429,17 +195,7 @@
             </tr>
 
             <tr class="bg-dark">
-              <td
-                colspan="3"
-                style="
-                  text-align: center;
-                  vertical-align: middle;
-                  font-weight: 600;
-                  height: 20px;
-                "
-              >
-                Subjective
-              </td>
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">Subjective</td>
             </tr>
             <tr>
               <td colspan="3">
@@ -448,36 +204,21 @@
                     <td>Tujuan Kunjungan</td>
                     <td>:</td>
                     <td>
-                      {{
-                        dataAssesmen.subjective &&
-                        dataAssesmen.subjective.tujuan_kunjungan
-                          ? dataAssesmen.subjective.tujuan_kunjungan
-                          : "-"
-                      }}
+                      {{ dataAssesmen.subjective && dataAssesmen.subjective.tujuan_kunjungan ? dataAssesmen.subjective.tujuan_kunjungan : "-" }}
                     </td>
                   </tr>
                   <tr>
                     <td>Keluhan Utama</td>
                     <td>:</td>
                     <td>
-                      {{
-                        dataAssesmen.subjective &&
-                        dataAssesmen.subjective.keluhan_utama
-                          ? dataAssesmen.subjective.keluhan_utama
-                          : "-"
-                      }}
+                      {{ dataAssesmen.subjective && dataAssesmen.subjective.keluhan_utama ? dataAssesmen.subjective.keluhan_utama : "-" }}
                     </td>
                   </tr>
                   <tr>
                     <td>Riwayat Kesehatan Saat Ini</td>
                     <td>:</td>
                     <td>
-                      {{
-                        dataAssesmen.subjective &&
-                        dataAssesmen.subjective.riwayat_kesehatan_saat_ini
-                          ? dataAssesmen.subjective.riwayat_kesehatan_saat_ini
-                          : "-"
-                      }}
+                      {{ dataAssesmen.subjective && dataAssesmen.subjective.riwayat_kesehatan_saat_ini ? dataAssesmen.subjective.riwayat_kesehatan_saat_ini : "-" }}
                     </td>
                   </tr>
                 </table>
@@ -485,17 +226,7 @@
             </tr>
 
             <tr class="bg-dark">
-              <td
-                colspan="3"
-                style="
-                  text-align: center;
-                  vertical-align: middle;
-                  font-weight: 600;
-                  height: 20px;
-                "
-              >
-                Objective
-              </td>
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">Objective</td>
             </tr>
             <tr>
               <td colspan="3">
@@ -507,85 +238,49 @@
                           <td>Keadaan Umum</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.keadaan_umum
-                                ? dataAssesmen.objective.keadaan_umum
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.keadaan_umum ? dataAssesmen.objective.keadaan_umum : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Sistolik</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.sistolik
-                                ? dataAssesmen.objective.sistolik
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.sistolik ? dataAssesmen.objective.sistolik : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Diastolik</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.diastolik
-                                ? dataAssesmen.objective.diastolik
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.diastolik ? dataAssesmen.objective.diastolik : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Nadi</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.nadi
-                                ? dataAssesmen.objective.nadi
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.nadi ? dataAssesmen.objective.nadi : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Pernafasan</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.pernafasan
-                                ? dataAssesmen.objective.pernafasan
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.pernafasan ? dataAssesmen.objective.pernafasan : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Keterangan Skrining</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.keterangan_skrining_nyeri
-                                ? dataAssesmen.objective
-                                    .keterangan_skrining_nyeri
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.keterangan_skrining_nyeri ? dataAssesmen.objective.keterangan_skrining_nyeri : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Pemeriksaan Fisik</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.pemeriksaan_fisik
-                                ? dataAssesmen.objective.pemeriksaan_fisik
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.pemeriksaan_fisik ? dataAssesmen.objective.pemeriksaan_fisik : "-" }}
                           </td>
                         </tr>
                       </table>
@@ -596,60 +291,35 @@
                           <td>Kesadaran</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.kesadaran
-                                ? dataAssesmen.objective.kesadaran
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.kesadaran ? dataAssesmen.objective.kesadaran : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Tinggi Badan</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.tinggi_badan
-                                ? dataAssesmen.objective.tinggi_badan
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.tinggi_badan ? dataAssesmen.objective.tinggi_badan : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Berat Badan</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.berat_badan
-                                ? dataAssesmen.objective.berat_badan
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.berat_badan ? dataAssesmen.objective.berat_badan : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Index Masa Tubuh</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.index_masa_tubuh
-                                ? dataAssesmen.objective.index_masa_tubuh
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.index_masa_tubuh ? dataAssesmen.objective.index_masa_tubuh : "-" }}
                           </td>
                         </tr>
                         <tr>
                           <td>Lingkar Kepala</td>
                           <td>:</td>
                           <td>
-                            {{
-                              dataAssesmen.objective &&
-                              dataAssesmen.objective.lingkar_kepala
-                                ? dataAssesmen.objective.lingkar_kepala
-                                : "-"
-                            }}
+                            {{ dataAssesmen.objective && dataAssesmen.objective.lingkar_kepala ? dataAssesmen.objective.lingkar_kepala : "-" }}
                           </td>
                         </tr>
                       </table>
@@ -660,17 +330,7 @@
             </tr>
 
             <tr class="bg-dark">
-              <td
-                colspan="3"
-                style="
-                  text-align: center;
-                  vertical-align: middle;
-                  font-weight: 600;
-                  height: 20px;
-                "
-              >
-                Assesmen
-              </td>
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">Assesmen</td>
             </tr>
             <tr>
               <td colspan="3">
@@ -680,20 +340,10 @@
                     <td>Diagnosa</td>
                     <td>Keterangan</td>
                   </tr>
-                  <tr
-                    v-if="
-                      dataAssesmen.assesment && dataAssesmen.assesment.diagnosa
-                    "
-                    v-for="(item, i) in dataAssesmen.assesment.diagnosa"
-                    :key="'asdasd' + i"
-                  >
+                  <tr v-if="dataAssesmen.assesment && dataAssesmen.assesment.diagnosa" v-for="(item, i) in dataAssesmen.assesment.diagnosa" :key="'asdasd' + i">
                     <td>{{ item.tipe_diagnosa || "-" }}</td>
                     <td>
-                      {{
-                        item.diagnosa && item.diagnosa.nama_diagnosa
-                          ? item.diagnosa.nama_diagnosa
-                          : "-"
-                      }}
+                      {{ item.diagnosa && item.diagnosa.nama_diagnosa ? item.diagnosa.nama_diagnosa : "-" }}
                     </td>
                     <td>{{ item.evaluasi_diagnosa || "-" }}</td>
                   </tr>
@@ -702,26 +352,11 @@
             </tr>
 
             <tr class="bg-dark">
-              <td
-                colspan="3"
-                style="
-                  text-align: center;
-                  vertical-align: middle;
-                  font-weight: 600;
-                  height: 20px;
-                "
-              >
-                Planning
-              </td>
+              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px">Planning</td>
             </tr>
 
             <tr style="background-color: #fff4de">
-              <td
-                colspan="3"
-                style="vertical-align: middle; font-weight: 600; height: 20px"
-              >
-                Prosedur :
-              </td>
+              <td colspan="3" style="vertical-align: middle; font-weight: 600; height: 20px">Prosedur :</td>
             </tr>
             <tr>
               <td colspan="3">
@@ -732,30 +367,14 @@
                     <td>Tindakan</td>
                     <td>Keterangan</td>
                   </tr>
-                  <tr
-                    v-if="
-                      dataAssesmen.planning && dataAssesmen.planning.prosedur
-                    "
-                    v-for="(item, i) in dataAssesmen.planning.prosedur"
-                    :key="'asdasdasd' + i"
-                  >
+                  <tr v-if="dataAssesmen.planning && dataAssesmen.planning.prosedur" v-for="(item, i) in dataAssesmen.planning.prosedur" :key="'asdasdasd' + i">
                     <td>{{ item.tipe_procedure || "-" }}</td>
                     <!-- <td>{{ item.procedure || '-' }}</td> -->
                     <td>
-                      {{
-                        typeof item.procedure == "object"
-                          ? item.procedure && item.procedure.nama_prosedur
-                            ? `${item.procedure.kode_prosedur} - ${item.procedure.nama_prosedur}`
-                            : "-"
-                          : item.procedure
-                      }}
+                      {{ typeof item.procedure == "object" ? (item.procedure && item.procedure.nama_prosedur ? `${item.procedure.kode_prosedur} - ${item.procedure.nama_prosedur}` : "-") : item.procedure }}
                     </td>
                     <td>
-                      {{
-                        item.tindakan && item.tindakan.nama_jasa
-                          ? item.tindakan.nama_jasa
-                          : "-"
-                      }}
+                      {{ item.tindakan && item.tindakan.nama_jasa ? item.tindakan.nama_jasa : "-" }}
                     </td>
                     <td>{{ item.keterangan || "-" }}</td>
                   </tr>
@@ -764,47 +383,21 @@
             </tr>
 
             <tr style="background-color: #fff4de">
-              <td
-                colspan="3"
-                style="vertical-align: middle; font-weight: 600; height: 20px"
-              >
-                Obat Jadi :
-              </td>
+              <td colspan="3" style="vertical-align: middle; font-weight: 600; height: 20px">Obat Jadi :</td>
             </tr>
-            <tr
-              v-if="dataAssesmen.planning && dataAssesmen.planning.obat_jadi"
-              v-for="(item, i) in dataAssesmen.planning.obat_jadi"
-              :key="'asdasdasd' + i"
-            >
+            <tr v-if="dataAssesmen.planning && dataAssesmen.planning.obat_jadi" v-for="(item, i) in dataAssesmen.planning.obat_jadi" :key="'asdasdasd' + i">
               <td colspan="3" style="vertical-align: middle; height: 10px">
                 1.
-                {{
-                  item.nama_obat && item.nama_obat.nama_barang
-                    ? item.nama_obat.nama_barang
-                    : "-"
-                }}
-                ({{ item.signa || "-" }} {{ item.satuan_jual }}
-                {{ item.aturan_pakai }})
+                {{ item.nama_obat && item.nama_obat.nama_barang ? item.nama_obat.nama_barang : "-" }}
+                ({{ item.signa || "-" }} {{ item.satuan_jual }} {{ item.aturan_pakai }})
               </td>
             </tr>
 
             <tr style="background-color: #fff4de">
-              <td
-                colspan="3"
-                style="vertical-align: middle; font-weight: 600; height: 20px"
-              >
-                Obat Racik :
-              </td>
+              <td colspan="3" style="vertical-align: middle; font-weight: 600; height: 20px">Obat Racik :</td>
             </tr>
-            <tr
-              v-if="dataAssesmen.planning && dataAssesmen.planning.obat_racikan"
-              v-for="(item, i) in dataAssesmen.planning.obat_racikan"
-              :key="'asdasdasdasdad' + i"
-            >
-              <td colspan="3" style="vertical-align: middle; height: 10px">
-                1. {{ item.nama_obat || "-" }} ({{ item.signa || "-" }}
-                {{ item.satuan_jual || "-" }} {{ item.aturan_pakai || "-" }})
-              </td>
+            <tr v-if="dataAssesmen.planning && dataAssesmen.planning.obat_racikan" v-for="(item, i) in dataAssesmen.planning.obat_racikan" :key="'asdasdasdasdad' + i">
+              <td colspan="3" style="vertical-align: middle; height: 10px">1. {{ item.nama_obat || "-" }} ({{ item.signa || "-" }} {{ item.satuan_jual || "-" }} {{ item.aturan_pakai || "-" }})</td>
             </tr>
           </table>
 
@@ -892,23 +485,22 @@ export default {
         page: 1,
         limit: 99999,
       });
-      if (dataKeperawatan.data.length > 0)
-        this.dataKeperawatan = dataKeperawatan.data[0];
-      else {
-        this.info_alert = "Assesmen keperawatan tidak ditemukan!";
-        this.$_alert.error({}, "Assesmen keperawatan tidak ditemukan!");
-        this.dataAssesmen = {};
-        this.objectDataAssesmen = {};
-        return;
-      }
+      if (dataKeperawatan.data.length > 0) this.dataKeperawatan = dataKeperawatan.data[0];
+      // else {
+      //   this.info_alert = "Assesmen keperawatan tidak ditemukan!";
+      //   this.$_alert.error({}, "Assesmen keperawatan tidak ditemukan!");
+      //   this.dataAssesmen = {};
+      //   this.objectDataAssesmen = {};
+      //   return;
+      // }
 
-      if (this.dataKeperawatan.is_validasi === false) {
-        this.info_alert = "Assesmen keperawatan belum divalidasi!";
-        this.$_alert.error({}, "Assesmen keperawatan belum divalidasi!");
-        this.dataAssesmen = {};
-        this.objectDataAssesmen = {};
-        return;
-      }
+      // if (this.dataKeperawatan.is_validasi === false) {
+      //   this.info_alert = "Assesmen keperawatan belum divalidasi!";
+      //   this.$_alert.error({}, "Assesmen keperawatan belum divalidasi!");
+      //   this.dataAssesmen = {};
+      //   this.objectDataAssesmen = {};
+      //   return;
+      // }
 
       const penjualan = await this.$_api.post("penjualan/list", {
         registrasi_id: e.registrasi_id,
@@ -936,24 +528,16 @@ export default {
         tindak_lanjut: {},
       };
 
-      let json_keperawatan =
-        this.dataKeperawatan.json_assesment_keperawatan_igd;
-      if (json_keperawatan.subjective)
-        json_assesment_medis_igd.subjective = json_keperawatan.subjective;
-      if (json_keperawatan.objective)
-        json_assesment_medis_igd.objective = json_keperawatan.objective;
-      if (json_keperawatan.planning)
-        json_assesment_medis_igd.planning = json_keperawatan.planning;
+      let json_keperawatan = this.dataKeperawatan.json_assesment_keperawatan_igd;
+      if (json_keperawatan && json_keperawatan.subjective) json_assesment_medis_igd.subjective = json_keperawatan.subjective;
+      if (json_keperawatan && json_keperawatan.objective) json_assesment_medis_igd.objective = json_keperawatan.objective;
+      if (json_keperawatan && json_keperawatan.planning) json_assesment_medis_igd.planning = json_keperawatan.planning;
 
-      if (json_keperawatan.gcs)
-        json_assesment_medis_igd.gcs = json_keperawatan.gcs;
-      if (json_keperawatan.gcs)
-        json_assesment_medis_igd.pemeriksaan_multiorgan =
-          json_keperawatan.pemeriksaan_fisik;
+      if (json_keperawatan && json_keperawatan.gcs) json_assesment_medis_igd.gcs = json_keperawatan.gcs;
+      if (json_keperawatan && json_keperawatan.gcs) json_assesment_medis_igd.pemeriksaan_multiorgan = json_keperawatan.pemeriksaan_fisik;
 
       // MAPPING DATA JSON MEDIS DARI PERAWAT
-      if (json_keperawatan.anamnesa)
-        json_assesment_medis_igd.subjective = json_keperawatan.anamnesa;
+      if (json_keperawatan && json_keperawatan.anamnesa) json_assesment_medis_igd.subjective = json_keperawatan.anamnesa;
       // if(json_keperawatan.anamnesa.riwayat_penyakit_saat_ini) json_assesment_medis_igd.subjective.riwayat_penyakit = json_keperawatan.anamnesa.riwayat_penyakit_saat_ini
 
       await this.$_api
@@ -963,51 +547,30 @@ export default {
           limit: 99999,
         })
         .then(async (res) => {
-          let assesmen = res.data.filter(
-            (x) => x.registrasi_id === e.registrasi_id,
-          );
+          let assesmen = res.data.filter((x) => x.registrasi_id === e.registrasi_id);
           if (assesmen.length) {
             // console.log('assesmen[0]', assesmen[0])
-            let a = assesmen[0].json_assesment_medis_igd
-              ? assesmen[0].json_assesment_medis_igd
-              : json_assesment_medis_igd;
+            let a = assesmen[0].json_assesment_medis_igd ? assesmen[0].json_assesment_medis_igd : json_assesment_medis_igd;
 
             // INIT PEMERIKSAAN MULTIORGAN
             if (!a.pemeriksaan_multiorgan) a.pemeriksaan_multiorgan = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_kulit)
-              a.pemeriksaan_multiorgan.pemeriksaan_kulit = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_kuku)
-              a.pemeriksaan_multiorgan.pemeriksaan_kuku = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_kepala)
-              a.pemeriksaan_multiorgan.pemeriksaan_kepala = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_wajah)
-              a.pemeriksaan_multiorgan.pemeriksaan_wajah = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_mata)
-              a.pemeriksaan_multiorgan.pemeriksaan_mata = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_telinga)
-              a.pemeriksaan_multiorgan.pemeriksaan_telinga = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_hidung_dan_sinus)
-              a.pemeriksaan_multiorgan.pemeriksaan_hidung_dan_sinus = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_mulut_dan_bibir)
-              a.pemeriksaan_multiorgan.pemeriksaan_mulut_dan_bibir = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_leher)
-              a.pemeriksaan_multiorgan.pemeriksaan_leher = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_punggung)
-              a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_punggung = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_kardiovaskuler)
-              a.pemeriksaan_multiorgan.pemeriksaan_kardiovaskuler = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_aksila)
-              a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_aksila = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_abdomen_perut)
-              a.pemeriksaan_multiorgan.pemeriksaan_abdomen_perut = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_atas)
-              a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_atas = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_bawah)
-              a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_bawah = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_genitalia_pria)
-              a.pemeriksaan_multiorgan.pemeriksaan_genitalia_pria = {};
-            if (!a.pemeriksaan_multiorgan.pemeriksaan_genitalia_wanita)
-              a.pemeriksaan_multiorgan.pemeriksaan_genitalia_wanita = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_kulit) a.pemeriksaan_multiorgan.pemeriksaan_kulit = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_kuku) a.pemeriksaan_multiorgan.pemeriksaan_kuku = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_kepala) a.pemeriksaan_multiorgan.pemeriksaan_kepala = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_wajah) a.pemeriksaan_multiorgan.pemeriksaan_wajah = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_mata) a.pemeriksaan_multiorgan.pemeriksaan_mata = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_telinga) a.pemeriksaan_multiorgan.pemeriksaan_telinga = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_hidung_dan_sinus) a.pemeriksaan_multiorgan.pemeriksaan_hidung_dan_sinus = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_mulut_dan_bibir) a.pemeriksaan_multiorgan.pemeriksaan_mulut_dan_bibir = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_leher) a.pemeriksaan_multiorgan.pemeriksaan_leher = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_punggung) a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_punggung = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_kardiovaskuler) a.pemeriksaan_multiorgan.pemeriksaan_kardiovaskuler = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_aksila) a.pemeriksaan_multiorgan.pemeriksaan_dada_dan_aksila = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_abdomen_perut) a.pemeriksaan_multiorgan.pemeriksaan_abdomen_perut = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_atas) a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_atas = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_bawah) a.pemeriksaan_multiorgan.pemeriksaan_ekstermitas_bawah = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_genitalia_pria) a.pemeriksaan_multiorgan.pemeriksaan_genitalia_pria = {};
+            if (!a.pemeriksaan_multiorgan.pemeriksaan_genitalia_wanita) a.pemeriksaan_multiorgan.pemeriksaan_genitalia_wanita = {};
 
             // INIT EWS
             if (!a.ews) a.ews = {};
@@ -1020,13 +583,9 @@ export default {
             this.dataAssesmen = a;
 
             this.objectDataAssesmen = assesmen[0];
-            this.objectDataAssesmen.json_assesment_medis_igd =
-              this.dataAssesmen;
+            this.objectDataAssesmen.json_assesment_medis_igd = this.dataAssesmen;
             // console.log('123123', this.objectDataAssesmen);
-            this.is_validasi =
-              assesmen[0].is_validasi !== null
-                ? assesmen[0].is_validasi
-                : false;
+            this.is_validasi = assesmen[0].is_validasi !== null ? assesmen[0].is_validasi : false;
             // this.dataChange = false
             // if (switch_tab) this.switchActiveTab('subjective')
           } else this.createAssesmen(json_assesment_medis_igd);
@@ -1075,31 +634,23 @@ export default {
         return;
       }
 
-      this.$_alert
-        .confirm(
-          "Validasi data",
-          "apakah anda yakin ingin menvalidasi data assesmen?",
-        )
-        .then((status) => {
-          if (status.isDismissed) return;
-          else {
-            this.objectDataAssesmen.is_validasi = true;
-            this.updateAssesmen(this.dataAssesmen);
-          }
-        });
+      this.$_alert.confirm("Validasi data", "apakah anda yakin ingin menvalidasi data assesmen?").then((status) => {
+        if (status.isDismissed) return;
+        else {
+          this.objectDataAssesmen.is_validasi = true;
+          this.updateAssesmen(this.dataAssesmen);
+        }
+      });
     },
     switchActiveTab(e) {
-      this.dataAssesmen[e] =
-        this.objectDataAssesmen.json_assesment_medis_igd[e];
+      this.dataAssesmen[e] = this.objectDataAssesmen.json_assesment_medis_igd[e];
       this.activeTab = e;
       if (e === "assesment") {
         if (!this.dataAssesmen[e].diagnosa) this.dataAssesmen[e].diagnosa = [];
       } else if (e === "planning") {
         if (!this.dataAssesmen[e].prosedur) this.dataAssesmen[e].prosedur = [];
-        if (!this.dataAssesmen[e].obat_jadi)
-          this.dataAssesmen[e].obat_jadi = [];
-        if (!this.dataAssesmen[e].obat_racikan)
-          this.dataAssesmen[e].obat_racikan = [];
+        if (!this.dataAssesmen[e].obat_jadi) this.dataAssesmen[e].obat_jadi = [];
+        if (!this.dataAssesmen[e].obat_racikan) this.dataAssesmen[e].obat_racikan = [];
       }
     },
     async cetakResumeMedis(el) {
