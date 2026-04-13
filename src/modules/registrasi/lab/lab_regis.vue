@@ -534,8 +534,8 @@ export default {
           {
             id: "dokter_pengambil_hasil_id",
             data: "dokter_pengambil_hasil_id",
-            label: "Pengambil Hasil",
-            placeholder: "Ketik Nama Pengambil Hasil",
+            label: "Dokter Pengambil Hasil",
+            placeholder: "Ketik Nama Dokter Pengambil Hasil",
             methods: {
               list: { view_data: "nama_dokter_pengambil_hasil" },
               detail: { view_data: "nama_dokter_pengambil_hasil" },

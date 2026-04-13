@@ -154,7 +154,7 @@
                   <td style="width: 50%; vertical-align: top">
                     <table border="0" class="custom-table">
                       <tr>
-                        <td>Nomor CM</td>
+                        <td>Nomor RM</td>
                         <td>:</td>
                         <td>{{ dataRegis.no_rm || "-" }}</td>
                       </tr>
@@ -182,9 +182,14 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>Dokter</td>
+                        <td>Dokter Pengantar</td>
                         <td>:</td>
                         <td>{{ dataRegis.nama_dokter || "-" }}</td>
+                      </tr>
+                      <tr>
+                        <td>Dokter Pengambil Hasil</td>
+                        <td>:</td>
+                        <td>{{ dataRegis.nama_dokter_pengambil_hasil || "-" }}</td>
                       </tr>
                       <tr>
                         <td>Diagnosa</td>
@@ -261,7 +266,7 @@
                   <td style="padding-left: 6mm">{{ h.nama_penunjang }}</td>
                   <td>{{ h.hasil }}</td>
                   <td>{{ h.satuan }}</td>
-                  <td>{{ h.parameter_normal }}</td>
+                  <td>P: {{ h.nilai_r_d_perempuan_min }} / L: {{ h.nilai_r_d_laki_min }}</td>
                   <td>{{ h.keterangan_lab_hasil }}</td>
                 </tr>
               </tbody>
@@ -283,7 +288,7 @@
                     <br />
                     <br />
                     <h6 style="text-align: center">
-                      <span>{{ dataRegis.nama_dokter || "-" }}</span>
+                      <span>{{ dataRegis.nama_dokter_pengambil_hasil || "-" }}</span>
                     </h6>
                   </td>
                 </tr>
@@ -512,7 +517,6 @@ export default {
                       { label: "pmol/L", code: "pmol/L", description: "pmol/L" },
                       { label: "ng/mL", code: "ng/mL", description: "ng/mL" },
                       { label: "Menit", code: "Menit", description: "Menit" },
-
                     ],
                     display: ["label", "code"],
                     headerDisplay: ["Label Satuan", ""], // (opsional) pastikan jumlah key sama dengan 'diplay', kalau kosong tidak ada header
