@@ -1762,6 +1762,23 @@ export default {
   cursor: pointer;
 }
 
+.status-dropdown {
+  min-width: 150px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-dropdown:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: #80bdff;
+}
+
+.status-dropdown:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .evaluasi-item {
   transition: all 0.2s ease;
 }
