@@ -45,7 +45,7 @@
                     <div v-if="item.jam_end" class="font-weight-bolder">
                       {{ $moment(item.jam_end).format("DD/MM/YYYY HH:mm") }}
                     </div>
-                    <div v-else class="text-muted">-</div>
+                    <div v-else class="text-muted">Waktu berjalan</div>
                   </td>
                   <td>{{ item.durasi || "-" }} jam</td>
                   <td>

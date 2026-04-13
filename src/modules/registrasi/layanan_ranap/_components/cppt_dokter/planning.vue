@@ -273,7 +273,9 @@
                                 code: 'ms_barang_id',
                                 display: ['nama_barang'],
                               },
-                              param: {},
+                              param: {
+                                type: 'OBAT',
+                              },
                             }"
                             :valuee="fData.nama_obat" />
                         </div>
@@ -369,7 +371,6 @@
                                         type: 'OBAT',
                                       },
                                     }"
-                                    :disabled="objectDataAssesmen.is_validasi"
                                     :valuee="fData.aturan_pakai" />
                                   <div>
                                     <label for="asda">&ensp;</label>
