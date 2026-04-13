@@ -1393,6 +1393,7 @@ export default {
             obat: this.formData.obat || null,
             tindakan: this.formData.tindakan || null,
             keputusan_akhir: this.formData.keputusan_akhir || null,
+            status: this.formData.status || null,
           });
         } else {
           // Create new
@@ -1406,6 +1407,7 @@ export default {
             obat: this.formData.obat || null,
             tindakan: this.formData.tindakan || null,
             keputusan_akhir: this.formData.keputusan_akhir || null,
+            status: this.formData.status || "Belum Selesai",
           });
         }
 
