@@ -831,6 +831,12 @@ export default {
       observasiList: [],
       selectedObservasi: null,
       vitalSignsList: [],
+      statusOptions: [
+        'Belum Selesai',
+        'Berjalan',
+        'Perlu Evaluasi',
+        'Selesai'
+      ],
       vitalFormData: {
         id: null,
         observasi_id: "",
@@ -855,6 +861,7 @@ export default {
         obat: "",
         tindakan: "",
         keputusan_akhir: "",
+        status: "Belum Selesai",
       },
       // Therapy repeater data
       infusInput: "",
