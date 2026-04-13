@@ -1069,6 +1069,7 @@ export default {
             obat: observasi.obat || "",
             tindakan: observasi.tindakan || "",
             keputusan_akhir: observasi.keputusan_akhir || "",
+            status: observasi.status || "Belum Selesai",
           };
           this.isFormMode = true;
           // Load vital signs for this observation
