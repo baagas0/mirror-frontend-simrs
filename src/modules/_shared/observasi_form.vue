@@ -49,8 +49,19 @@
                   </td>
                   <td>{{ item.durasi || "-" }} jam</td>
                   <td>
-                    <span v-if="item.jam_end" class="badge badge-success">Selesai</span>
-                    <span v-else class="badge badge-warning">Aktif</span>
+                    <div class="d-flex align-items-center">
+                      <select
+                        v-model="item.status"
+                        @change="updateStatus(item)"
+                        :disabled="item.updatingStatus"
+                        class="form-control form-control-sm status-dropdown"
+                      >
+                        <option v-for="status in statusOptions" :key="status" :value="status">
+                          {{ status }}
+                        </option>
+                      </select>
+                      <span v-if="item.updatingStatus" class="spinner-border spinner-border-sm ml-2"></span>
+                    </div>
                   </td>
                   <td>
                     <button class="btn btn-sm btn-info mr-1" @click="editRecord(item)" title="Edit">
