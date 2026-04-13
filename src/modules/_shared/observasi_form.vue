@@ -197,6 +197,21 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="font-weight-bold">Status Observasi <span class="text-danger">*</span></label>
+                  <select v-model="formData.status" class="form-control">
+                    <option value="">- Pilih Status -</option>
+                    <option v-for="status in statusOptions" :key="status" :value="status">
+                      {{ status }}
+                    </option>
+                  </select>
+                  <small class="text-muted">Status observasi saat ini</small>
+                </div>
+              </div>
+            </div>
+
             <hr />
 
             <!-- Vital Signs Section -->
