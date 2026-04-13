@@ -53,15 +53,15 @@
                   <tr>
                     <td><strong>Umur</strong></td>
                     <td>:</td>
-                    <td>{{ selectedJadwal.umur || "-" }}</td>
+                    <td>{{ $_sys.dateToAge(selectedJadwal.tgl_lahir) || "-" }}</td>
                     <td><strong>Jenis Kelamin</strong></td>
                     <td>:</td>
                     <td>{{ selectedJadwal.jenis_kelamin === "L" ? "Laki-laki" : "Perempuan" }}</td>
                   </tr>
                   <tr>
-                    <td><strong>Alamat</strong></td>
+                    <td><strong>Alamat Sekarang</strong></td>
                     <td>:</td>
-                    <td colspan="4">{{ selectedJadwal.alamat || "-" }}</td>
+                    <td colspan="4">{{ selectedJadwal.alamat_sekarang || "-" }}</td>
                   </tr>
                   <tr>
                     <td><strong>Tanggal Operasi</strong></td>
@@ -228,7 +228,13 @@
                   <tr>
                     <td>1</td>
                     <td>Diagnosa</td>
-                    <td>-</td>
+                    <td>
+                      <ul class="pl-3 mb-0">
+                        <li v-for="(diagnosa, i) in selectedJadwal.data_diagnosa" :key="i">
+                          {{ diagnosa.nama_diagnosa }}
+                        </li>
+                      </ul>
+                    </td>
                     <td class="text-center">☐</td>
                   </tr>
                   <tr>
@@ -382,6 +388,273 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          <!-- ========================================================= -->
+          <!-- ASESMEN PRA SEDASI -->
+          <!-- ========================================================= -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h6 class="text-center"><strong>ASESMEN PRA SEDASI</strong></h6>
+
+              <!-- KAJIAN SISTEM -->
+              <h6><strong>DIISI OLEH DOKTER</strong></h6>
+              <h6><strong>KAJIAN SISTEM</strong></h6>
+
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Hilangnya gigi</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sakit dada</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Masalah mobilisasi leher</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Denyut jantung tidak normal</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Leher pendek</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Muntah</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Batuk</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Susah kencing</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Infeksi saluran nafas atas</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Kejang</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Kelainan tulang belakang</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Pingsan</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Sedang hamil</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Obesitas</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                  </tr>
+                  <tr>
+                    <td>Stroke</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td colspan="3"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p><strong>Keterangan:</strong> ........................................................................................................................................................................................</p>
+
+              <!-- PEMERIKSAAN FISIK -->
+              <h6><strong>PEMERIKSAAN FISIK</strong></h6>
+
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Tinggi</td>
+                    <td>............... cm</td>
+                    <td>Berat</td>
+                    <td>............... Kg</td>
+                    <td>TD</td>
+                    <td>............... mmHg</td>
+                  </tr>
+                  <tr>
+                    <td>Nadi</td>
+                    <td>............... x/menit</td>
+                    <td>Suhu</td>
+                    <td>............... °C</td>
+                    <td colspan="2"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- KEADAAN UMUM -->
+              <h6><strong>KEADAAN UMUM</strong></h6>
+
+              <p>Skor mallampati : .........................................................................................................................</p>
+              <p>Paru-paru : .....................................................................................................................................</p>
+              <p>Jantung : ........................................................................................................................................</p>
+              <p>Abdomen : ....................................................................................................................................</p>
+              <p>Ekstremitas : .................................................................................................................................</p>
+              <p>Neurologi (bila dapat diperiksa) : ..............................................................................................</p>
+              <p>Keterangan : .................................................................................................................................</p>
+
+              <!-- LAB -->
+              <h6><strong>LABORATORIUM (bila tersedia)</strong></h6>
+
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Hb / Ht</td>
+                    <td>........................</td>
+                    <td>Leukosit</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>CT / BT</td>
+                    <td>........................</td>
+                    <td>Trombosit</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>Glukosa Darah</td>
+                    <td>........................</td>
+                    <td>Na / Cl</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>Tes Kehamilan</td>
+                    <td>........................</td>
+                    <td>Ureum</td>
+                    <td>........................</td>
+                  </tr>
+                  <tr>
+                    <td>Kalium</td>
+                    <td>........................</td>
+                    <td>Kreatinin</td>
+                    <td>........................</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- ASA -->
+              <h6><strong>DIAGNOSIS ASA CLASIFICATION</strong></h6>
+
+              <p>1. ........................................................................ ☐ ASA 1 Pasien normal yang sehat</p>
+              <p>........................................................................ ☐ ASA 2 Pasien dengan penyakit sistemik ringan</p>
+              <p>2. ........................................................................ ☐ ASA 3 Pasien dengan penyakit sistemik berat</p>
+              <p>........................................................................ ☐ ASA 4 Pasien dengan penyakit sistemik berat yang mengancam nyawa</p>
+
+              <!-- PERENCANAAN -->
+              <h6><strong>PERENCANAAN ANESTESIA & SEDASI</strong></h6>
+
+              <p>☐ Sedasi : .................................................................................................................................</p>
+              <p>☐ G A : .......................................................................................................................................</p>
+              <p>☐ Regional : ☐ S A B ☐ Epidural ☐ Kaudal ☐ Blok Perifer</p>
+
+              <!-- PERSIAPAN -->
+              <h6><strong>PERSIAPAN PRA ANESTESI</strong></h6>
+
+              <p>Puasa mulai : Jam ................. Tanggal .......................</p>
+              <p>Rencana tiba di OK : Jam ................. Tanggal .......................</p>
+              <p>Rencana Operasi : Jam ................. Tanggal .......................</p>
+
+              <div class="text-right" style="margin-top: 40px">
+                <p>DPJD Anestesiologi</p>
+                <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000; width: 250px; margin-left: auto"></div>
+                <p class="mb-0">(........................................)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========================================================= -->
+          <!-- ASESMEN PRA SEDASI (LANJUTAN) -->
+          <!-- ========================================================= -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h6 class="text-center"><strong>ASESMEN PRA SEDASI (LANJUTAN)</strong></h6>
+
+              <h6><strong>DI ISI OLEH PASIEN</strong></h6>
+
+              <!-- KEBIASAAN -->
+              <h6><strong>KEBIASAAN</strong></h6>
+
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Merokok</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
+                  </tr>
+                  <tr>
+                    <td>Alcohol</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
+                  </tr>
+                  <tr>
+                    <td>Kopi / Teh / Cola</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
+                  </tr>
+                  <tr>
+                    <td>Olahraga rutin</td>
+                    <td class="text-center">Y ☐</td>
+                    <td class="text-center">T ☐</td>
+                    <td>Sebanyak ................................</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- PENGOBATAN -->
+              <h6><strong>PENGOBATAN</strong></h6>
+
+              <p>Obat resep : ..............................................................................................................................</p>
+              <p>Obat bebas (Vitamin, herbal) : ...............................................................................................</p>
+              <p>Penggunaan Aspirin rutin : Y ☐ T ☐ Dosis dan frekuensi : .............................................</p>
+              <p>Obat anti sakit : Y ☐ T ☐ Dosis dan frekuensi : ...............................................................</p>
+              <p>Alergi obat : Y ☐ T ☐ Daftar obat dan tipe reaksi : ........................................................</p>
+              <p>Alergi makanan : ......................................................................................................................</p>
+
+              <!-- RIWAYAT -->
+              <h6><strong>RIWAYAT PENYAKIT PASIEN</strong></h6>
+
+              <p>Perdarahan yang tidak normal : Y ☐ T ☐</p>
+              <p>Pembekuan darah tidak normal : Y ☐ T ☐</p>
+              <p>Sakit maag : Y ☐ T ☐</p>
+              <p>Anemia : Y ☐ T ☐</p>
+              <p>Asma : Y ☐ T ☐</p>
+              <p>Diabetes : Y ☐ T ☐</p>
+              <p>Pingsan : Y ☐ T ☐</p>
+
+              <p>Jelaskan penyakit yang dijawab "YA" :</p>
+              <p>......................................................................................................................................................</p>
+
+              <p>Apakah pasien pernah mendapatkan transfusi darah ? Y ☐ T ☐</p>
+              <p>Apakah pasien pernah diperiksa untuk diagnosis HIV ? Y ☐ T ☐</p>
+              <p>Hasil pemeriksaan HIV : Positif ☐ Negatif ☐</p>
+
+              <p>Apakah pasien memakai: Lensa Kontak Y ☐ T ☐ Kacamata Y ☐ T ☐ Alat bantu dengar Y ☐ T ☐ Gigi palsu Y ☐ T ☐</p>
+
+              <p>Riwayat operasi, tahun dan jenis operasi :</p>
+              <p>......................................................................................................................................................</p>
+
+              <p>Tanggal terakhir kali periksa kesehatan ke dokter :</p>
+              <p>......................................................................................................................................................</p>
+
+              <!-- KHUSUS PEREMPUAN -->
+              <h6><strong>KHUSUS PASIEN PEREMPUAN</strong></h6>
+
+              <p>Jumlah kehamilan ........................ Jumlah anak ........................</p>
+              <p>Menstruasi terakhir ........................ Menyusui Y ☐ T ☐</p>
             </div>
           </div>
         </div>

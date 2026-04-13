@@ -8,55 +8,34 @@
         <div class="card-toolbar my-0 align-items-center">
           <div class="d-flex align-items-center">
             <label class="mr-3">Pilih Jadwal Operasi:</label>
-            <multiselect
-              v-model="selectedJadwal"
-              :options="listJadwal"
-              placeholder="Pilih Jadwal Operasi"
-              label="label"
-              track-by="id"
-              :allow-empty="false"
-              @select="onJadwalSelected"
-            >
-            </multiselect>
-            <button
-              class="btn btn-primary ml-3"
-              @click="printForm"
-              :disabled="!selectedJadwal"
-            >
-              <i class="ri-printer-line"></i> Cetak Form
-            </button>
+            <multiselect v-model="selectedJadwal" :options="listJadwal" placeholder="Pilih Jadwal Operasi" label="label" track-by="id" :allow-empty="false" @select="onJadwalSelected"> </multiselect>
+            <button class="btn btn-primary ml-3" @click="printForm" :disabled="!selectedJadwal"><i class="ri-printer-line"></i> Cetak Form</button>
           </div>
         </div>
       </div>
       <div class="card-body pt-2">
-        <div class="alert alert-info" v-if="!selectedJadwal">
-          <i class="ri-information-line"></i> Silakan pilih jadwal operasi terlebih dahulu untuk menampilkan form persetujuan tindakan operasi.
-        </div>
+        <div class="alert alert-info" v-if="!selectedJadwal"><i class="ri-information-line"></i> Silakan pilih jadwal operasi terlebih dahulu untuk menampilkan form persetujuan tindakan operasi.</div>
 
         <!-- Form Persetujuan Tindakan Operasi -->
         <div id="printArea" class="print-area" v-if="selectedJadwal">
           <!-- Header Rumah Sakit -->
-          <table class="custom-table" style="width: 100%; border-collapse: collapse;">
+          <table class="custom-table" style="width: 100%; border-collapse: collapse">
             <tr>
-              <td rowspan="2" style="height: 60px; text-align: center; vertical-align: middle;">
-                <img src="/static/img/logo/baubau.png" alt="Logo RSUD" height="70px">
+              <td rowspan="2" style="height: 60px; text-align: center; vertical-align: middle">
+                <img src="/static/img/logo/baubau.png" alt="Logo RSUD" height="70px" />
               </td>
-              <td style="height: 25px; text-align: center; vertical-align: middle;">
-                <h5 style="font-weight: 600; font-size: 25px; line-height: 35px; margin: 0;">RUMAH SAKIT UMUM DAERAH BUTON SELATAN</h5>
+              <td style="height: 25px; text-align: center; vertical-align: middle">
+                <h5 style="font-weight: 600; font-size: 25px; line-height: 35px; margin: 0">RUMAH SAKIT UMUM DAERAH BUTON SELATAN</h5>
               </td>
             </tr>
             <tr>
-              <td style="height: 15px; text-align: center; vertical-align: middle;">
-                Jl. Gajah Mada Kec. Batauga Kab. Buton Selatan, Sulawesi Tenggara
-              </td>
+              <td style="height: 15px; text-align: center; vertical-align: middle">Jl. Gajah Mada Kec. Batauga Kab. Buton Selatan, Sulawesi Tenggara</td>
             </tr>
             <tr class="bg-dark">
-              <td colspan="2" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px; color: white;">
-                FORMULIR PERSETUJUAN TINDAKAN KEDOKTERAN - INFORMED CONSENT
-              </td>
+              <td colspan="2" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px; color: white">FORMULIR PERSETUJUAN TINDAKAN KEDOKTERAN - INFORMED CONSENT</td>
             </tr>
           </table>
-          <div style="margin-top: 20px;"></div>
+          <div style="margin-top: 20px"></div>
 
           <!-- Data Pasien -->
           <div class="row mb-4">
@@ -66,23 +45,23 @@
                   <tr>
                     <td width="20%"><strong>Nama Pasien</strong></td>
                     <td width="5%">:</td>
-                    <td>{{ selectedJadwal.nama_lengkap || '-' }}</td>
+                    <td>{{ selectedJadwal.nama_lengkap || "-" }}</td>
                     <td width="20%"><strong>No. RM</strong></td>
                     <td width="5%">:</td>
-                    <td>{{ selectedJadwal.no_rm || '-' }}</td>
+                    <td>{{ selectedJadwal.no_rm || "-" }}</td>
                   </tr>
                   <tr>
                     <td><strong>Umur</strong></td>
                     <td>:</td>
-                    <td>{{ selectedJadwal.umur || '-' }}</td>
+                    <td>{{ $_sys.dateToAge(selectedJadwal.tgl_lahir) || "-" }}</td>
                     <td><strong>Jenis Kelamin</strong></td>
                     <td>:</td>
-                    <td>{{ selectedJadwal.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                    <td>{{ selectedJadwal.jenis_kelamin === "L" ? "Laki-laki" : "Perempuan" }}</td>
                   </tr>
                   <tr>
-                    <td><strong>Alamat</strong></td>
+                    <td><strong>Alamat Sekarang</strong></td>
                     <td>:</td>
-                    <td colspan="4">{{ selectedJadwal.alamat || '-' }}</td>
+                    <td colspan="4">{{ selectedJadwal.alamat_sekarang || "-" }}</td>
                   </tr>
                   <tr>
                     <td><strong>Tanggal Operasi</strong></td>
@@ -90,7 +69,7 @@
                     <td>{{ formatDateTime(selectedJadwal.tanggal_operasi) }}</td>
                     <td><strong>Ruang</strong></td>
                     <td>:</td>
-                    <td>{{ selectedJadwal.nama_ruang || '-' }}</td>
+                    <td>{{ selectedJadwal.nama_ruang || "-" }}</td>
                   </tr>
                   <tr>
                     <td><strong>Diagnosa</strong></td>
@@ -106,7 +85,7 @@
                   <tr>
                     <td><strong>Tindakan Operasi</strong></td>
                     <td>:</td>
-                    <td colspan="4">{{ selectedJadwal.nama_jasa || '-' }}</td>
+                    <td colspan="4">{{ selectedJadwal.nama_jasa || "-" }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -122,12 +101,12 @@
                   <tr>
                     <td width="25%"><strong>Dokter pelaksana tindakan</strong></td>
                     <td>:</td>
-                    <td>{{ selectedJadwal.nama_dokter || '-' }}</td>
+                    <td>{{ selectedJadwal.nama_dokter || "-" }}</td>
                   </tr>
                   <tr>
                     <td><strong>Pemberi informasi</strong></td>
                     <td>:</td>
-                    <td>{{ selectedJadwal.nama_dokter || '-' }}</td>
+                    <td>{{ selectedJadwal.nama_dokter || "-" }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -170,7 +149,7 @@
                   <tr>
                     <td>3</td>
                     <td>Tindakan kedokteran</td>
-                    <td>{{ selectedJadwal.nama_jasa || '-' }}</td>
+                    <td>{{ selectedJadwal.nama_jasa || "-" }}</td>
                     <td class="text-center">☐</td>
                   </tr>
                   <tr>
@@ -234,14 +213,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, i) in dataMappingOperasi" :key="'mapping-'+i">
+                  <tr v-for="(item, i) in dataMappingOperasi" :key="'mapping-' + i">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ item.properties.bagian_tubuh || '-' }}</td>
-                    <td>{{ item.properties.keterangan || '-' }}</td>
+                    <td>{{ item.properties.bagian_tubuh || "-" }}</td>
+                    <td>{{ item.properties.keterangan || "-" }}</td>
                     <td class="text-center">
-                      <span class="badge badge-info">
-                        X: {{ item.properties.lat || '-' }}, Y: {{ item.properties.lng || '-' }}
-                      </span>
+                      <span class="badge badge-info"> X: {{ item.properties.lat || "-" }}, Y: {{ item.properties.lng || "-" }} </span>
                     </td>
                   </tr>
                 </tbody>
@@ -270,8 +247,8 @@
                     <td width="40%">
                       <div class="text-center">
                         <p class="mb-1"><strong>Tanda tangan</strong></p>
-                        <div class="signature-box" style="height: 60px; border-bottom: 1px solid #000;"></div>
-                        <p class="mb-0 mt-1">({{ selectedJadwal.nama_dokter || 'Dokter Pelaksana' }})</p>
+                        <div class="signature-box" style="height: 60px; border-bottom: 1px solid #000"></div>
+                        <p class="mb-0 mt-1">({{ selectedJadwal.nama_dokter || "Dokter Pelaksana" }})</p>
                       </div>
                     </td>
                   </tr>
@@ -291,8 +268,8 @@
                     <td width="40%">
                       <div class="text-center">
                         <p class="mb-1"><strong>Tanda tangan</strong></p>
-                        <div class="signature-box" style="height: 60px; border-bottom: 1px solid #000;"></div>
-                        <p class="mb-0 mt-1">({{ selectedJadwal.nama_lengkap || 'Pasien' }})</p>
+                        <div class="signature-box" style="height: 60px; border-bottom: 1px solid #000"></div>
+                        <p class="mb-0 mt-1">({{ selectedJadwal.nama_lengkap || "Pasien" }})</p>
                       </div>
                     </td>
                   </tr>
@@ -313,17 +290,19 @@
               <table class="table table-bordered">
                 <tbody>
                   <tr>
-                    <td colspan="2" class="text-center"><strong>Buton Selatan, {{ getCurrentDate() }} pukul {{ getCurrentTime() }}</strong></td>
+                    <td colspan="2" class="text-center">
+                      <strong>Buton Selatan, {{ getCurrentDate() }} pukul {{ getCurrentTime() }}</strong>
+                    </td>
                   </tr>
                   <tr>
                     <td width="50%" class="text-center">
                       <p class="mb-1"><strong>Yang menyatakan</strong></p>
-                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000; margin: 20px 0;"></div>
-                      <p class="mb-0">({{ selectedJadwal.nama_lengkap || 'Pasien/Keluarga' }})</p>
+                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000; margin: 20px 0"></div>
+                      <p class="mb-0">({{ selectedJadwal.nama_lengkap || "Pasien/Keluarga" }})</p>
                     </td>
                     <td width="50%" class="text-center">
                       <p class="mb-1"><strong>saksi</strong></p>
-                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000; margin: 20px 0;"></div>
+                      <div class="signature-box" style="height: 80px; border-bottom: 1px solid #000; margin: 20px 0"></div>
                       <p class="mb-0">(..........................................)</p>
                     </td>
                   </tr>
@@ -338,123 +317,123 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
-import moment from 'moment'
-import config from '@/config'
-moment.locale('id')
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.min.css";
+import moment from "moment";
+import config from "@/config";
+moment.locale("id");
 
 export default {
-  name: 'persetujuan_operasi',
+  name: "persetujuan_operasi",
   components: {
-    Multiselect
+    Multiselect,
   },
   data() {
     return {
       selectedJadwal: null,
       listJadwal: [],
       logoUrl: config.logo.lg,
-      dataMappingOperasi: []
-    }
+      dataMappingOperasi: [],
+    };
   },
   mounted() {
-    this.getJadwalOperasi()
+    this.getJadwalOperasi();
   },
   methods: {
     async getJadwalOperasi() {
       try {
-        const response = await this.$_api.post('jadwal_operasi/list')
+        const response = await this.$_api.post("jadwal_operasi/list");
         if (response.status) {
-          this.listJadwal = response.data.map(item => ({
+          this.listJadwal = response.data.map((item) => ({
             id: item.jadwal_operasi_id,
-            label: `${item.tanggal_operasi.split('T')[0]} - ${item.nama_lengkap} (${item.no_kunjungan})`,
-            ...item
-          }))
+            label: `${item.tanggal_operasi.split("T")[0]} - ${item.nama_lengkap} (${item.no_kunjungan})`,
+            ...item,
+          }));
         }
       } catch (error) {
-        console.error('Error fetching jadwal operasi:', error)
-        this.$store.commit('set_alert', {
+        console.error("Error fetching jadwal operasi:", error);
+        this.$store.commit("set_alert", {
           variant: "danger",
           msg: "Gagal memuat data jadwal operasi",
-          showing: true
-        })
+          showing: true,
+        });
       }
     },
     onJadwalSelected(jadwal) {
-      this.selectedJadwal = jadwal
-      this.loadMappingData(jadwal.jadwal_operasi_id)
+      this.selectedJadwal = jadwal;
+      this.loadMappingData(jadwal.jadwal_operasi_id);
     },
     formatDateTime(date) {
-      return date ? moment(date).format('DD MMMM YYYY, HH:mm') : '-'
+      return date ? moment(date).format("DD MMMM YYYY, HH:mm") : "-";
     },
     getCurrentDate() {
-      return moment().format('DD MMMM YYYY')
+      return moment().format("DD MMMM YYYY");
     },
     getCurrentTime() {
-      return moment().format('HH:mm')
+      return moment().format("HH:mm");
     },
     async loadMappingData(jadwalOperasiId) {
       try {
         // Reset data mapping
-        this.dataMappingOperasi = []
+        this.dataMappingOperasi = [];
 
-        if (!jadwalOperasiId) return
+        if (!jadwalOperasiId) return;
 
         // Cek apakah jadwal yang dipilih sudah ada data mapping
         if (this.selectedJadwal && this.selectedJadwal.data_mapping_operasi) {
-          const existingMapping = Array.isArray(this.selectedJadwal.data_mapping_operasi)
-            ? this.selectedJadwal.data_mapping_operasi
-            : []
+          const existingMapping = Array.isArray(this.selectedJadwal.data_mapping_operasi) ? this.selectedJadwal.data_mapping_operasi : [];
 
           // Format data mapping ke struktur yang konsisten
-          const formattedMapping = existingMapping.map(item => {
-            if (typeof item === 'object' && item !== null) {
-              // If item is already in the correct GeoJSON format
-              if (item.type === 'Feature' && item.geometry && item.properties) {
-                return item
-              }
-              // If item is in a different format, convert it to GeoJSON
-              else if (item.lat && item.lng) {
-                return {
-                  "type": "Feature",
-                  "geometry": {
-                    "type": "Point",
-                    "coordinates": [item.lng, item.lat]
-                  },
-                  "properties": {
-                    bagian_tubuh: item.bagian_tubuh || '',
-                    keterangan: item.keterangan || '',
-                    lat: item.lat,
-                    lng: item.lng
-                  }
+          const formattedMapping = existingMapping
+            .map((item) => {
+              if (typeof item === "object" && item !== null) {
+                // If item is already in the correct GeoJSON format
+                if (item.type === "Feature" && item.geometry && item.properties) {
+                  return item;
+                }
+                // If item is in a different format, convert it to GeoJSON
+                else if (item.lat && item.lng) {
+                  return {
+                    type: "Feature",
+                    geometry: {
+                      type: "Point",
+                      coordinates: [item.lng, item.lat],
+                    },
+                    properties: {
+                      bagian_tubuh: item.bagian_tubuh || "",
+                      keterangan: item.keterangan || "",
+                      lat: item.lat,
+                      lng: item.lng,
+                    },
+                  };
                 }
               }
-            }
-            return null
-          }).filter(Boolean) // Remove null items
+              return null;
+            })
+            .filter(Boolean); // Remove null items
 
-          this.dataMappingOperasi = formattedMapping
+          this.dataMappingOperasi = formattedMapping;
         }
       } catch (error) {
-        console.error('Error loading mapping data:', error)
-        this.$store.commit('set_alert', {
+        console.error("Error loading mapping data:", error);
+        this.$store.commit("set_alert", {
           variant: "warning",
           msg: "Gagal memuat data mapping operasi",
-          showing: true
-        })
+          showing: true,
+        });
       }
     },
     printForm() {
       if (!this.selectedJadwal) {
-        this.$store.commit('set_alert', {
+        this.$store.commit("set_alert", {
           variant: "warning",
           msg: "Silakan pilih jadwal operasi terlebih dahulu",
-          showing: true
-        })
-        return
+          showing: true,
+        });
+        return;
       }
 
-      const printContent = document.getElementById('printArea').innerHTML
+      const printContent = document.getElementById("printArea").innerHTML;
 
       // Create print-friendly HTML
       const printHTML = `
@@ -533,27 +512,27 @@ export default {
           ${printContent}
         </body>
         </html>
-      `
+      `;
 
       // Open print window
-      const printWindow = window.open('', '_blank')
-      printWindow.document.write(printHTML)
-      printWindow.document.close()
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(printHTML);
+      printWindow.document.close();
 
       // Wait for content to load before printing
-      printWindow.onload = function() {
-        printWindow.print()
-        printWindow.close()
-      }
+      printWindow.onload = function () {
+        printWindow.print();
+        printWindow.close();
+      };
 
-      this.$store.commit('set_alert', {
+      this.$store.commit("set_alert", {
         variant: "success",
         msg: "Form persetujuan tindakan operasi siap untuk dicetak",
-        showing: true
-      })
-    }
-  }
-}
+        showing: true,
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
