@@ -973,6 +973,45 @@ export default {
       }
     },
 
+    async updateStatus(item) {
+      if (!item || !item.id) {
+        this.$_alert.error({}, "Tidak ada data untuk diperbarui");
+        return;
+      }
+
+      // Store previous value for rollback
+      const previousStatus = item.status;
+      item.updatingStatus = true;
+
+      try {
+        const response = await this.$_api.post("observasi/updateStatus", {
+          id: item.id,
+          status: item.status
+        });
+
+        this.$_alert.success({}, response.message || "Status berhasil diperbarui");
+
+        // Refresh list to get updated data
+        await this.loadObservasiData();
+      } catch (error) {
+        console.error("Error updating status:", error);
+
+        // Rollback to previous value
+        item.status = previousStatus;
+
+        let message = "Gagal memperbarui status";
+        if (error.response && error.response.data && error.response.data.message) {
+          message = error.response.data.message;
+        } else if (error.message) {
+          message = error.message;
+        }
+
+        this.$_alert.error({}, message);
+      } finally {
+        item.updatingStatus = false;
+      }
+    },
+
     startCreate() {
       this.isFormMode = true;
       this.selectedObservasi = null;
