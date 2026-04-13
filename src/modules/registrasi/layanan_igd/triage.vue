@@ -267,7 +267,7 @@
       </div>
     </div>
 
-    <div id="cetak-triage-igd" style="position: relative">
+    <div id="cetak-triage-igd" style="position: relative; display: none">
       <div size="A4">
         <div class="" style="align-items: center; width: 99%; margin-bottom: 10px">
           <!-- KOP -->
