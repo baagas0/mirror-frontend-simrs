@@ -1442,6 +1442,7 @@ export default {
         obat: "",
         tindakan: "",
         keputusan_akhir: "",
+        status: "Belum Selesai",
       };
     },
 
