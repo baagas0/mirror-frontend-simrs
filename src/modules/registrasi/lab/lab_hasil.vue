@@ -517,6 +517,7 @@ export default {
                       { label: "pmol/L", code: "pmol/L", description: "pmol/L" },
                       { label: "ng/mL", code: "ng/mL", description: "ng/mL" },
                       { label: "Menit", code: "Menit", description: "Menit" },
+                      { label: "-", code: "-", description: "-" },
                     ],
                     display: ["label", "code"],
                     headerDisplay: ["Label Satuan", ""], // (opsional) pastikan jumlah key sama dengan 'diplay', kalau kosong tidak ada header
