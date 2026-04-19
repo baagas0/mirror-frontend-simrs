@@ -6,7 +6,7 @@
           <div class="d-flex align-items-center flex-wrap">
             <div class="flex-grow-1">
               <h2 class="font-weight-boldest text-dark mb-0">Dashboard</h2>
-              <p class="text-muted font-size-sm">Statistik pasien dan kunjungan poliklinik</p>
+              <p class="text-muted font-size-sm">Statistik pasien, kunjungan poliklinik, dan ketersediaan bed</p>
             </div>
             <!-- Global Date Filter -->
             <div class="flex-shrink-0">
@@ -54,6 +54,306 @@
                       </div>
                     </div>
                   </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bed Availability Dashboard -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-custom card-stretch gutter-b">
+            <div class="card-header border-0 pt-5">
+              <div class="card-title">
+                <div class="card-label">
+                  <div class="font-weight-boldest text-dark">Dashboard Ketersediaan Bed</div>
+                  <div class="font-size-sm text-muted mt-1">Pantau sisa bed, okupansi, dan ketersediaan per ruang secara realtime</div>
+                </div>
+              </div>
+              <div class="card-toolbar">
+                <div class="d-flex align-items-center flex-wrap justify-content-end">
+                  <span class="label label-light-info label-inline font-weight-bolder mr-3 mb-2 mb-sm-0">
+                    {{ getBedDashboardScopeLabel() }}
+                  </span>
+                  <button class="btn btn-sm btn-light-primary font-weight-bolder" type="button" @click="getBedDashboard">
+                    <i class="ri-refresh-line"></i>
+                    Refresh
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pt-3">
+              <form @submit.prevent="applyBedDashboardFilter" autocomplete="off">
+                <div class="row">
+                  <div class="col-xl-2 col-lg-3 col-md-6 mb-5">
+                    <s-input
+                      groupClass="mb-0"
+                      v-model="bedDashboardFilter.kode_jenis_layanan"
+                      :item="{
+                        label: 'Jenis Layanan',
+                        id: 'bed_kode_jenis_layanan',
+                        data: 'bed_kode_jenis_layanan',
+                        type: 'lookup-radio',
+                        value: bedDashboardFilter.kode_jenis_layanan,
+                        pointer: {
+                          label: 'label',
+                          code: 'code',
+                          display: ['label'],
+                          list: [
+                            { label: 'Semua Layanan', code: '' },
+                            { label: 'Rawat Inap', code: 'RINAP' },
+                            { label: 'IGD', code: 'IGD' },
+                            { label: 'Rawat Jalan', code: 'RJALAN' },
+                          ],
+                        },
+                        param: {},
+                      }"
+                      :valuee="bedDashboardFilter.kode_jenis_layanan" />
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-6 mb-5">
+                    <s-input
+                      groupClass="mb-0"
+                      v-model="bedDashboardFilter.status_bed"
+                      :item="{
+                        label: 'Status Bed',
+                        id: 'bed_status_bed',
+                        data: 'bed_status_bed',
+                        type: 'lookup-radio',
+                        value: bedDashboardFilter.status_bed,
+                        pointer: {
+                          label: 'label',
+                          code: 'code',
+                          display: ['label'],
+                          list: [
+                            { label: 'Semua Status', code: '' },
+                            { label: 'Bed Aktif', code: 1 },
+                            { label: 'Bed Nonaktif', code: 0 },
+                          ],
+                        },
+                        param: {},
+                      }"
+                      :valuee="bedDashboardFilter.status_bed" />
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-6 mb-5">
+                    <s-input
+                      groupClass="mb-0"
+                      v-model="bedDashboardFilter.ms_ruang_id"
+                      :item="{
+                        label: 'Ruang',
+                        id: 'bed_ms_ruang_id',
+                        data: 'bed_ms_ruang_id',
+                        type: 'lookup-radio',
+                        value: bedDashboardFilter.ms_ruang_id,
+                        api: 'msRuang',
+                        getter: 'msRuang',
+                        setter: 'msRuang',
+                        pointer: {
+                          label: 'nama_ruang',
+                          code: 'id',
+                          display: ['nama_ruang'],
+                          headerDisplay: ['Ruang'],
+                        },
+                        param: {},
+                      }"
+                      :valuee="bedDashboardFilter.ms_ruang_id"
+                      @input="onBedRuangChange" />
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-6 mb-5">
+                    <s-input
+                      groupClass="mb-0"
+                      v-model="bedDashboardFilter.ms_kamar_id"
+                      :item="{
+                        label: 'Kamar',
+                        id: 'bed_ms_kamar_id',
+                        data: 'bed_ms_kamar_id',
+                        type: 'lookup-radio',
+                        value: bedDashboardFilter.ms_kamar_id,
+                        api: 'msKamar',
+                        getter: 'msKamar',
+                        setter: 'msKamar',
+                        pointer: {
+                          label: 'nama_kamar',
+                          code: 'ms_kamar_id',
+                          display: ['nama_kamar', 'nama_ruang'],
+                          headerDisplay: ['Kamar', 'Ruang'],
+                        },
+                        param: bedDashboardFilter.ms_ruang_id ? { ms_ruang_id: bedDashboardFilter.ms_ruang_id } : {},
+                      }"
+                      :valuee="bedDashboardFilter.ms_kamar_id" />
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-6 mb-5">
+                    <s-input
+                      groupClass="mb-0"
+                      v-model="bedDashboardFilter.ms_kelas_kamar_id"
+                      :item="{
+                        label: 'Kelas Kamar',
+                        id: 'bed_ms_kelas_kamar_id',
+                        data: 'bed_ms_kelas_kamar_id',
+                        type: 'lookup-radio',
+                        value: bedDashboardFilter.ms_kelas_kamar_id,
+                        api: 'msKelasKamar',
+                        getter: 'msKelasKamar',
+                        setter: 'msKelasKamar',
+                        pointer: {
+                          label: 'nama_kelas_kamar',
+                          code: 'id',
+                          display: ['nama_kelas_kamar'],
+                          headerDisplay: ['Kelas Kamar'],
+                        },
+                        param: {},
+                      }"
+                      :valuee="bedDashboardFilter.ms_kelas_kamar_id" />
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-6 mb-5 d-flex align-items-end">
+                    <div class="d-flex flex-wrap w-100 bed-filter-actions">
+                      <button type="submit" class="btn btn-primary font-weight-bolder mr-2 mb-2">
+                        <i class="ri-search-line"></i>
+                        Terapkan
+                      </button>
+                      <button type="button" class="btn btn-light-danger font-weight-bolder mb-2" @click="resetBedDashboardFilter">
+                        <i class="ri-refresh-line"></i>
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <div class="row mb-6">
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="bed-summary-card bg-light-success rounded-xl px-6 py-6 h-100">
+                    <div class="d-flex align-items-start justify-content-between">
+                      <div>
+                        <div class="font-size-sm text-muted text-uppercase">Sisa Bed Tersedia</div>
+                        <div class="font-weight-boldest font-size-h1 text-success mt-2">{{ bedDashboardSummary.sisa_bed_tersedia }}</div>
+                        <div class="font-size-sm text-muted mt-2">Dari {{ bedDashboardSummary.total_bed_aktif }} bed aktif</div>
+                      </div>
+                      <div class="bed-summary-icon text-success">
+                        <i class="ri-hotel-bed-line"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="bed-summary-card bg-light-warning rounded-xl px-6 py-6 h-100">
+                    <div class="d-flex align-items-start justify-content-between">
+                      <div>
+                        <div class="font-size-sm text-muted text-uppercase">Bed Terpakai</div>
+                        <div class="font-weight-boldest font-size-h1 text-warning mt-2">{{ bedDashboardSummary.bed_terpakai }}</div>
+                        <div class="font-size-sm text-muted mt-2">Pasien masih menempati bed aktif</div>
+                      </div>
+                      <div class="bed-summary-icon text-warning">
+                        <i class="ri-user-heart-line"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="bed-summary-card bg-light-primary rounded-xl px-6 py-6 h-100">
+                    <div class="d-flex align-items-start justify-content-between">
+                      <div>
+                        <div class="font-size-sm text-muted text-uppercase">Total Bed Aktif</div>
+                        <div class="font-weight-boldest font-size-h1 text-primary mt-2">{{ bedDashboardSummary.total_bed_aktif }}</div>
+                        <div class="font-size-sm text-muted mt-2">Total bed: {{ bedDashboardSummary.total_bed }}</div>
+                      </div>
+                      <div class="bed-summary-icon text-primary">
+                        <i class="ri-hospital-line"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="bed-summary-card bg-light-danger rounded-xl px-6 py-6 h-100">
+                    <div class="d-flex align-items-start justify-content-between">
+                      <div class="w-100">
+                        <div class="font-size-sm text-muted text-uppercase">Persentase Okupansi</div>
+                        <div class="font-weight-boldest font-size-h1 text-danger mt-2">{{ formatBedPercentage(bedDashboardSummary.persentase_okupansi) }}%</div>
+                        <div class="progress progress-xs mt-4">
+                          <div
+                            class="progress-bar bg-danger"
+                            role="progressbar"
+                            :style="{ width: `${Math.min(100, Number(bedDashboardSummary.persentase_okupansi) || 0)}%` }"
+                            :aria-valuenow="Number(bedDashboardSummary.persentase_okupansi) || 0"
+                            aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="font-size-sm text-muted mt-3">Bed nonaktif: {{ bedDashboardSummary.bed_nonaktif }}</div>
+                      </div>
+                      <div class="bed-summary-icon text-danger ml-4">
+                        <i class="ri-line-chart-line"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card bed-room-table-card border-0">
+                <div class="card-header px-0 pt-0 pb-4 border-0">
+                  <div class="card-title mb-0">
+                    <div class="card-label">
+                      <div class="font-weight-bold text-dark">Rincian Per Ruang</div>
+                      <div class="font-size-sm text-muted mt-1">{{ bedDashboardSummary.per_ruang.length }} ruang sesuai filter aktif</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body px-0 py-0">
+                  <div class="table-responsive">
+                    <b-table
+                      :items="bedDashboardSummary.per_ruang"
+                      :fields="fieldsBedPerRuang"
+                      responsive
+                      show-empty
+                      hover
+                      :busy="busyBedDashboard"
+                      class="table table-head-custom table-vertical-center mb-0"
+                      thead-class="bg-light"
+                    >
+                      <template #cell(nama_ruang)="data">
+                        <span class="font-weight-bold text-dark">{{ data.value || '-' }}</span>
+                      </template>
+                      <template #cell(bed_tersedia)="data">
+                        <span class="label label-lg label-light-success label-inline font-weight-bolder">{{ data.value }}</span>
+                      </template>
+                      <template #cell(bed_terpakai)="data">
+                        <span class="label label-lg label-light-warning label-inline font-weight-bolder">{{ data.value }}</span>
+                      </template>
+                      <template #cell(total_bed_aktif)="data">
+                        <span class="label label-lg label-light-primary label-inline font-weight-bolder">{{ data.value }}</span>
+                      </template>
+                      <template #cell(bed_nonaktif)="data">
+                        <span class="label label-lg label-light-danger label-inline font-weight-bolder">{{ data.value }}</span>
+                      </template>
+                      <template #cell(persentase_okupansi)="data">
+                        <div class="d-flex align-items-center">
+                          <span class="font-weight-bolder text-dark mr-3">{{ formatBedPercentage(data.value) }}%</span>
+                          <div class="progress progress-xs flex-grow-1">
+                            <div
+                              class="progress-bar"
+                              :class="getBedOccupancyBarClass(data.value)"
+                              role="progressbar"
+                              :style="{ width: `${Math.min(100, Number(data.value) || 0)}%` }"
+                              :aria-valuenow="Number(data.value) || 0"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </template>
+                      <template #empty>
+                        <div class="text-center py-8">
+                          <i class="ri-hotel-bed-line display-4 text-muted"></i>
+                          <p class="text-muted mt-2">Belum ada data ketersediaan bed untuk filter ini</p>
+                        </div>
+                      </template>
+                      <template #table-busy>
+                        <div class="text-center py-8">
+                          <div class="spinner spinner-primary spinner-lg"></div>
+                          <p class="text-muted mt-2">Memuat ringkasan bed...</p>
+                        </div>
+                      </template>
+                    </b-table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -124,7 +424,7 @@
                   <div class="bg-light-info px-6 py-8 rounded-xl">
                     <div class="row align-items-center">
                       <div class="col-6">
-                        <div class="font-weight-boldest font-size-h3 text-info">{{ Math.max(...series[0].data) || 0 }}</div>
+                        <div class="font-weight-boldest font-size-h3 text-info">{{ series[0].data.length ? Math.max(...series[0].data) : 0 }}</div>
                         <div class="font-size-sm text-muted">Kunjungan Poli Tertinggi</div>
                       </div>
                       <div class="col-6 text-right">
@@ -504,6 +804,26 @@
 <script>
   import moment from 'moment'
   moment.locale('id')
+
+  const createDefaultBedDashboardFilter = () => ({
+    ms_ruang_id: '',
+    ms_kamar_id: '',
+    ms_kelas_kamar_id: '',
+    kode_jenis_layanan: 'RINAP',
+    status_bed: '',
+  })
+
+  const createDefaultBedDashboardSummary = () => ({
+    total_bed: 0,
+    total_bed_aktif: 0,
+    bed_tersedia: 0,
+    bed_terpakai: 0,
+    bed_nonaktif: 0,
+    sisa_bed_tersedia: 0,
+    persentase_okupansi: 0,
+    per_ruang: [],
+  })
+
   export default {
     name: 'summary-maps',
     components: {
@@ -720,11 +1040,46 @@
     data () {
       return {
         busy: false,
+        busyBedDashboard: false,
         // Global Filter
         globalFilter: {
           tanggal_awal: new Date(),
           tanggal_akhir: new Date(),
         },
+        bedDashboardFilter: createDefaultBedDashboardFilter(),
+        bedDashboardSummary: createDefaultBedDashboardSummary(),
+        fieldsBedPerRuang: [
+          {
+            key: 'nama_ruang',
+            label: 'Ruang',
+            class: 'align-middle text-left',
+          },
+          {
+            key: 'bed_tersedia',
+            label: 'Bed Tersedia',
+            class: 'align-middle text-left',
+          },
+          {
+            key: 'bed_terpakai',
+            label: 'Bed Terpakai',
+            class: 'align-middle text-left',
+          },
+          {
+            key: 'total_bed_aktif',
+            label: 'Bed Aktif',
+            class: 'align-middle text-left',
+          },
+          {
+            key: 'bed_nonaktif',
+            label: 'Bed Nonaktif',
+            class: 'align-middle text-left',
+          },
+          {
+            key: 'persentase_okupansi',
+            label: 'Okupansi',
+            class: 'align-middle text-left',
+          },
+        ],
         dataFilterKunjunganPoli: {
           tanggal_awal: new Date(),
           tanggal_akhir: new Date(),
@@ -1010,6 +1365,7 @@
       // Load initial data
       vm.refreshAllData();
       vm.getDataPasienByPoli()
+      vm.getBedDashboard()
 
       // setTimeout(() => {
       //   console.log('init Chart')
@@ -1036,6 +1392,114 @@
       }
     },
     methods: {
+      createDefaultBedDashboardFilter,
+      createDefaultBedDashboardSummary,
+
+      getBedDashboardScopeLabel() {
+        return this.getBedServiceLabel(this.bedDashboardFilter.kode_jenis_layanan);
+      },
+
+      getBedServiceLabel(code) {
+        const labels = {
+          RINAP: 'Rawat Inap',
+          IGD: 'IGD',
+          RJALAN: 'Rawat Jalan',
+        };
+
+        return labels[code] || 'Semua Layanan';
+      },
+
+      formatBedPercentage(value) {
+        const numericValue = Number(value);
+
+        if (!Number.isFinite(numericValue)) return '0.00';
+        return numericValue.toFixed(2);
+      },
+
+      getBedOccupancyBarClass(value) {
+        const numericValue = Number(value) || 0;
+
+        if (numericValue >= 85) return 'bg-danger';
+        if (numericValue >= 60) return 'bg-warning';
+        return 'bg-success';
+      },
+
+      onBedRuangChange() {
+        this.bedDashboardFilter.ms_kamar_id = '';
+      },
+
+      applyBedDashboardFilter() {
+        this.getBedDashboard();
+      },
+
+      resetBedDashboardFilter() {
+        this.bedDashboardFilter = createDefaultBedDashboardFilter();
+        this.getBedDashboard();
+      },
+
+      buildBedDashboardPayload() {
+        const payload = {};
+
+        if (this.bedDashboardFilter.ms_ruang_id) payload.ms_ruang_id = this.bedDashboardFilter.ms_ruang_id;
+        if (this.bedDashboardFilter.ms_kamar_id) payload.ms_kamar_id = this.bedDashboardFilter.ms_kamar_id;
+        if (this.bedDashboardFilter.ms_kelas_kamar_id) payload.ms_kelas_kamar_id = this.bedDashboardFilter.ms_kelas_kamar_id;
+        if (this.bedDashboardFilter.kode_jenis_layanan) payload.kode_jenis_layanan = this.bedDashboardFilter.kode_jenis_layanan;
+        if (this.bedDashboardFilter.status_bed !== '' && this.bedDashboardFilter.status_bed !== null && this.bedDashboardFilter.status_bed !== undefined) {
+          payload.status_bed = Number(this.bedDashboardFilter.status_bed);
+        }
+
+        return payload;
+      },
+
+      normalizeBedDashboardSummary(data = {}) {
+        const baseSummary = createDefaultBedDashboardSummary();
+
+        return {
+          total_bed: Number(data.total_bed) || 0,
+          total_bed_aktif: Number(data.total_bed_aktif) || 0,
+          bed_tersedia: Number(data.bed_tersedia) || 0,
+          bed_terpakai: Number(data.bed_terpakai) || 0,
+          bed_nonaktif: Number(data.bed_nonaktif) || 0,
+          sisa_bed_tersedia: Number(data.sisa_bed_tersedia) || 0,
+          persentase_okupansi: Number(data.persentase_okupansi) || 0,
+          per_ruang: Array.isArray(data.per_ruang)
+            ? data.per_ruang.map((item) => {
+                const totalBedAktif = Number(item.total_bed_aktif) || 0;
+                const bedTerpakai = Number(item.bed_terpakai) || 0;
+
+                return {
+                  ...item,
+                  total_bed: Number(item.total_bed) || 0,
+                  total_bed_aktif: totalBedAktif,
+                  bed_tersedia: Number(item.bed_tersedia) || 0,
+                  bed_terpakai: bedTerpakai,
+                  bed_nonaktif: Number(item.bed_nonaktif) || 0,
+                  persentase_okupansi: totalBedAktif > 0 ? Number(((bedTerpakai / totalBedAktif) * 100).toFixed(2)) : 0,
+                };
+              })
+            : baseSummary.per_ruang,
+        };
+      },
+
+      async getBedDashboard() {
+        this.busyBedDashboard = true;
+
+        try {
+          const res = await this.$_api.post('dashboard/ketersediaan_bed', this.buildBedDashboardPayload());
+
+          if (res.status === 200) {
+            this.bedDashboardSummary = this.normalizeBedDashboardSummary(res.data || {});
+          } else {
+            this.$_alert.success(res.message || 'Gagal memuat data ketersediaan bed');
+          }
+        } catch (error) {
+          this.$_alert.success('Terjadi Kelasalahan System');
+          console.log(error);
+        } finally {
+          this.busyBedDashboard = false;
+        }
+      },
+
       // Global Filter Methods
       applyGlobalFilter() {
         // Update all individual filters with global filter values
@@ -1929,9 +2393,37 @@
     font-size: 0.75rem !important;
   }
 
+  .bed-summary-card {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+
+  .bed-summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(76, 87, 125, 0.12);
+  }
+
+  .bed-summary-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .bed-room-table-card {
+    background: transparent;
+  }
+
+  .bed-filter-actions .btn {
+    min-width: 110px;
+  }
+
   @media (max-width: 768px) {
     .chart-container {
       min-height: 250px !important;
+    }
+
+    .bed-filter-actions .btn {
+      width: 100%;
+      margin-right: 0 !important;
     }
   }
   </style>
