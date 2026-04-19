@@ -347,9 +347,15 @@
                                           id: 'satuan_jual',
                                           data: 'satuan_jual',
                                           hint: '',
-                                          type: 'text',
+                                          type: 'lookup-radio',
                                           validation: [],
                                           value: fObatJadi.satuan_jual,
+                                          api: 'msSatuanBarang',
+                                          pointer: {
+                                            label: 'nama_satuan',
+                                            code: 'nama_satuan',
+                                            display: ['nama_satuan'],
+                                          },
                                           param: {},
                                         }"
                                         :valuee="fObatJadi.satuan_jual" />
@@ -364,9 +370,15 @@
                                           id: 'satuan_pakai',
                                           data: 'satuan_pakai',
                                           hint: '',
-                                          type: 'text',
+                                          type: 'lookup-radio',
                                           validation: [],
                                           value: fObatJadi.satuan_pakai,
+                                          api: 'msSatuanBarang',
+                                          pointer: {
+                                            label: 'nama_satuan',
+                                            code: 'nama_satuan',
+                                            display: ['nama_satuan'],
+                                          },
                                           param: {},
                                         }"
                                         :valuee="fObatJadi.satuan_pakai" />

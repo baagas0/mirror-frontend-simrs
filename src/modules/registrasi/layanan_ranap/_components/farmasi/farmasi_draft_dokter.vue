@@ -90,9 +90,15 @@
                     label: 'Satuan',
                     id: 'awal_satuan',
                     data: 'awal_satuan',
-                    type: 'text',
+                    type: 'lookup-radio',
                     validation: ['required'],
                     value: mData.awal_satuan,
+                    api: 'msSatuanBarang',
+                    pointer: {
+                      label: 'nama_satuan',
+                      code: 'nama_satuan',
+                      display: ['nama_satuan'],
+                    },
                     param: {},
                   }" :valuee="mData.awal_satuan" />
                 </div>

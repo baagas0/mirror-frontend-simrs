@@ -124,9 +124,15 @@
                       id: 'satuan_jual',
                       data: 'satuan_jual',
                       hint: '',
-                      type: 'text',
+                      type: 'lookup-radio',
                       validation: ['required'],
                       value: dataObject.satuan_jual,
+                      api: 'msSatuanBarang',
+                      pointer: {
+                        label: 'nama_satuan',
+                        code: 'nama_satuan',
+                        display: ['nama_satuan'],
+                      },
                       param: {},
                     }" :disabled="true" :valuee="dataObject.satuan_jual" />
                   </div>
