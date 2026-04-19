@@ -281,10 +281,10 @@
                       id: 'lingkar_kepala',
                       data: 'lingkar_kepala',
                       value: mData.lingkar_kepala,
-                      type: 'number',
+                      type: 'decimal',
                       suffix: 'cm',
                       class: '',
-                      validation: ['required'],
+                      validation: [],
                     }"
                     :valuee="mData.lingkar_kepala" />
                 </div>
