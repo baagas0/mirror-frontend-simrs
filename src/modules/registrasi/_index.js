@@ -49,6 +49,7 @@ const module = {
 
     // Layanan R Inap
     { name: 'Layanan RInap CPPT', label: 'Layanan RInap CPPT', icon: null, path: '/layanan_ranap/cppt', component: () => import('./layanan_ranap/cppt.vue') },
+    { name: 'Layanan RInap CPPT Perawat', label: 'Layanan RInap CPPT Perawat', icon: null, path: '/layanan_ranap/cppt_perawat', component: () => import('./layanan_ranap/cppt.vue'), props: { fixedKodeTipeTenagaMedis: 'PRW' } },
     { name: 'Layanan RInap Keperawatan', label: 'Layanan RInap Keperawatan', icon: null, path: '/layanan_ranap/ev_im_keperawatan', component: () => import('./layanan_ranap/ev_im_keperawatan.vue') },
     { name: 'Layanan RInap resume medis', label: 'Layanan RInap resume medis', icon: null, path: '/layanan_ranap/resume_medis', component: () => import('./layanan_ranap/medis.vue') },
     { name: 'Layanan RInap casemix resume medis', label: 'Layanan RInap casemix resume medis', icon: null, path: '/layanan_ranap/casemix_resume_medis', component: () => import('./layanan_ranap/casemix_medis.vue') },
