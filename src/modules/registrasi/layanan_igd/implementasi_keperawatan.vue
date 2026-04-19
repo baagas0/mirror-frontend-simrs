@@ -1,220 +1,113 @@
-<template lang="">
-  <div class="container-fluid row">
-    <div class="col-12">
-      <!-- OVERVIEW Registrasi -->
-      <div v-if="registrasi" class="card card-custom bgi-no-repeat gutter-b dropright evaluasi-keperawatan-active" >
-        <div class="card-body d-flex align-items-center p-3">
+<template>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div v-if="op.registrasi_id" class="card card-custom bgi-no-repeat gutter-b dropright implementasi-keperawatan-active">
+          <div class="card-body d-flex align-items-center p-3">
             <div class="py-2 w-100">
-                <div class="d-flex flex-row justify-content-start align-items-center" style="gap: 5px">
-                  <div class="label label-pill label-inline label-warning">{{ registrasi.nama_asuransi }}</div>
-                  <p class="text-white font-size-md pb-0 mb-0 ">{{ registrasi.no_identitas_registrasi }}</p>
-                </div>
-                <h3 class="text-white font-weight-bolder">Pasien : {{ registrasi.nama_lengkap }}</h3>
-
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                  <div>
-                    <p class="text-white font-size-lg pb-0 mb-0">{{ registrasi.nama_jenis_layanan }}</p>
-                  </div>
-                </div>
-            </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="card">
-        <div class="card-header p-3 d-flex flex-row align-items-center justify-content-between h-50px">
-          <div class="d-flex flex-row align-items-center justify-content-between">
-            <!-- DAFTAR EVALUASI -->
-            <h5 class="font-weight-bolder text-dark mb-0 pb-0">EVALUASI KEPERAWATAN</h5>
-            
-          </div>
-        </div>
-        <div class="card-body p-3">
-          <div class="">
-            <div class="d-flex flex-row justify-content-between">
-              <button class="btn btn btn-primary h-40px mb-3" @click="action('create-evaluasi', null)" :disabled="!op.registrasi_id">
-                <i class="ri-add-circle-line p-0"></i>
-                Tambah
-              </button>
-            </div>
-          </div>
-          
-          <div v-if="!op.registrasi_id && listEvaluasiKeperawatan.length === 0" class="flex-grow-1 bg-danger p-8 rounded-xl flex-grow-1 bgi-no-repeat" style="background-position: calc(100% + 0.5rem) bottom; background-size: auto 70%; background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo10/dist/assets/media/svg/humans/custom-3.svg)">
-            <h4 class="text-inverse-danger mt-2 font-weight-bolder">Oooops...</h4>
-            <p class="text-inverse-danger my-6">
-                Pilih dulu registrasi terlebih dahulu
-            </p>
-          </div>
-
-          <template v-for="(item, i) in listEvaluasiKeperawatan">
-            <div :key="'list-evaluasi-keperawatan'+i" class="card card-custom bgi-no-repeat gutter-b dropright" :class="{ 'evaluasi-keperawatan-active': item.status_evaluasi_keperawatan, 'bg-gray-500': !item.status_evaluasi_keperawatan, 'card-active': evaluasiActiveID === item.id }">
-              <!--begin::Body-->
-              <div class="card-body d-flex align-items-center p-3" style="cursor: pointer" @click="$refs['action-evaluasi-'+item.id][0].show()">
-                  <div class="py-2 w-100">
-                      <div class="d-flex flex-row justify-content-start align-items-center" style="gap: 5px">
-                        <div class="label label-pill label-inline" :class="{ 'label-warning': item.status_evaluasi_keperawatan, 'label-danger': !item.status_evaluasi_keperawatan }">{{ item.status_evaluasi_keperawatan ? 'Aktif' : 'Non Aktif' }}</div>
-                        <p class="text-white font-size-md pb-0 mb-0 ">{{ item.waktu_evaluasi | parse('longDateTime') }}</p>
-                      </div>
-                      <!-- <h3 class="text-white font-weight-bolder">{{ item.user.username || '-' }}</h3> -->
-                      <h3 class="text-white font-weight-bolder">{{ item.ms_dokter ? item.ms_dokter.nama_dokter : '-' }}</h3>
-  
-                      <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div>
-                          <p class="text-white font-size-lg pb-0 mb-0">{{ item.tindak_lanjut }}</p>
-                        </div>
-                        <b-dropdown dropright text="Pilih Evaluasi" :ref="'action-evaluasi-'+item.id" variant="primary" class="m-2" toggle-class="btn-sm p-1" >
-                          <b-dropdown-item @click="action('update-evaluasi', item.id)" :disabled="!item.status_evaluasi_keperawatan">Edit</b-dropdown-item>
-                          <b-dropdown-item @click="action('implementasi', item.id)">Implementasi</b-dropdown-item>
-                        </b-dropdown>
-                      </div>
-                  </div>
+              <div class="d-flex flex-row justify-content-start align-items-center" style="gap: 5px">
+                <div class="label label-pill label-inline label-warning">{{ registrasi.nama_asuransi || "-" }}</div>
+                <p class="text-white font-size-md pb-0 mb-0">{{ registrasi.no_identitas_registrasi || "-" }}</p>
               </div>
-              <!--end::Body-->
-            </div>
-          </template>
+              <h3 class="text-white font-weight-bolder">Pasien : {{ registrasi.nama_lengkap || "-" }}</h3>
 
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <div>
+                  <p class="text-white font-size-lg pb-0 mb-0">{{ registrasi.nama_jenis_layanan || "-" }}</p>
+                </div>
+                <div class="label label-pill label-inline label-light-primary">Flow V2</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-8">
 
-      <div class="card">
-        <div class="card-header p-3 d-flex flex-row align-items-center justify-content-between h-50px" style="">
-          <h5 class="font-weight-bolder text-dark mb-0 pb-0">{{ stage === 'create-evaluasi' || stage === 'update-evaluasi' ? 'FORM EVALUASI' : 'IMPLEMENTASI KEPERAWATAN' }}</h5>
-          <a class="btn btn-sm btn-outline-primary btn-icon btn-circle" v-if="stageImplementasi == 'create' || stageImplementasi == 'update'" @click="stageImplementasi = 'list'">
-            <i class="ri-arrow-go-back-line p-0"></i>
-          </a>
-        </div>
-        <div class="card-body p-3">
-          <template v-if="stage == 'create-evaluasi' || stage == 'update-evaluasi'">
-            <ValidationObserver v-slot="{ handleSubmit }">
-                <form @submit.prevent="handleSubmit(onSubmitEvaluasi)" autocomplete="off">
-                  <div class="row">
-                    <div class="col-6">
-                      <!-- <s-input v-model="vEvaluasi.perawat_id" :item="{
-                        label: 'Perawat',
-                        id: 'perawat_id',
-                        data: 'perawat_id',
-                        type: 'select',
-                        validation: ['required'],
-                        value: evaluasiActiveData.perawat_id,
-                        param: {},
-                        pointer: {
-                          label: 'username',
-                          code: 'id',
-                          display: ['username']
-                        },
-                        api: 'users',
-                      }" :valuee="evaluasiActiveData.perawat_id" /> -->
-                      <s-input v-model="vEvaluasi.perawat_id" :key="'2222'" :id="'2222'" :item="{
-                        label: 'Perawat',
-                        id: 'perawat_id',
-                        data: 'perawat_id',
-                        type: 'lookup-radio',
-                        validation: ['required'],
-                        value: evaluasiActiveData.perawat_id,
-                        api: 'msDokter',
-                        pointer: {
-                          label: 'nama_dokter',
-                          code: 'ms_dokter_id',
-                          display: ['nama_tipe_tenaga_medis', 'nama_dokter', 'nik_dokter', 'npwp_dokter'],
-                          headerDisplay: ['Tipe Tenaga Medis', 'Nama dokter', 'NIK', 'NPWP']
-                        },
-                        param: {
-                          kode_tipe_tenaga_medis: 'PRW'
-                        },
-                      }" :valuee="evaluasiActiveData.perawat_id" />
-                    </div>
-                    <div class="col-6">
-                      <s-input v-model="vEvaluasi.waktu_evaluasi" :item="{
-                        label: 'Waktu Evaluasi',
-                        id: 'waktu_evaluasi',
-                        data: 'waktu_evaluasi',
-                        value: evaluasiActiveData.waktu_evaluasi,
-                        type: 'datetime',
-                        validation: ['required'],
-                        formatDateView: 'DD MMM YYYY HH:mm',
-                      }" :valuee="evaluasiActiveData.waktu_evaluasi" />
-                    </div>
-                    <div class="col-6">
-                      <s-input v-model="vEvaluasi.tindak_lanjut" :item="{
-                        label: 'Tindak lanjut',
-                        id: 'tindak_lanjut',
-                        data: 'tindak_lanjut',
-                        type: 'select',
-                        validation: ['required'],
-                        value: evaluasiActiveData.tindak_lanjut,
-                        param: {},
-                        pointer: {
-                          label: 'label',
-                          code: 'code'
-                        },
-                        api: false,
-                        optionList: [
-                          { code: 'Lanjut Perawatan', label: 'Lanjut Perawatan' },
-                          { code: 'Berhenti Perawatan', label: 'Berhenti Perawatan' },
-                        ]
-                      }" :valuee="evaluasiActiveData.tindak_lanjut" />
-                    </div>
-                    <div class="col-6">
-                      <s-input v-model="vEvaluasi.status_evaluasi_keperawatan" :item="{
-                        label: 'Status Evaluasi',
-                        id: 'status_evaluasi_keperawatan',
-                        data: 'status_evaluasi_keperawatan',
-                        type: 'select',
-                        validation: ['required'],
-                        value: evaluasiActiveData.status_evaluasi_keperawatan,
-                        param: {},
-                        pointer: {
-                          label: 'label',
-                          code: 'code'
-                        },
-                        api: false,
-                        optionList: [
-                          { code: true, label: 'Aktif' },
-                          { code: false, label: 'Tidak Aktif' },
-                        ]
-                      }" :valuee="evaluasiActiveData.status_evaluasi_keperawatan" />
-                    </div>
-                    <div class="col-12">
-                      <s-input v-model="vEvaluasi.catatan" :item="{
-                        label: 'Catatan',
-                        id: 'catatan',
-                        data: 'catatan',
-                        value: evaluasiActiveData.catatan,
-                        type: 'textarea',
-                        validation: ['required'],
-                      }" :valuee="evaluasiActiveData.catatan" />
+      <div class="col-lg-4">
+        <div class="card mb-5">
+          <div class="card-header p-3 d-flex flex-row align-items-center justify-content-between h-50px">
+            <h5 class="font-weight-bolder text-dark mb-0 pb-0">IMPLEMENTASI KEPERAWATAN</h5>
+            <button class="btn btn-primary btn-sm" @click="openImplementasiForm()" :disabled="!hasRegistrasiId">
+              <i class="ri-add-circle-line p-0"></i>
+              Tambah
+            </button>
+          </div>
+          <div class="card-body p-3">
+            <div v-if="!hasRegistrasiId" class="flex-grow-1 bg-danger p-8 rounded-xl bgi-no-repeat" style="background-position: calc(100% + 0.5rem) bottom; background-size: auto 70%; background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo10/dist/assets/media/svg/humans/custom-3.svg)">
+              <h4 class="text-inverse-danger mt-2 font-weight-bolder">Oooops...</h4>
+              <p class="text-inverse-danger my-6">Pilih dulu registrasi terlebih dahulu</p>
+            </div>
+
+            <div v-else-if="loadingV2" class="d-flex justify-content-center py-10">
+              <div class="spinner spinner-track spinner-primary"></div>
+            </div>
+
+            <template v-else-if="listImplementasiKeperawatanV2.length > 0">
+              <div v-for="(item, i) in listImplementasiKeperawatanV2" :key="'list-implementasi-v2-' + i" class="card card-custom bgi-no-repeat gutter-b dropright card-list-hover" :class="{ 'card-active': selectedImplementasiId === item.id }">
+                <div class="card-body d-flex align-items-start p-3">
+                  <div class="py-2 w-100 pointer" @click="selectImplementasi(item)">
+                    <div class="d-flex flex-row justify-content-between align-items-start" style="gap: 12px">
+                      <div class="w-100">
+                        <p class="font-size-md pb-0 mb-2">
+                          <strong>{{ getImplementasiPayload(item).waktu_implementasi | parse("longDateTime") }}</strong>
+                        </p>
+                        <h5 class="font-weight-bolder text-warning mb-1">{{ getDiagnosaText(getImplementasiPayload(item)) }}</h5>
+                        <p class="mb-0"><span class="text-primary">Jenis:</span> {{ getImplementasiPayload(item).jenis_implementasi || "-" }}</p>
+                        <p class="mb-0"><span class="text-primary">Tindak Lanjut:</span> {{ getImplementasiPayload(item).tindak_lanjut || "-" }}</p>
+                      </div>
+                      <div class="text-right">
+                        <div style="min-width: 70px" class="label label-pill label-inline label-light-primary mb-2">{{ (item.evaluasi || []).length }} Evaluasi</div>
+                      </div>
                     </div>
                   </div>
-                  <template>
-                    <div class="col-12 align-self-center p-0">
-                      <button type="submit" class="btn btn-light-primary mr-3">
-                        <i class="ri-save-line"></i>
-                        {{ $t('global.submit') }}
-                      </button>
-                    </div>
-                  </template>
-                </form>
-            </ValidationObserver>
-          </template>
-          <template v-else-if="stage === 'implementasi' || stageImplementasi === null">
-            <template v-if="stageImplementasi === 'create' || stageImplementasi === 'update'">
+
+                  <b-dropdown dropright text="Pilih Implementasi" variant="primary" class="ml-2" toggle-class="btn-sm p-1">
+                    <b-dropdown-item @click="selectImplementasi(item)">Lihat Detail</b-dropdown-item>
+                    <b-dropdown-item @click="openImplementasiForm(item)">Edit</b-dropdown-item>
+                    <b-dropdown-item @click="confirmDeleteImplementasi(item)">Hapus</b-dropdown-item>
+                  </b-dropdown>
+                </div>
+              </div>
+            </template>
+
+            <div v-else class="empty-state-card p-8 text-center">
+              <img :src="'./static/img/default/no_data_table.svg'" class="max-w-200px" alt="" />
+              <h4 class="mt-4 font-weight-bolder text-dark">Belum ada implementasi V2</h4>
+              <p class="text-muted mb-4">Mulai flow baru dari implementasi, lalu tambahkan evaluasi di detail implementasi.</p>
+              <button class="btn btn-light-primary" @click="openImplementasiForm()">Buat Implementasi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card mb-5">
+          <div class="card-header p-3 d-flex flex-row align-items-center justify-content-between h-50px">
+            <h5 class="font-weight-bolder text-dark mb-0 pb-0">{{ currentPanelTitle }}</h5>
+            <a class="btn btn-sm btn-outline-primary btn-icon btn-circle" v-if="panelMode !== 'detail'" @click="closeFormPanel()">
+              <i class="ri-arrow-go-back-line p-0"></i>
+            </a>
+          </div>
+          <div class="card-body p-3">
+            <template v-if="panelMode === 'implementasi-form'">
               <ValidationObserver v-slot="{ handleSubmit }">
-                  <form @submit.prevent="handleSubmit(onSubmitImplementasi)" autocomplete="off">
-                    <!-- <tas-base-form-custom :field="d_form_tree" v-model="vImplementasi.implementasi_keperawatan_igd"></tas-base-form-custom> -->
-                    <div class="row">
-                      <div class="col-12">
-                        <s-input v-model="vImplementasi.implementasi_keperawatan_igd.waktu_implementasi" :item="{
+                <form @submit.prevent="handleSubmit(onSubmitImplementasi)" autocomplete="off">
+                  <div class="row">
+                    <div class="col-12">
+                      <s-input
+                        v-model="vImplementasi.implementasi_keperawatan_igd.waktu_implementasi"
+                        :item="{
                           label: 'Tanggal Implementasi',
                           id: 'waktu_implementasi',
                           data: 'waktu_implementasi',
                           type: 'datetime',
-                          validation: [],
-                        }" :valuee="vImplementasi.implementasi_keperawatan_igd.waktu_implementasi" />
-                      </div>
-                      <div class="col-6">
-                        <s-input v-model="vImplementasi.implementasi_keperawatan_igd.diagnosa" :item="{
+                          validation: ['required'],
+                        }"
+                        :valuee="vImplementasi.implementasi_keperawatan_igd.waktu_implementasi" />
+                    </div>
+                    <div class="col-6">
+                      <s-input
+                        v-model="vImplementasi.implementasi_keperawatan_igd.diagnosa"
+                        :item="{
                           label: 'Diagnosa',
                           id: 'diagnosa',
                           data: 'diagnosa',
@@ -226,456 +119,788 @@
                           pointer: {
                             label: 'nama_diagnosa',
                             code: 'id',
-                            display: ['nama_diagnosa']
+                            display: ['nama_diagnosa'],
                           },
                           param: {},
-                        }" :valuee="vImplementasi.implementasi_keperawatan_igd.diagnosa" />
-                      </div>
-                      <div class="col-12">
-                        <s-input v-model="vImplementasi.implementasi_keperawatan_igd.jenis_implementasi" :item="{
+                        }"
+                        :valuee="vImplementasi.implementasi_keperawatan_igd.diagnosa" />
+                    </div>
+                    <div class="col-12">
+                      <s-input
+                        v-model="vImplementasi.implementasi_keperawatan_igd.jenis_implementasi"
+                        :item="{
                           label: 'Jenis Implementasi',
                           id: 'jenis_implementasi',
                           data: 'jenis_implementasi',
                           type: 'text',
                           validation: [],
-                        }" :valuee="vImplementasi.implementasi_keperawatan_igd.jenis_implementasi" />
-                      </div>
-                      <div class="col-12">
-                        <s-input v-model="vImplementasi.implementasi_keperawatan_igd.respon_pasien" :item="{
+                        }"
+                        :valuee="vImplementasi.implementasi_keperawatan_igd.jenis_implementasi" />
+                    </div>
+                    <div class="col-12">
+                      <s-input
+                        v-model="vImplementasi.implementasi_keperawatan_igd.respon_pasien"
+                        :item="{
                           label: 'Respon Pasien',
                           id: 'respon_pasien',
                           data: 'respon_pasien',
                           type: 'text',
                           validation: [],
-                        }" :valuee="vImplementasi.implementasi_keperawatan_igd.respon_pasien" />
-                      </div>
-                      <div class="col-12">
-                        <s-input v-model="vImplementasi.implementasi_keperawatan_igd.tindak_lanjut" :item="{
+                        }"
+                        :valuee="vImplementasi.implementasi_keperawatan_igd.respon_pasien" />
+                    </div>
+                    <div class="col-12">
+                      <s-input
+                        v-model="vImplementasi.implementasi_keperawatan_igd.tindak_lanjut"
+                        :item="{
                           label: 'Tindak Lanjut',
                           id: 'tindak_lanjut',
                           data: 'tindak_lanjut',
                           type: 'textarea',
                           validation: [],
-                        }" :valuee="vImplementasi.implementasi_keperawatan_igd.tindak_lanjut" />
-                      </div>
+                        }"
+                        :valuee="vImplementasi.implementasi_keperawatan_igd.tindak_lanjut" />
                     </div>
+                  </div>
 
-                    <template>
-                      <div class="col-12 align-self-center p-0">
-                        <button type="submit" class="btn btn-light-primary mr-3">
-                          <i class="ri-save-line"></i>
-                          {{ $t('global.submit') }}
-                        </button>
-                      </div>
-                    </template>
-                  </form>
+                  <div class="col-12 align-self-center p-0">
+                    <button type="submit" class="btn btn-light-primary mr-3">
+                      <i class="ri-save-line"></i>
+                      {{ implementasiFormMode === "create" ? "Simpan Implementasi" : "Perbarui Implementasi" }}
+                    </button>
+                  </div>
+                </form>
               </ValidationObserver>
             </template>
-            <template v-else-if="stageImplementasi === 'list' || stageImplementasi === null">
 
-              <!-- OVERVIEW EVALUASI -->
-              <div class="card card-custom bgi-no-repeat gutter-b dropright" v-if="evaluasiActiveData.id" :class="{ 'evaluasi-keperawatan-active': evaluasiActiveData.status_evaluasi_keperawatan, 'bg-gray-500': !evaluasiActiveData.status_evaluasi_keperawatan }">
-                <div class="card-body d-flex align-items-center p-3" style="cursor: pointer">
-                    <div class="py-2 w-100">
-                        <div class="d-flex flex-row justify-content-start align-items-center" style="gap: 5px">
-                          <div class="label label-pill label-inline" :class="{ 'label-warning': evaluasiActiveData.status_evaluasi_keperawatan, 'label-danger': !evaluasiActiveData.status_evaluasi_keperawatan }">{{ evaluasiActiveData.status_evaluasi_keperawatan ? 'Aktif' : 'Non Aktif' }}</div>
-                          <p class="text-white font-size-md pb-0 mb-0 ">{{ evaluasiActiveData.waktu_evaluasi | parse('longDateTime') }}</p>
-                        </div>
-                        <h3 class="text-white font-weight-bolder">{{ 'Nama perawat' }}</h3>
-                        <h3 class="text-white font-weight-bolder">{{ evaluasiActiveData.ms_dokter ? evaluasiActiveData.ms_dokter.nama_dokter : '-' }}</h3>
-    
-                        <div class="d-flex flex-row justify-content-between align-items-center">
-                          <div>
-                            <p class="text-white font-size-lg pb-0 mb-0">{{ evaluasiActiveData.tindak_lanjut }}</p>
-                          </div>
-                        </div>
+            <template v-else-if="panelMode === 'evaluasi-form'">
+              <div class="alert alert-light-primary mb-5" v-if="hasSelectedImplementasi">
+                Evaluasi akan tersimpan ke implementasi:
+                <strong>{{ getDiagnosaText(selectedImplementasiPayload) }}</strong>
+              </div>
+
+              <ValidationObserver v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(onSubmitEvaluasi)" autocomplete="off">
+                  <div class="row">
+                    <div class="col-6">
+                      <s-input
+                        v-model="vEvaluasi.perawat_id"
+                        :item="{
+                          label: 'Perawat',
+                          id: 'perawat_id',
+                          data: 'perawat_id',
+                          type: 'lookup-radio',
+                          validation: ['required'],
+                          value: vEvaluasi.perawat_id,
+                          api: 'msDokter',
+                          pointer: {
+                            label: 'nama_dokter',
+                            code: 'ms_dokter_id',
+                            display: ['nama_tipe_tenaga_medis', 'nama_dokter', 'nik_dokter', 'npwp_dokter'],
+                            headerDisplay: ['Tipe Tenaga Medis', 'Nama dokter', 'NIK', 'NPWP'],
+                          },
+                          param: {
+                            kode_tipe_tenaga_medis: 'PRW',
+                          },
+                        }"
+                        :valuee="vEvaluasi.perawat_id" />
                     </div>
+                    <div class="col-6">
+                      <s-input
+                        v-model="vEvaluasi.waktu_evaluasi"
+                        :item="{
+                          label: 'Waktu Evaluasi',
+                          id: 'waktu_evaluasi',
+                          data: 'waktu_evaluasi',
+                          value: vEvaluasi.waktu_evaluasi,
+                          type: 'datetime',
+                          validation: ['required'],
+                          formatDateView: 'DD MMM YYYY HH:mm',
+                        }"
+                        :valuee="vEvaluasi.waktu_evaluasi" />
+                    </div>
+                    <div class="col-6">
+                      <s-input
+                        v-model="vEvaluasi.tindak_lanjut"
+                        :item="{
+                          label: 'Tindak lanjut',
+                          id: 'tindak_lanjut',
+                          data: 'tindak_lanjut',
+                          type: 'select',
+                          validation: ['required'],
+                          value: vEvaluasi.tindak_lanjut,
+                          param: {},
+                          pointer: {
+                            label: 'label',
+                            code: 'code',
+                          },
+                          api: false,
+                          optionList: [
+                            { code: 'Lanjut Perawatan', label: 'Lanjut Perawatan' },
+                            { code: 'Berhenti Perawatan', label: 'Berhenti Perawatan' },
+                          ],
+                        }"
+                        :valuee="vEvaluasi.tindak_lanjut" />
+                    </div>
+                    <div class="col-6">
+                      <s-input
+                        v-model="vEvaluasi.status_evaluasi_keperawatan"
+                        :item="{
+                          label: 'Status Evaluasi',
+                          id: 'status_evaluasi_keperawatan',
+                          data: 'status_evaluasi_keperawatan',
+                          type: 'select',
+                          validation: ['required'],
+                          value: vEvaluasi.status_evaluasi_keperawatan,
+                          param: {},
+                          pointer: {
+                            label: 'label',
+                            code: 'code',
+                          },
+                          api: false,
+                          optionList: [
+                            { code: true, label: 'Aktif' },
+                            { code: false, label: 'Tidak Aktif' },
+                          ],
+                        }"
+                        :valuee="vEvaluasi.status_evaluasi_keperawatan" />
+                    </div>
+                    <div class="col-12">
+                      <s-input
+                        v-model="vEvaluasi.catatan"
+                        :item="{
+                          label: 'Catatan',
+                          id: 'catatan',
+                          data: 'catatan',
+                          value: vEvaluasi.catatan,
+                          type: 'textarea',
+                          validation: ['required'],
+                        }"
+                        :valuee="vEvaluasi.catatan" />
+                    </div>
+                  </div>
+
+                  <div class="col-12 align-self-center p-0">
+                    <button type="submit" class="btn btn-light-primary mr-3">
+                      <i class="ri-save-line"></i>
+                      {{ evaluasiFormMode === "create" ? "Simpan Evaluasi" : "Perbarui Evaluasi" }}
+                    </button>
+                  </div>
+                </form>
+              </ValidationObserver>
+            </template>
+
+            <template v-else-if="hasSelectedImplementasi">
+              <div class="card card-custom bg-light-success mb-5">
+                <div class="card-body p-4">
+                  <div class="d-flex flex-row justify-content-between align-items-start" style="gap: 16px">
+                    <div class="w-100">
+                      <p class="mb-2">
+                        <strong>{{ selectedImplementasiPayload.waktu_implementasi | parse("longDateTime") }}</strong>
+                      </p>
+                      <h4 class="font-weight-bolder text-warning mb-2">{{ getDiagnosaText(selectedImplementasiPayload) }}</h4>
+                      <p class="mb-1"><span class="text-primary">Jenis Implementasi:</span> {{ selectedImplementasiPayload.jenis_implementasi || "-" }}</p>
+                      <p class="mb-1"><span class="text-primary">Respon Pasien:</span> {{ selectedImplementasiPayload.respon_pasien || "-" }}</p>
+                      <p class="mb-0"><span class="text-primary">Tindak Lanjut:</span> {{ selectedImplementasiPayload.tindak_lanjut || "-" }}</p>
+                    </div>
+                    <div class="d-flex flex-column align-items-end">
+                      <button class="btn btn-primary btn-sm mb-2" @click="openEvaluasiForm()">
+                        <i class="ri-add-circle-line p-0"></i>
+                        Tambah Evaluasi
+                      </button>
+                      <button class="btn btn-light-success btn-sm mb-2" @click="openImplementasiForm(selectedImplementasiData)">
+                        <i class="ri-edit-line p-0"></i>
+                        Edit Implementasi
+                      </button>
+                      <button class="btn btn-light-danger btn-sm" @click="confirmDeleteImplementasi(selectedImplementasiData)">
+                        <i class="ri-delete-bin-line p-0"></i>
+                        Hapus Implementasi
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <hr>
-              <div class="d-flex flex-row justify-content-end" v-if="evaluasiActiveData.status_evaluasi_keperawatan">
-                <button class="btn btn btn-primary h-40px mb-3" @click="actionImplementasi('create', {})">
-                  <i class="ri-add-circle-line p-0"></i>
-                  Tambah
-                </button>
+              <div class="d-flex flex-row justify-content-between align-items-center mb-4">
+                <h5 class="font-weight-bolder text-dark mb-0 pb-0">EVALUASI</h5>
+                <div class="label label-pill label-inline label-light-primary">{{ selectedImplementasiEvaluasi.length }} data</div>
               </div>
-              <!-- DATA IMPLEMENTASI -->
-              <template v-for="(item, i) in listImplementasiKeperawatan">
-                <div :key="'list-implementasi-'+i" class="d-flex align-items-center bg-light-success rounded p-5 mb-3">
-                  
-  
-                  <!--begin::Title-->
-                  <div class="d-flex flex-column flex-grow-1 mr-2">
-                    <div class="d-flex flex-row justify-content-between align-items-center">
-                      <div class="w-100">
-                        <div>
-                          <p class="mb-2"><strong>{{ item.implementasi_keperawatan_igd.waktu_implementasi | parse('longDateTime') }}</strong></p>
-                          <h5 class="font-weight-bolder text-warning mb-0 pb-0">{{ item.implementasi_keperawatan_igd.diagnosa ? item.implementasi_keperawatan_igd.diagnosa.nama_diagnosa : '-' }} ({{ item.implementasi_keperawatan_igd.diagnosa ? item.implementasi_keperawatan_igd.diagnosa.kode_diagnosa : '-' }})</h5>
-                          <p class="mb-0"><span class="text-primary">Jenis Implementasi:</span> {{ item.implementasi_keperawatan_igd.jenis_implementasi }}</p>
-                          <p class="mb-0"><span class="text-primary">Tindak Lanjut:</span> {{ item.implementasi_keperawatan_igd.tindak_lanjut }}</p>
+
+              <template v-if="selectedImplementasiEvaluasi.length > 0">
+                <div
+                  v-for="(item, i) in selectedImplementasiEvaluasi"
+                  :key="'list-evaluasi-v2-' + i"
+                  class="card card-custom bgi-no-repeat gutter-b dropright card-list-hover"
+                  :class="{
+                    'implementasi-keperawatan-active': item.status_evaluasi_keperawatan,
+                    'bg-gray-500': !item.status_evaluasi_keperawatan,
+                    'card-active': selectedEvaluasiId === item.id,
+                  }">
+                  <div class="card-body d-flex align-items-start p-3">
+                    <div class="py-2 w-100 pointer" @click="selectEvaluasi(item)">
+                      <div class="d-flex flex-row justify-content-start align-items-center mb-2" style="gap: 5px">
+                        <div class="label label-pill label-inline" :class="{ 'label-warning': item.status_evaluasi_keperawatan, 'label-danger': !item.status_evaluasi_keperawatan }">
+                          {{ item.status_evaluasi_keperawatan ? "Aktif" : "Tidak Aktif" }}
                         </div>
+                        <p class="text-white font-size-md pb-0 mb-0">{{ item.waktu_evaluasi | parse("longDateTime") }}</p>
                       </div>
+                      <h5 class="text-white font-weight-bolder mb-1">{{ getPerawatName(item) }}</h5>
+                      <p class="text-white font-size-lg pb-0 mb-1">{{ item.tindak_lanjut || "-" }}</p>
+                      <p class="text-white font-size-md pb-0 mb-0">{{ item.catatan || "-" }}</p>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-end ml-3">
+                      <span class="label label-lg label-pill label-inline mb-2 label-success pointer" @click.stop="openEvaluasiForm(item)"> Edit </span>
+                      <span class="label label-lg label-pill label-inline label-danger pointer" @click.stop="confirmDeleteEvaluasi(item)"> Hapus </span>
                     </div>
                   </div>
-                  <!--end::Title-->
-
-                  <!-- DELETE IMPLEMENTASI -->
-                  <span class="svg-icon svg-icon-success mr-3" style="cursor: pointer" @click="deleteData('implementasi_keperawatan_igd', item)" v-if="evaluasiActiveData.status_evaluasi_keperawatan"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo7/dist/../src/media/svg/icons/Home/Trash.svg-->
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <rect x="0" y="0" width="24" height="24"/>
-                        <path d="M6,8 L18,8 L17.106535,19.6150447 C17.04642,20.3965405 16.3947578,21 15.6109533,21 L8.38904671,21 C7.60524225,21 6.95358004,20.3965405 6.89346498,19.6150447 L6,8 Z M8,10 L8.45438229,14.0894406 L15.5517885,14.0339036 L16,10 L8,10 Z" fill="#000000" fill-rule="nonzero"/>
-                        <path d="M14,4.5 L14,3.5 C14,3.22385763 13.7761424,3 13.5,3 L10.5,3 C10.2238576,3 10,3.22385763 10,3.5 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>
-                      </g>
-                    </svg><!--end::Svg Icon-->
-                  </span>
-
-                  <!-- EDIT IMPLEMENTASI -->
-                  <span class="svg-icon svg-icon-success mr-3" style="cursor: pointer" @click="actionImplementasi('update', item)" v-if="evaluasiActiveData.status_evaluasi_keperawatan">
-                      <span class="svg-icon svg-icon-sm"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Write.svg-->
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <rect x="0" y="0" width="24" height="24"></rect>
-                                <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) "></path>
-                                <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                            </g>
-                        </svg><!--end::Svg Icon-->
-                      </span>
-                  </span>
-                  <!--end::Icon-->
-  
-                  <!--begin::Lable-->
-                  <!-- <span class="font-weight-bolder text-success py-1 font-size-lg">{{ item.createdAt | parse('date') }}</span> -->
-                  <!--end::Lable-->
                 </div>
               </template>
 
-              <!-- DATA IMPLEMENTASI KOSONG -->
-              <!-- <div class="card card-custom card-stretch gutter-b" v-if="listImplementasiKeperawatan.length === 0"> -->
-                <!--begin::Body-->
-
-              <div class="card-body d-flex align-items-center py-0 mt-8" v-if="evaluasiActiveData.id === undefined">
-                <div class="d-flex flex-column flex-grow-1 py-2 py-lg-5">
-                    <a  class="card-title font-weight-bolder text-dark-75 font-size-h5 mb-2 text-hover-primary">Pilih evaluasi terlebih dahulu...</a>
-                    <!-- <span class="font-weight-bold text-muted text-hover-primary font-size-lg" :class="!evaluasiActiveData.status_evaluasi_keperawatan? 'cursor-not-allowed': 'cursor-pointer'">Bikin dulu yuk <i class="ri-arrow-right-line"></i></span> -->
-                </div>
-                <!-- <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/svg/avatars/014-girl-7.svg" alt="" class="align-self-end h-100px"> -->
+              <div v-else class="empty-state-card p-8 text-center">
+                <img :src="'./static/img/default/no_data_table.svg'" class="max-w-200px" alt="" />
+                <h4 class="mt-4 font-weight-bolder text-dark">Belum ada evaluasi</h4>
+                <p class="text-muted mb-4">Tambahkan evaluasi sebagai child dari implementasi yang sedang dipilih.</p>
+                <button class="btn btn-light-primary" @click="openEvaluasiForm()">Buat Evaluasi</button>
               </div>
-
-              <div class="card-body d-flex align-items-center py-0 mt-8" v-else-if="listImplementasiKeperawatan.length === 0">
-                  <div class="d-flex flex-column flex-grow-1 py-2 py-lg-5">
-                      <a  class="card-title font-weight-bolder text-dark-75 font-size-h5 mb-2 text-hover-primary">Implementasi tidak ditemukan, klik tombol tambah untuk membuat implementasi...</a>
-                      <!-- <span class="font-weight-bold text-muted text-hover-primary font-size-lg" :class="!evaluasiActiveData.status_evaluasi_keperawatan? 'cursor-not-allowed': 'cursor-pointer'">Bikin dulu yuk <i class="ri-arrow-right-line"></i></span> -->
-                  </div>
-                  <!-- <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/svg/avatars/014-girl-7.svg" alt="" class="align-self-end h-100px"> -->
-              </div>
-                
-                <!--end::Body-->
-              <!-- </div> -->
-
             </template>
-          </template>
 
+            <div v-else class="empty-state-card p-8 text-center">
+              <img :src="'./static/img/default/no_data_table.svg'" class="max-w-200px" alt="" />
+              <h4 class="mt-4 font-weight-bolder text-dark">Pilih implementasi dulu</h4>
+              <p class="text-muted mb-0">Flow baru dimulai dari implementasi, lalu evaluasi ditambahkan di detail implementasi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header p-3 d-flex flex-row align-items-center justify-content-between">
+            <div>
+              <h5 class="font-weight-bolder text-dark mb-1 pb-0">HISTORI LEGACY</h5>
+              <p class="text-muted mb-0">Flow lama evaluasi -&gt; implementasi dipertahankan sebagai read-only.</p>
+            </div>
+            <div class="label label-pill label-inline label-light-warning">Read Only</div>
+          </div>
+          <div class="card-body p-3">
+            <div v-if="!hasRegistrasiId" class="empty-state-card p-8 text-center">
+              <h4 class="font-weight-bolder text-dark">Belum ada registrasi terpilih</h4>
+              <p class="text-muted mb-0">Pilih registrasi untuk melihat histori legacy.</p>
+            </div>
+
+            <div v-else-if="loadingLegacy" class="d-flex justify-content-center py-10">
+              <div class="spinner spinner-track spinner-primary"></div>
+            </div>
+
+            <template v-else-if="listLegacyEvaluasiKeperawatan.length > 0">
+              <div v-for="(item, i) in listLegacyEvaluasiKeperawatan" :key="'legacy-evaluasi-' + i" class="card card-custom bgi-no-repeat gutter-b dropright" :class="{ 'implementasi-keperawatan-active': item.status_evaluasi_keperawatan, 'bg-gray-500': !item.status_evaluasi_keperawatan }">
+                <div class="card-body p-3">
+                  <div class="d-flex flex-row justify-content-start align-items-center mb-2" style="gap: 5px">
+                    <div class="label label-pill label-inline" :class="{ 'label-warning': item.status_evaluasi_keperawatan, 'label-danger': !item.status_evaluasi_keperawatan }">
+                      {{ item.status_evaluasi_keperawatan ? "Aktif" : "Tidak Aktif" }}
+                    </div>
+                    <p class="text-white font-size-md pb-0 mb-0">{{ item.waktu_evaluasi | parse("longDateTime") }}</p>
+                  </div>
+                  <h5 class="text-white font-weight-bolder mb-1">{{ getPerawatName(item) }}</h5>
+                  <p class="text-white font-size-lg pb-0 mb-1">{{ item.tindak_lanjut || "-" }}</p>
+                  <p class="text-white font-size-md pb-0 mb-4">{{ item.catatan || "-" }}</p>
+
+                  <div class="legacy-wrapper">
+                    <h6 class="text-white font-weight-bolder mb-3">Implementasi Legacy</h6>
+
+                    <template v-if="item.implementasi && item.implementasi.length > 0">
+                      <div v-for="(legacyImplementasi, j) in item.implementasi" :key="'legacy-implementasi-' + i + '-' + j" class="bg-white rounded p-4 mb-3">
+                        <p class="mb-2">
+                          <strong>{{ getImplementasiPayload(legacyImplementasi).waktu_implementasi | parse("longDateTime") }}</strong>
+                        </p>
+                        <h6 class="font-weight-bolder text-warning mb-2">{{ getDiagnosaText(getImplementasiPayload(legacyImplementasi)) }}</h6>
+                        <p class="mb-1"><span class="text-primary">Jenis:</span> {{ getImplementasiPayload(legacyImplementasi).jenis_implementasi || "-" }}</p>
+                        <p class="mb-1"><span class="text-primary">Respon Pasien:</span> {{ getImplementasiPayload(legacyImplementasi).respon_pasien || "-" }}</p>
+                        <p class="mb-0"><span class="text-primary">Tindak Lanjut:</span> {{ getImplementasiPayload(legacyImplementasi).tindak_lanjut || "-" }}</p>
+                      </div>
+                    </template>
+
+                    <div v-else class="bg-white rounded p-4 text-muted">Implementasi legacy tidak ditemukan.</div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <div v-else class="empty-state-card p-8 text-center">
+              <img :src="'./static/img/default/no_data_table.svg'" class="max-w-200px" alt="" />
+              <h4 class="mt-4 font-weight-bolder text-dark">Histori legacy tidak ditemukan</h4>
+              <p class="text-muted mb-0">Belum ada data flow lama evaluasi -&gt; implementasi untuk registrasi ini.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <style>
 .card-active {
   border-left: 4.5px solid #dfd429 !important;
 }
 
-.evaluasi-keperawatan-active {
-  background-color: #4AB58E !important;
+.implementasi-keperawatan-active {
+  background-color: #4ab58e !important;
   background-position: calc(100% + 1rem) bottom;
   background-size: 20% auto;
-  background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo1/dist/assets/media/svg/humans/custom-1.svg)
+  background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo1/dist/assets/media/svg/humans/custom-1.svg);
 }
 
-.evaluasi-keperawatan-non-active {
-  background-color: #4AB58E;
+.empty-state-card {
+  border: 1px dashed #e4e6ef;
+  border-radius: 0.75rem;
 }
 
-.dropdown-menu.show {
-  position: absolute;
-  transition: ease-in;
-  transform: translate3d(345px, 150px, 0px);
-  top: 0px;
-  left: 0px;
-  will-change: transform;
+.legacy-wrapper {
+  border-left: 3px solid rgba(255, 255, 255, 0.35);
+  padding-left: 1rem;
 }
 
-.my-custom-toggle {
-  color: black;
-  text-decoration: none;
+.card-list-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.cursor-pointer {
+.card-list-hover:hover {
+  transform: translateY(-1px);
+}
+
+.pointer {
   cursor: pointer;
 }
-
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
 </style>
+
 <script>
-import moment from 'moment'
-moment.locale('id')
+import moment from "moment";
+moment.locale("id");
+
+const DEFAULT_DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
+
+const cloneValue = (value) => JSON.parse(JSON.stringify(value || {}));
+
+const formatDateTimeValue = (value) => {
+  if (value && moment(value).isValid()) return moment(value).format(DEFAULT_DATE_FORMAT);
+  return moment().format(DEFAULT_DATE_FORMAT);
+};
+
+const toBoolean = (value, fallback = false) => {
+  if (value === true || value === "true" || value === 1 || value === "1") return true;
+  if (value === false || value === "false" || value === 0 || value === "0") return false;
+  return fallback;
+};
+
+const createDefaultImplementasiForm = (registrasiId = "") => ({
+  registrasi_id: registrasiId || "",
+  implementasi_keperawatan_igd: {
+    waktu_implementasi: formatDateTimeValue(),
+    diagnosa: null,
+    jenis_implementasi: "",
+    respon_pasien: "",
+    tindak_lanjut: "",
+  },
+});
+
+const createDefaultEvaluasiForm = (implementasiId = "") => ({
+  implementasi_id: implementasiId || "",
+  evaluasi_keperawatan: {},
+  perawat_id: "",
+  waktu_evaluasi: formatDateTimeValue(),
+  tindak_lanjut: "",
+  catatan: "",
+  status_evaluasi_keperawatan: true,
+});
+
+const normalizeEvaluasiItem = (item = {}) => ({
+  ...item,
+  evaluasi_keperawatan: item.evaluasi_keperawatan || {},
+  status_evaluasi_keperawatan: toBoolean(item.status_evaluasi_keperawatan, true),
+  waktu_evaluasi: item.waktu_evaluasi ? formatDateTimeValue(item.waktu_evaluasi) : "",
+});
+
+const normalizeImplementasiItem = (item = {}) => ({
+  ...item,
+  implementasi_keperawatan_igd: item.implementasi_keperawatan_igd || {},
+  evaluasi: Array.isArray(item.evaluasi)
+    ? item.evaluasi.map((evaluasi) =>
+        normalizeEvaluasiItem({
+          ...evaluasi,
+          implementasi_id: evaluasi.implementasi_id || item.id,
+          registrasi_id: evaluasi.registrasi_id || item.registrasi_id,
+        }),
+      )
+    : [],
+});
+
+const normalizeLegacyEvaluasiItem = (item = {}) => ({
+  ...item,
+  evaluasi_keperawatan: item.evaluasi_keperawatan || {},
+  implementasi: Array.isArray(item.implementasi)
+    ? item.implementasi.map((legacyImplementasi) => ({
+        ...legacyImplementasi,
+        implementasi_keperawatan_igd: legacyImplementasi.implementasi_keperawatan_igd || {},
+      }))
+    : [],
+  status_evaluasi_keperawatan: toBoolean(item.status_evaluasi_keperawatan, true),
+  waktu_evaluasi: item.waktu_evaluasi ? formatDateTimeValue(item.waktu_evaluasi) : "",
+});
 
 export default {
-  name: 'crud-triage',
+  name: "crud-triage",
   data() {
     return {
-      stage: null,
-      stageImplementasi: null,
+      panelMode: "detail",
+      implementasiFormMode: "create",
+      evaluasiFormMode: "create",
 
-      evaluasiActiveID: 0,
-      evaluasiActiveData: {},
-      implementasiActiveID: 0,
-      implementasiActiveData: {},
+      selectedImplementasiId: "",
+      selectedImplementasiData: {},
+      selectedEvaluasiId: "",
+      selectedEvaluasiData: {},
 
-      d_form: [],
-      d_form_tree: [],
+      listImplementasiKeperawatanV2: [],
+      listLegacyEvaluasiKeperawatan: [],
 
-      listEvaluasiKeperawatan: [],
-      listImplementasiKeperawatan: [],
+      op: { registrasi_id: "" },
 
-      op: { registrasi_id: 0 },
-
-      vEvaluasi: {},
-      vImplementasi: {
-        implementasi_keperawatan_igd: {
-          waktu_implementasi: moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-        }
-      },
+      vEvaluasi: createDefaultEvaluasiForm(),
+      vImplementasi: createDefaultImplementasiForm(),
       registrasi: {},
 
-      bulk_tarif: []
-    }
+      loadingV2: false,
+      loadingLegacy: false,
+    };
+  },
+  computed: {
+    hasRegistrasiId() {
+      return !!this.op.registrasi_id;
+    },
+    hasSelectedImplementasi() {
+      return !!this.selectedImplementasiId && !!this.selectedImplementasiData.id;
+    },
+    selectedImplementasiPayload() {
+      return this.getImplementasiPayload(this.selectedImplementasiData);
+    },
+    selectedImplementasiEvaluasi() {
+      return this.selectedImplementasiData.evaluasi || [];
+    },
+    currentPanelTitle() {
+      if (this.panelMode === "implementasi-form") return `${this.implementasiFormMode === "create" ? "FORM TAMBAH" : "FORM EDIT"} IMPLEMENTASI`;
+      if (this.panelMode === "evaluasi-form") return `${this.evaluasiFormMode === "create" ? "FORM TAMBAH" : "FORM EDIT"} EVALUASI`;
+      return "DETAIL IMPLEMENTASI KEPERAWATAN";
+    },
   },
   watch: {
-    'op.registrasi_id': {
-      deep: true,
-      immediate: false,
-      handler(to, from) {
-        this.vEvaluasi.registrasi_id = to
-        this.getRegistrasi()
-        this.getEvaluasiKeperawatan()
-      }
-    },
-    '$route': {
-      deep: true,
+    "$route.query.registrasi_id": {
       immediate: true,
-      handler(to) {
-        this.listEvaluasiKeperawatan = []
-        this.listImplementasiKeperawatan = []
-        this.stage = null
-        this.stageImplementasi = null
-        this.evaluasiActiveID = null
+      handler(value) {
+        this.resetPageState();
+        this.op.registrasi_id = value || "";
+      },
+    },
+    "op.registrasi_id": {
+      immediate: false,
+      async handler(value) {
+        this.vImplementasi = createDefaultImplementasiForm(value);
+        this.vEvaluasi = createDefaultEvaluasiForm();
+        this.registrasi = {};
 
-        this.op.registrasi_id = this.$route.query.registrasi_id
-      }
-    }
+        if (!value) return;
+
+        await Promise.allSettled([this.getRegistrasi(), this.getImplementasiKeperawatanV2(), this.getLegacyEvaluasiKeperawatan()]);
+      },
+    },
   },
   mounted() {
-    this.$_api.post('dform_triage/list_tree', { halaman: 1, jumlah: 999999 }).then(res => {
-      this.d_form = res.data
-
-      this.d_form_tree = this.buildDForm(res.data)
-    })
-
-    this.$root.$emit('openCanvas')
+    this.$root.$emit("openCanvas");
   },
   methods: {
-    actionImplementasi(stage, item) {
-      this.stageImplementasi = stage
+    resetPageState() {
+      this.panelMode = "detail";
+      this.implementasiFormMode = "create";
+      this.evaluasiFormMode = "create";
+      this.selectedImplementasiId = "";
+      this.selectedImplementasiData = {};
+      this.selectedEvaluasiId = "";
+      this.selectedEvaluasiData = {};
+      this.listImplementasiKeperawatanV2 = [];
+      this.listLegacyEvaluasiKeperawatan = [];
+      this.vEvaluasi = createDefaultEvaluasiForm();
+      this.vImplementasi = createDefaultImplementasiForm(this.op.registrasi_id);
+    },
+    getImplementasiPayload(item = {}) {
+      if (item && item.implementasi_keperawatan_igd && Object.keys(item.implementasi_keperawatan_igd).length > 0) return item.implementasi_keperawatan_igd;
+      return item || {};
+    },
+    getDiagnosaText(source = {}) {
+      const diagnosa = source.diagnosa || source;
+      if (!diagnosa) return "-";
+      if (typeof diagnosa === "string") return diagnosa;
 
-      if (stage === 'update') {
-        this.implementasiActiveID = item.id
-        this.implementasiActiveData = item
-        // this.d_form_tree = this.buildDForm(this.d_form, item.implementasi_keperawatan_igd)
-        this.vImplementasi = item
+      const namaDiagnosa = diagnosa.nama_diagnosa || source.nama_diagnosa || "-";
+      const kodeDiagnosa = diagnosa.kode_diagnosa || source.kode_diagnosa || "";
+
+      return kodeDiagnosa ? `${namaDiagnosa} (${kodeDiagnosa})` : namaDiagnosa;
+    },
+    getPerawatName(item = {}) {
+      console.log("🔍 ~ getPerawatName ~ simrs-fe/src/modules/registrasi/layanan_igd/implementasi_keperawatan.vue:648 ~ item:", item);
+      // return (item.ms_dokter && item.ms_dokter.nama_dokter) || (item.perawat && item.perawat.nama_dokter) || item.nama_dokter || "-";
+      return item.ms_dokter ? item.ms_dokter.nama_dokter : "-";
+    },
+    buildImplementasiForm(item = {}) {
+      const payload = this.getImplementasiPayload(item);
+      return {
+        id: item.id || "",
+        registrasi_id: item.registrasi_id || this.op.registrasi_id,
+        implementasi_keperawatan_igd: {
+          ...createDefaultImplementasiForm(this.op.registrasi_id).implementasi_keperawatan_igd,
+          ...cloneValue(payload),
+          waktu_implementasi: formatDateTimeValue(payload.waktu_implementasi),
+        },
+      };
+    },
+    buildEvaluasiForm(item = {}, implementasiId = "") {
+      return {
+        ...createDefaultEvaluasiForm(implementasiId),
+        id: item.id || "",
+        evaluasi_keperawatan: cloneValue(item.evaluasi_keperawatan),
+        perawat_id: item.perawat_id || "",
+        waktu_evaluasi: formatDateTimeValue(item.waktu_evaluasi),
+        tindak_lanjut: item.tindak_lanjut || "",
+        catatan: item.catatan || "",
+        status_evaluasi_keperawatan: toBoolean(item.status_evaluasi_keperawatan, true),
+      };
+    },
+    applySelection(preferredImplementasiId = "", preferredEvaluasiId = "") {
+      const selectedImplementasi = this.listImplementasiKeperawatanV2.find((item) => item.id === preferredImplementasiId) || this.listImplementasiKeperawatanV2.find((item) => item.id === this.selectedImplementasiId) || this.listImplementasiKeperawatanV2[0] || {};
+
+      this.selectedImplementasiId = selectedImplementasi.id || "";
+      this.selectedImplementasiData = selectedImplementasi.id ? selectedImplementasi : {};
+
+      const evaluasiList = selectedImplementasi.evaluasi || [];
+      const selectedEvaluasi = evaluasiList.find((item) => item.id === preferredEvaluasiId) || evaluasiList.find((item) => item.id === this.selectedEvaluasiId) || evaluasiList[0] || {};
+
+      this.selectedEvaluasiId = selectedEvaluasi.id || "";
+      this.selectedEvaluasiData = selectedEvaluasi.id ? selectedEvaluasi : {};
+    },
+    selectImplementasi(item = {}, preferredEvaluasiId = "") {
+      const normalizedItem = normalizeImplementasiItem(item);
+      this.selectedImplementasiId = normalizedItem.id || "";
+      this.selectedImplementasiData = normalizedItem.id ? normalizedItem : {};
+      this.panelMode = "detail";
+
+      const evaluasiList = normalizedItem.evaluasi || [];
+      const selectedEvaluasi = evaluasiList.find((evaluasi) => evaluasi.id === preferredEvaluasiId) || evaluasiList.find((evaluasi) => evaluasi.id === this.selectedEvaluasiId) || evaluasiList[0] || {};
+
+      this.selectedEvaluasiId = selectedEvaluasi.id || "";
+      this.selectedEvaluasiData = selectedEvaluasi.id ? selectedEvaluasi : {};
+      this.vEvaluasi = createDefaultEvaluasiForm(this.selectedImplementasiId);
+    },
+    selectEvaluasi(item = {}) {
+      this.selectedEvaluasiId = item.id || "";
+      this.selectedEvaluasiData = item.id ? normalizeEvaluasiItem(item) : {};
+    },
+    openImplementasiForm(item = null) {
+      if (item && item.id) {
+        this.selectImplementasi(item);
+        this.implementasiFormMode = "update";
+        this.vImplementasi = this.buildImplementasiForm(item);
       } else {
-        this.implementasiActiveID = 0
-        this.implementasiActiveData = {}
-        // this.d_form_tree = this.buildDForm(this.d_form, {})
-        this.vImplementasi.implementasi_keperawatan_igd = {
-          waktu_implementasi: moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-        }
+        this.implementasiFormMode = "create";
+        this.vImplementasi = createDefaultImplementasiForm(this.op.registrasi_id);
       }
+
+      this.panelMode = "implementasi-form";
     },
-    action(stage, evaluasiID) {
-      this.stage = stage
+    openEvaluasiForm(item = null) {
+      if (!this.hasSelectedImplementasi) {
+        this.$_alert.error({ message: "Pilih implementasi terlebih dahulu" }, "Terjadi kesalahan");
+        return;
+      }
 
-      this.evaluasiActiveID = evaluasiID
-      this.vImplementasi.evaluasi_id = this.evaluasiActiveID
-
-      if (stage === 'update-evaluasi') {
-        this.evaluasiActiveData = this.listEvaluasiKeperawatan.filter((e) => { return e.id === evaluasiID })[0]
-        this.vEvaluasi = this.evaluasiActiveData
+      if (item && item.id) {
+        this.selectEvaluasi(item);
+        this.evaluasiFormMode = "update";
+        this.vEvaluasi = this.buildEvaluasiForm(item, this.selectedImplementasiId);
       } else {
-        if (evaluasiID) this.evaluasiActiveData = this.listEvaluasiKeperawatan.filter((e) => { return e.id === evaluasiID })[0]
-        else this.evaluasiActiveData = {}
+        this.evaluasiFormMode = "create";
+        this.vEvaluasi = createDefaultEvaluasiForm(this.selectedImplementasiId);
       }
 
-      if (stage === 'create-evaluasi') {
-        this.vEvaluasi = {}
-        this.vEvaluasi.registrasi_id = this.$route.query.registrasi_id
-        this.vEvaluasi.waktu_evaluasi = moment().format('Y-M-D H:m:s')
-        this.evaluasiActiveData.waktu_evaluasi = moment().format('Y-M-D H:m:s')
-      }
-
-      if (stage === 'implementasi') this.getImplementasiKeperawatan()
-      if (stage === 'implementasi') {
-        this.stageImplementasi = 'list'
-      }
+      this.panelMode = "evaluasi-form";
     },
-    getRegistrasi() {
-      this.$_api.single(`registrasi`, {}, this.vEvaluasi.registrasi_id).then((res) => {
-        if (res.data.length) this.registrasi = res.data[0]
-        // else this.$_alert.error({}, 'Registrasi tidak ditemukan')
-      }).catch((err) => {
-        this.$_alert.error(err, 'Registrasi tidak ditemukan')
-      })
+    closeFormPanel() {
+      this.panelMode = "detail";
+      this.vImplementasi = createDefaultImplementasiForm(this.op.registrasi_id);
+      this.vEvaluasi = createDefaultEvaluasiForm(this.selectedImplementasiId);
     },
-    getEvaluasiKeperawatan() {
-      if (!this.op.registrasi_id) return
-
-      this.$_api.post('evaluasi_keperawatan/getWithImplementasi', { halaman: 1, jumlah: 999999, registrasi_id: this.op.registrasi_id }).then(res => {
-        console.log('fetch evaluasi keperawatan')
-        // for (const item of res.data) {
-        // moment(item.waktu_evaluasi).format('YYYY-MM-DD hh:mm:ss')
-        // }
-        for (const key in res.data) {
-          if (Object.hasOwnProperty.call(res.data, key)) {
-            const e = res.data[key]
-            res.data[key].waktu_evaluasi = moment(e.waktu_evaluasi).format('YYYY-MM-DD hh:mm:ss')
-          }
-        }
-        this.listEvaluasiKeperawatan = res.data
-        if (this.evaluasiActiveID) this.getImplementasiKeperawatan()
-      })
-    },
-    getImplementasiKeperawatan() {
-      // if (!this.op.registrasi_id) return
-      if (!this.evaluasiActiveID) {
-        this.$_alert.error({}, 'evaluasi id tidak ditermukan!')
-        return
-      }
-
-      this.listImplementasiKeperawatan = this.listEvaluasiKeperawatan.filter((e) => {
-        return e.id === this.evaluasiActiveID
-      })[0].implementasi
-
-      // this.$_api.post('implementasi_keperawatan_igd/list', { halaman: 1, jumlah: 999999, registrasi_id: this.op.registrasi_id, evaluasi_id: this.evaluasiActiveID }).then(res => {
-      //   this.listImplementasiKeperawatan = res.data
-      // })
-    },
-    onSubmitEvaluasi() {
-      if (!this.vEvaluasi.registrasi_id) this.$_alert.error({ message: 'Silahkan pilih registrasi' }, 'Terjadi kesalahan')
-
-      this.$_api.post(`evaluasi_keperawatan/${this.stage === 'create-evaluasi' ? 'register' : 'update'}`, this.vEvaluasi).then(res => {
-
-        this.getEvaluasiKeperawatan()
-        if (res.status === 200) {
-          this.$_alert.success({ message: res.message ? res.message : 'Data berhasil disimpan' }, 'Berhasil')
-          this.stage = null
-        } else {
-          this.$_alert.error({ message: res.message }, 'Terjadi kesalahan')
-        }
-      })
-    },
-    onSubmitImplementasi() {
-      if (!this.vEvaluasi.registrasi_id) this.$_alert.error({ message: 'Silahkan pilih registrasi' }, 'Terjadi kesalahan')
-
-      this.$_api.post(`implementasi_keperawatan_igd/${this.stageImplementasi === 'create' ? 'register' : 'update'}`, this.vImplementasi).then(res => {
-
-        this.getEvaluasiKeperawatan()
-        if (res.status === 200) {
-          this.$_alert.success({ message: res.message ? res.message : 'Data berhasil disimpan' }, 'Berhasil')
-          this.stage = 'implementasi'
-          this.stageImplementasi = 'list'
-        } else {
-          this.$_alert.error({ message: res.message }, 'Terjadi kesalahan')
-        }
-      })
-    },
-    deleteData(endpoint, data) {
-      this.$_alert.confirm('Hapus Permanen', 'Data yang sudah dihapus tidak dapat dikembalikan, lanjutkan ?').then((result) => {
-        if (result.isConfirmed) {
-          this.$_api.delete(endpoint, { ...data }).then(res => {
-            this.getEvaluasiKeperawatan()
-            this.$_alert.success(null, res.message)
-          }).catch(err => {
-            this.$_alert.error(err)
-          })
-        }
-      })
-    },
-    buildDForm(data, value = {}) {
-      console.table('buildForm', data)
-      let child1 = []
-      for (const lv1 of data) {
-        let child2 = []
-        if (lv1.child) {
-          for (const lv2 of lv1.child) {
-
-          }
-        }
-
-        if (lv1.child.length > 0) child1.push({ position: lv1.position, child: child2 })
-        else {
-          child1.push({
-            position: lv1.position,
-            show: lv1.show,
-            class: lv1.class_dform_triage,
-            value: value[lv1.key] || (lv1.value || ''),
-            label: lv1.label,
-            // value: 'tess',
-            placeholder: lv1.placeholder,
-            type: lv1.type_dform_triage,
-            id: lv1.key,
-            api: lv1.api_options ? lv1.getter : false,
-            hint: lv1.keterangan,
-            pointer: this.pointerBuild(lv1.type_dform_triage, lv1.api_options ? lv1.getter : false, lv1.dform_triage_options),
-            child: child2
-          })
-        }
-      }
-      console.log('buildForm chilld', child1)
-      return child1
-    },
-    pointerBuild(type, api, dform_triage_options) {
-      let lookupType = ['lookup-radio']
-      if (!lookupType.includes(type)) return {}
-
-      if (api) {
-        return {
-          // dform_triage_options,
-          label: dform_triage_options.length ? dform_triage_options[0].label_options : '',
-          code: dform_triage_options.length ? dform_triage_options[0].code_options : '',
-          display: dform_triage_options.length ? [dform_triage_options[0].label_options] : [''],
-        }
-      } else {
-        let list = []
-        dform_triage_options.map((map) => {
-          list.push({
-            label: map.label_options,
-            code: map.code_options,
-          })
-        })
-        return {
-          label: 'label',
-          code: 'code',
-          display: ['label'],
-          list: list
-        }
+    async getRegistrasi() {
+      try {
+        const res = await this.$_api.single("registrasi", {}, this.op.registrasi_id);
+        if (res.status === 200 && res.data.length > 0) this.registrasi = res.data[0];
+      } catch (err) {
+        this.$_alert.error(err, "Registrasi tidak ditemukan");
       }
     },
-  }
-}
+    async getImplementasiKeperawatanV2(preferredImplementasiId = "", preferredEvaluasiId = "") {
+      if (!this.op.registrasi_id) return;
+
+      this.loadingV2 = true;
+      try {
+        const res = await this.$_api.post("implementasi_keperawatan_igd/getWithEvaluasiV2", { registrasi_id: this.op.registrasi_id });
+
+        if (res.status !== 200) {
+          this.listImplementasiKeperawatanV2 = [];
+          this.applySelection();
+          this.$_alert.error({ message: res.message || "Data implementasi tidak berhasil dimuat" }, "Terjadi kesalahan");
+          return;
+        }
+
+        this.listImplementasiKeperawatanV2 = Array.isArray(res.data) ? res.data.map((item) => normalizeImplementasiItem(item)) : [];
+        this.applySelection(preferredImplementasiId, preferredEvaluasiId);
+      } catch (err) {
+        this.listImplementasiKeperawatanV2 = [];
+        this.applySelection();
+        this.$_alert.error(err, "Data implementasi tidak berhasil dimuat");
+      } finally {
+        this.loadingV2 = false;
+      }
+    },
+    async getLegacyEvaluasiKeperawatan() {
+      if (!this.op.registrasi_id) return;
+
+      this.loadingLegacy = true;
+      try {
+        const res = await this.$_api.post("evaluasi_keperawatan/getWithImplementasi", {
+          halaman: 1,
+          jumlah: 999999,
+          registrasi_id: this.op.registrasi_id,
+        });
+
+        if (res.status !== 200) {
+          this.listLegacyEvaluasiKeperawatan = [];
+          this.$_alert.error({ message: res.message || "Histori legacy tidak berhasil dimuat" }, "Terjadi kesalahan");
+          return;
+        }
+
+        this.listLegacyEvaluasiKeperawatan = Array.isArray(res.data) ? res.data.map((item) => normalizeLegacyEvaluasiItem(item)) : [];
+      } catch (err) {
+        this.listLegacyEvaluasiKeperawatan = [];
+        this.$_alert.error(err, "Histori legacy tidak berhasil dimuat");
+      } finally {
+        this.loadingLegacy = false;
+      }
+    },
+    async onSubmitImplementasi() {
+      if (!this.op.registrasi_id) {
+        this.$_alert.error({ message: "Silahkan pilih registrasi" }, "Terjadi kesalahan");
+        return;
+      }
+
+      const payload = {
+        implementasi_keperawatan_igd: cloneValue(this.vImplementasi.implementasi_keperawatan_igd),
+      };
+      payload.implementasi_keperawatan_igd.waktu_implementasi = formatDateTimeValue(payload.implementasi_keperawatan_igd.waktu_implementasi);
+
+      const endpoint = this.implementasiFormMode === "create" ? "implementasi_keperawatan_igd/registerV2" : "implementasi_keperawatan_igd/updateV2";
+
+      if (this.implementasiFormMode === "create") payload.registrasi_id = this.op.registrasi_id;
+      else payload.id = this.vImplementasi.id;
+
+      try {
+        const res = await this.$_api.post(endpoint, payload);
+        if (res.status !== 200) {
+          this.$_alert.error({ message: res.message || "Data implementasi tidak berhasil disimpan" }, "Terjadi kesalahan");
+          return;
+        }
+
+        const selectedImplementasiId = (res.data && res.data.id) || payload.id || this.selectedImplementasiId;
+        await this.getImplementasiKeperawatanV2(selectedImplementasiId, "");
+        this.panelMode = "detail";
+        this.implementasiFormMode = "create";
+        this.vImplementasi = createDefaultImplementasiForm(this.op.registrasi_id);
+        this.$_alert.success({ message: res.message || "Data implementasi berhasil disimpan" }, "Berhasil");
+      } catch (err) {
+        this.$_alert.error(err, "Data implementasi tidak berhasil disimpan");
+      }
+    },
+    async onSubmitEvaluasi() {
+      if (!this.hasSelectedImplementasi) {
+        this.$_alert.error({ message: "Pilih implementasi terlebih dahulu" }, "Terjadi kesalahan");
+        return;
+      }
+
+      const payload = {
+        evaluasi_keperawatan: cloneValue(this.vEvaluasi.evaluasi_keperawatan),
+        perawat_id: this.vEvaluasi.perawat_id,
+        waktu_evaluasi: formatDateTimeValue(this.vEvaluasi.waktu_evaluasi),
+        tindak_lanjut: this.vEvaluasi.tindak_lanjut,
+        catatan: this.vEvaluasi.catatan,
+        status_evaluasi_keperawatan: toBoolean(this.vEvaluasi.status_evaluasi_keperawatan, true),
+      };
+
+      const endpoint = this.evaluasiFormMode === "create" ? "evaluasi_keperawatan/registerV2" : "evaluasi_keperawatan/updateV2";
+
+      if (this.evaluasiFormMode === "create") payload.implementasi_id = this.selectedImplementasiId;
+      else payload.id = this.vEvaluasi.id;
+
+      try {
+        const res = await this.$_api.post(endpoint, payload);
+        if (res.status !== 200) {
+          this.$_alert.error({ message: res.message || "Data evaluasi tidak berhasil disimpan" }, "Terjadi kesalahan");
+          return;
+        }
+
+        const selectedEvaluasiId = (res.data && res.data.id) || payload.id || this.selectedEvaluasiId;
+        await this.getImplementasiKeperawatanV2(this.selectedImplementasiId, selectedEvaluasiId);
+        this.panelMode = "detail";
+        this.evaluasiFormMode = "create";
+        this.vEvaluasi = createDefaultEvaluasiForm(this.selectedImplementasiId);
+        this.$_alert.success({ message: res.message || "Data evaluasi berhasil disimpan" }, "Berhasil");
+      } catch (err) {
+        this.$_alert.error(err, "Data evaluasi tidak berhasil disimpan");
+      }
+    },
+    async confirmDeleteImplementasi(item = {}) {
+      const result = await this.$_alert.confirm("Hapus Permanen", "Data implementasi akan dihapus. Backend akan menolak jika masih ada evaluasi child. Lanjutkan?");
+
+      if (!result.isConfirmed) return;
+
+      try {
+        const res = await this.$_api.post("implementasi_keperawatan_igd/deleteV2", { id: item.id });
+        if (res.status !== 200) {
+          this.$_alert.error({ message: res.message || "Data implementasi tidak berhasil dihapus" }, "Terjadi kesalahan");
+          return;
+        }
+
+        const fallbackImplementasi = this.listImplementasiKeperawatanV2.find((implementasi) => implementasi.id !== item.id);
+        await this.getImplementasiKeperawatanV2(fallbackImplementasi ? fallbackImplementasi.id : "", "");
+        this.$_alert.success(null, res.message || "Data implementasi berhasil dihapus");
+      } catch (err) {
+        this.$_alert.error(err, "Data implementasi tidak berhasil dihapus");
+      }
+    },
+    async confirmDeleteEvaluasi(item = {}) {
+      const result = await this.$_alert.confirm("Hapus Permanen", "Data evaluasi yang sudah dihapus tidak dapat dikembalikan. Lanjutkan?");
+
+      if (!result.isConfirmed) return;
+
+      try {
+        const res = await this.$_api.post("evaluasi_keperawatan/deleteV2", { id: item.id });
+        if (res.status !== 200) {
+          this.$_alert.error({ message: res.message || "Data evaluasi tidak berhasil dihapus" }, "Terjadi kesalahan");
+          return;
+        }
+
+        await this.getImplementasiKeperawatanV2(this.selectedImplementasiId, "");
+        this.$_alert.success(null, res.message || "Data evaluasi berhasil dihapus");
+      } catch (err) {
+        this.$_alert.error(err, "Data evaluasi tidak berhasil dihapus");
+      }
+    },
+  },
+};
 </script>
