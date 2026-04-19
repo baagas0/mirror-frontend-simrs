@@ -51,7 +51,7 @@
                           <strong>{{ getImplementasiPayload(item).waktu_implementasi | parse("longDateTime") }}</strong>
                         </p>
                         <h5 class="font-weight-bolder text-warning mb-1">{{ getDiagnosaText(getImplementasiPayload(item)) }}</h5>
-                        <p class="mb-0"><span class="text-primary">Jenis:</span> {{ getImplementasiPayload(item).jenis_implementasi || "-" }}</p>
+                        <!-- <p class="mb-0"><span class="text-primary">Jenis:</span> {{ getImplementasiPayload(item).jenis_implementasi || "-" }}</p> -->
                         <p class="mb-0"><span class="text-primary">Tindak Lanjut:</span> {{ getImplementasiPayload(item).tindak_lanjut || "-" }}</p>
                       </div>
                       <div class="text-right">
@@ -125,7 +125,7 @@
                         }"
                         :valuee="vImplementasi.implementasi_keperawatan_igd.diagnosa" />
                     </div>
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <s-input
                         v-model="vImplementasi.implementasi_keperawatan_igd.jenis_implementasi"
                         :item="{
@@ -136,7 +136,7 @@
                           validation: [],
                         }"
                         :valuee="vImplementasi.implementasi_keperawatan_igd.jenis_implementasi" />
-                    </div>
+                    </div> -->
                     <div class="col-12">
                       <s-input
                         v-model="vImplementasi.implementasi_keperawatan_igd.respon_pasien"
@@ -299,7 +299,7 @@
                         <strong>{{ selectedImplementasiPayload.waktu_implementasi | parse("longDateTime") }}</strong>
                       </p>
                       <h4 class="font-weight-bolder text-warning mb-2">{{ getDiagnosaText(selectedImplementasiPayload) }}</h4>
-                      <p class="mb-1"><span class="text-primary">Jenis Implementasi:</span> {{ selectedImplementasiPayload.jenis_implementasi || "-" }}</p>
+                      <!-- <p class="mb-1"><span class="text-primary">Jenis Implementasi:</span> {{ selectedImplementasiPayload.jenis_implementasi || "-" }}</p> -->
                       <p class="mb-1"><span class="text-primary">Respon Pasien:</span> {{ selectedImplementasiPayload.respon_pasien || "-" }}</p>
                       <p class="mb-0"><span class="text-primary">Tindak Lanjut:</span> {{ selectedImplementasiPayload.tindak_lanjut || "-" }}</p>
                     </div>
@@ -415,7 +415,7 @@
                           <strong>{{ getImplementasiPayload(legacyImplementasi).waktu_implementasi | parse("longDateTime") }}</strong>
                         </p>
                         <h6 class="font-weight-bolder text-warning mb-2">{{ getDiagnosaText(getImplementasiPayload(legacyImplementasi)) }}</h6>
-                        <p class="mb-1"><span class="text-primary">Jenis:</span> {{ getImplementasiPayload(legacyImplementasi).jenis_implementasi || "-" }}</p>
+                        <!-- <p class="mb-1"><span class="text-primary">Jenis:</span> {{ getImplementasiPayload(legacyImplementasi).jenis_implementasi || "-" }}</p> -->
                         <p class="mb-1"><span class="text-primary">Respon Pasien:</span> {{ getImplementasiPayload(legacyImplementasi).respon_pasien || "-" }}</p>
                         <p class="mb-0"><span class="text-primary">Tindak Lanjut:</span> {{ getImplementasiPayload(legacyImplementasi).tindak_lanjut || "-" }}</p>
                       </div>

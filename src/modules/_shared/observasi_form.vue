@@ -50,12 +50,7 @@
                   <td>{{ item.durasi || "-" }} jam</td>
                   <td>
                     <div class="d-flex align-items-center">
-                      <select
-                        v-model="item.status"
-                        @change="updateStatus(item)"
-                        :disabled="item.updatingStatus"
-                        class="form-control form-control-sm status-dropdown"
-                      >
+                      <select v-model="item.status" @change="updateStatus(item)" :disabled="item.updatingStatus" class="form-control form-control-sm status-dropdown">
                         <option v-for="status in statusOptions" :key="status" :value="status">
                           {{ status }}
                         </option>
@@ -604,9 +599,9 @@
                       <div v-for="item in implementasiList" :key="item.id" class="implementasi-item mb-3 p-3 border rounded" :class="{ 'active-implementasi': selectedImplementasi && selectedImplementasi.id === item.id }" @click="selectImplementasi(item)" style="cursor: pointer; transition: all 0.2s">
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="flex-grow-1">
-                            <div class="font-weight-bolder text-dark mb-1">
+                            <!-- <div class="font-weight-bolder text-dark mb-1">
                               {{ item.jenis_implementasi || "Implementasi Keperawatan" }}
-                            </div>
+                            </div> -->
                             <div class="text-muted small mb-2">
                               <i class="ri-stethoscope-line"></i>
                               {{ getDiagnosaName(item) || "-" }}
@@ -618,9 +613,7 @@
                             <div v-if="item.implementasi" class="text-muted small mt-2"><i class="ri-file-text-line"></i> {{ item.implementasi.substring(0, 120) }}{{ item.implementasi.length > 120 ? "..." : "" }}</div>
                           </div>
                           <div class="ml-2">
-                            <span class="badge badge-primary">
-                              {{ Array.isArray(item.evaluasi) ? item.evaluasi.length : 0 }} Evaluasi
-                            </span>
+                            <span class="badge badge-primary"> {{ Array.isArray(item.evaluasi) ? item.evaluasi.length : 0 }} Evaluasi </span>
                           </div>
                         </div>
                         <div class="mt-2 d-flex justify-content-end">
@@ -667,10 +660,10 @@
 
                     <div v-else>
                       <div class="selected-implementasi mb-4 p-3 border rounded bg-light">
-                        <div class="mb-2">
+                        <!-- <div class="mb-2">
                           <span class="badge badge-primary">Jenis:</span>
                           <span class="ml-1 font-weight-bold">{{ selectedImplementasi.jenis_implementasi || "-" }}</span>
-                        </div>
+                        </div> -->
                         <div v-if="getDiagnosaName(selectedImplementasi)" class="mb-2">
                           <span class="badge badge-secondary">Diagnosa:</span>
                           <span class="ml-1">{{ getDiagnosaName(selectedImplementasi) }}</span>
@@ -835,10 +828,10 @@
             :valuee="implementasiFormData.diagnosa" />
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="font-weight-bold">Jenis Implementasi</label>
           <input v-model="implementasiFormData.jenis_implementasi" type="text" class="form-control" placeholder="Contoh: Pemberian obat, Perawatan luka, dll" />
-        </div>
+        </div> -->
 
         <div class="form-group">
           <label class="font-weight-bold">Respon Pasien</label>
@@ -885,12 +878,7 @@ export default {
       observasiList: [],
       selectedObservasi: null,
       vitalSignsList: [],
-      statusOptions: [
-        'Belum Selesai',
-        'Berjalan',
-        'Perlu Evaluasi',
-        'Selesai'
-      ],
+      statusOptions: ["Belum Selesai", "Berjalan", "Perlu Evaluasi", "Selesai"],
       vitalFormData: {
         id: null,
         observasi_id: "",
@@ -1029,7 +1017,7 @@ export default {
       try {
         const response = await this.$_api.post("observasi/updateStatus", {
           id: item.id,
-          status: item.status
+          status: item.status,
         });
 
         this.$_alert.success({}, response.message || "Status berhasil diperbarui");
