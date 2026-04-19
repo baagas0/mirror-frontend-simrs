@@ -156,6 +156,23 @@
                         },
                       }" @input="onSelectedDokter" />
                     </b-col>
+                    <b-col cols="3">
+                      <b-form-group style="margin-bottom:0px !important; line-height: 1.3;">
+                        <template v-slot:label>
+                          Status Ponek
+                        </template>
+                      </b-form-group>
+                      <b-form-radio-group
+                        v-model="fields.status_ponek"
+                        :options="[
+                          { text: 'Ya', value: true },
+                          { text: 'Tidak', value: false },
+                        ]"
+                        buttons
+                        button-variant="outline-primary"
+                        name="status-ponek"
+                      />
+                    </b-col>
                     <b-col cols="6">
                       <s-input groupClass="mb-0" v-model="fields.keterangan_registrasi" :item="{
                         label: 'Keterangan Registrasi',
@@ -585,6 +602,7 @@ export default {
         no_hp_registrasi: '',
         no_phone: '',
         nama_pekerjaan: '',
+        status_ponek: false,
         no_asuransi_registrasi: '',
         no_rujukan: '',
         no_kontrol: '',
@@ -897,6 +915,7 @@ export default {
         no_hp_registrasi: '',
         no_phone: '',
         nama_pekerjaan: '',
+        status_ponek: false,
         no_asuransi_registrasi: '',
         no_rujukan: '',
         no_kontrol: '',
@@ -943,8 +962,12 @@ export default {
         },
       }
     },
+    normalizeBooleanValue(value) {
+      return value === true || value === 1 || value === '1' || value === 'true'
+    },
     submitForm() {
       let param = JSON.parse(JSON.stringify(this.fields))
+      param.status_ponek = this.normalizeBooleanValue(param.status_ponek)
 
       let createOrUpdate = this.modeSubmit === this.modes.add ? 'DIBUAT' : 'DIPERBARUI'
       this.$_alert.confirm('Simpan Data', `Data registrasi rawat jalan akan ${createOrUpdate}, ingin melanjutkan?`).then((res) => {
@@ -1024,7 +1047,7 @@ export default {
       // fields.nama_pasien
       // fields.no_identitas_registrasi
 
-      const res_penjualan = await this.$_api.post('penjualan/registerBulk', penjualan);
+      await this.$_api.post('penjualan/registerBulk', penjualan);
       this.$_alert.success('Penjualan kunjungan ini telah dibuat')
     },
     getBPJSIDonMsAsuransi() {
@@ -1201,6 +1224,7 @@ export default {
       this.fields.no_hp_registrasi = real.sc_whatsapp
       this.fields.no_phone = real.no_telepon
       this.fields.nama_pekerjaan = real.nama_pekerjaan
+      this.fields.status_ponek = this.normalizeBooleanValue(real.status_ponek)
       this.fields.ms_asuransi_id = real.ms_asuransi_id
       this.fields.no_asuransi_registrasi = real.no_asuransi_registrasi
       this.fields.no_rujukan = real.no_rujukan
@@ -1275,9 +1299,6 @@ export default {
           this.$_alert.error(err, 'Validasi No Rujukan Gagal', err.message)
         })
       } else {
-        let err = {
-          status: 201,
-        }
         this.$_alert.success('No Rujukan tidak boleh kosong')
       }
     },
@@ -1297,9 +1318,6 @@ export default {
           this.$_alert.error(err, 'Validasi No Kontrol Gagal', err.message)
         })
       } else {
-        let err = {
-          status: 201,
-        }
         this.$_alert.success('No Kontrol tidak boleh kosong')
       }
     },
