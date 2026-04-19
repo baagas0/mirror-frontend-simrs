@@ -244,9 +244,19 @@
                               label: 'Jenis Obat',
                               id: 'jenis_obat',
                               data: 'jenis_obat',
-                              type: 'text',
+                              type: 'lookup-radio',
                               validation: ['required'],
                               value: fData.jenis_obat,
+                              pointer: {
+                                label: 'label',
+                                code: 'code',
+                                display: ['label'],
+                                list: [
+                                  { label: 'Parentral', code: 'Parentral' },
+                                  { label: 'Non parentral', code: 'Non parentral' },
+                                  { label: 'Cairan intravela', code: 'Cairan intravela' },
+                                ],
+                              },
                               param: {},
                             }"
                             :valuee="fData.jenis_obat || 'Obat Jadi'" />
