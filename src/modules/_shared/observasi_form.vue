@@ -570,56 +570,64 @@
 
           <div v-if="activeTab === 'implementasi_keperawatan'">
             <div class="row">
-              <!-- Left Panel: Evaluasi List -->
+              <!-- Left Panel: Implementasi List -->
               <div class="col-md-6">
                 <div class="card card-custom">
                   <div class="card-header">
                     <div class="card-title">
-                      <h6 class="font-weight-bolder text-dark">Daftar Evaluasi ({{ evaluasiList.length }})</h6>
+                      <h6 class="font-weight-bolder text-dark">Daftar Implementasi ({{ implementasiList.length }})</h6>
                     </div>
                     <div class="d-flex justify-content-end align-items-center">
-                      <button class="btn btn-primary btn-sm" @click="showEvaluasiModal()"><i class="ri-add-line"></i> Tambah Evaluasi</button>
+                      <button class="btn btn-primary btn-sm" @click="showImplementasiModal()" :disabled="!selectedObservasi || !selectedObservasi.id"><i class="ri-add-line"></i> Tambah Implementasi</button>
                     </div>
                   </div>
                   <div class="card-body">
                     <!-- Loading State -->
-                    <div v-if="evaluasiLoading" class="text-center py-5">
+                    <div v-if="implementasiLoading" class="text-center py-5">
                       <div class="spinner spinner-track spinner-primary mr-15"></div>
                       <p class="mt-3">Memuat data...</p>
                     </div>
 
-                    <!-- Empty State -->
-                    <div v-else-if="evaluasiList.length === 0" class="text-center py-5">
-                      <i class="ri-clipboard-line" style="font-size: 48px; color: #ccc"></i>
-                      <p class="text-muted mt-3">Belum ada data evaluasi</p>
+                    <div v-else-if="!selectedObservasi || !selectedObservasi.id" class="text-center py-5">
+                      <i class="ri-save-line" style="font-size: 48px; color: #ccc"></i>
+                      <p class="text-muted mt-3">Simpan observasi terlebih dahulu untuk menambah implementasi</p>
                     </div>
 
-                    <!-- Evaluasi List -->
-                    <div v-else class="evaluasi-list">
-                      <div v-for="item in evaluasiList" :key="item.id" class="evaluasi-item mb-3 p-3 border rounded" :class="{ 'active-evaluasi': selectedEvaluasi && selectedEvaluasi.id === item.id }" @click="selectEvaluasi(item)" style="cursor: pointer; transition: all 0.2s">
+                    <!-- Empty State -->
+                    <div v-else-if="implementasiList.length === 0" class="text-center py-5">
+                      <i class="ri-task-line" style="font-size: 48px; color: #ccc"></i>
+                      <p class="text-muted mt-3">Belum ada data implementasi</p>
+                    </div>
+
+                    <!-- Implementasi List -->
+                    <div v-else class="implementasi-list">
+                      <div v-for="item in implementasiList" :key="item.id" class="implementasi-item mb-3 p-3 border rounded" :class="{ 'active-implementasi': selectedImplementasi && selectedImplementasi.id === item.id }" @click="selectImplementasi(item)" style="cursor: pointer; transition: all 0.2s">
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="flex-grow-1">
                             <div class="font-weight-bolder text-dark mb-1">
-                              {{ $moment(item.waktu_evaluasi).format("DD/MM/YYYY HH:mm") }}
+                              {{ item.jenis_implementasi || "Implementasi Keperawatan" }}
                             </div>
-                            <div class="text-muted small mb-2"><i class="ri-user-nurse-line"></i> {{ item.perawat_nama || "-" }}</div>
-                            <div v-if="item.tindak_lanjut" class="mb-1">
-                              <span class="badge badge-info">Tindak Lanjut:</span>
-                              <span class="ml-1">{{ item.tindak_lanjut }}</span>
+                            <div class="text-muted small mb-2">
+                              <i class="ri-stethoscope-line"></i>
+                              {{ getDiagnosaName(item) || "-" }}
                             </div>
-                            <div v-if="item.catatan" class="text-muted small mt-2"><i class="ri-file-text-line"></i> {{ item.catatan.substring(0, 100) }}{{ item.catatan.length > 100 ? "..." : "" }}</div>
+                            <div v-if="item.respon_pasien" class="mb-1">
+                              <span class="badge badge-info">Respon:</span>
+                              <span class="ml-1">{{ item.respon_pasien }}</span>
+                            </div>
+                            <div v-if="item.implementasi" class="text-muted small mt-2"><i class="ri-file-text-line"></i> {{ item.implementasi.substring(0, 120) }}{{ item.implementasi.length > 120 ? "..." : "" }}</div>
                           </div>
                           <div class="ml-2">
-                            <span class="badge" :class="item.status === 'aktif' ? 'badge-success' : 'badge-secondary'">
-                              {{ item.status === "aktif" ? "Aktif" : "Non-Aktif" }}
+                            <span class="badge badge-primary">
+                              {{ Array.isArray(item.evaluasi) ? item.evaluasi.length : 0 }} Evaluasi
                             </span>
                           </div>
                         </div>
                         <div class="mt-2 d-flex justify-content-end">
-                          <button class="btn btn-sm btn-info mr-1" @click.stop="editEvaluasi(item)" title="Edit">
+                          <button class="btn btn-sm btn-info mr-1" @click.stop="editImplementasi(item)" title="Edit">
                             <i class="ri-pencil-line"></i>
                           </button>
-                          <button class="btn btn-sm btn-danger" @click.stop="confirmDeleteEvaluasi(item)" title="Hapus">
+                          <button class="btn btn-sm btn-danger" @click.stop="confirmDeleteImplementasi(item)" title="Hapus">
                             <i class="ri-delete-bin-line"></i>
                           </button>
                         </div>
@@ -635,60 +643,81 @@
                   <div class="card-header">
                     <div class="card-title">
                       <h6 class="font-weight-bolder text-dark">
-                        Implementasi
-                        <span v-if="selectedEvaluasi">( Evaluasi Terpilih )</span>
-                        <span v-else class="text-muted">( Pilih evaluasi terlebih dahulu )</span>
+                        Evaluasi Keperawatan
+                        <span v-if="selectedImplementasi" class="text-muted">({{ selectedImplementasi.jenis_implementasi || "Implementasi Terpilih" }})</span>
+                        <span v-else class="text-muted">( Pilih implementasi terlebih dahulu )</span>
                       </h6>
                     </div>
                     <div class="d-flex justify-content-end align-items-center">
-                      <button class="btn btn-primary btn-sm" @click="showImplementasiModal()" :disabled="!selectedEvaluasi"><i class="ri-add-line"></i> Tambah Implementasi</button>
+                      <button class="btn btn-primary btn-sm" @click="showEvaluasiModal()" :disabled="!selectedImplementasi"><i class="ri-add-line"></i> Tambah Evaluasi</button>
                     </div>
                   </div>
                   <div class="card-body">
-                    <!-- Empty State - No Evaluasi Selected -->
-                    <div v-if="!selectedEvaluasi" class="text-center py-5">
+                    <!-- Empty State - No Implementasi Selected -->
+                    <div v-if="!selectedImplementasi" class="text-center py-5">
                       <i class="ri-cursor-line" style="font-size: 48px; color: #ccc"></i>
-                      <p class="text-muted mt-3">Pilih evaluasi dari daftar di sebelah kiri</p>
+                      <p class="text-muted mt-3">Pilih implementasi dari daftar di sebelah kiri</p>
                     </div>
 
                     <!-- Loading State -->
-                    <div v-else-if="implementasiLoading" class="text-center py-5">
+                    <div v-else-if="evaluasiLoading" class="text-center py-5">
                       <div class="spinner spinner-track spinner-primary mr-15"></div>
                       <p class="mt-3">Memuat data...</p>
                     </div>
 
-                    <!-- Empty State - No Implementasi -->
-                    <div v-else-if="implementasiList.length === 0" class="text-center py-5">
-                      <i class="ri-task-line" style="font-size: 48px; color: #ccc"></i>
-                      <p class="text-muted mt-3">Belum ada data implementasi untuk evaluasi ini</p>
-                    </div>
-
-                    <!-- Implementasi List -->
-                    <div v-else class="implementasi-list">
-                      <div v-for="item in implementasiList" :key="item.id" class="implementasi-item mb-3 p-3 border rounded bg-light">
+                    <div v-else>
+                      <div class="selected-implementasi mb-4 p-3 border rounded bg-light">
                         <div class="mb-2">
                           <span class="badge badge-primary">Jenis:</span>
-                          <span class="ml-1 font-weight-bold">{{ item.jenis_implementasi || "-" }}</span>
+                          <span class="ml-1 font-weight-bold">{{ selectedImplementasi.jenis_implementasi || "-" }}</span>
                         </div>
-                        <div v-if="item.diagnosa_nama" class="mb-2">
+                        <div v-if="getDiagnosaName(selectedImplementasi)" class="mb-2">
                           <span class="badge badge-secondary">Diagnosa:</span>
-                          <span class="ml-1">{{ item.diagnosa_nama }}</span>
+                          <span class="ml-1">{{ getDiagnosaName(selectedImplementasi) }}</span>
                         </div>
-                        <div v-if="item.respon_pasien" class="mb-2">
+                        <div v-if="selectedImplementasi.respon_pasien" class="mb-2">
                           <div class="font-weight-bold">Respon Pasien:</div>
-                          <div class="text-muted">{{ item.respon_pasien }}</div>
+                          <div class="text-muted">{{ selectedImplementasi.respon_pasien }}</div>
                         </div>
-                        <div v-if="item.implementasi" class="mb-2">
+                        <div v-if="selectedImplementasi.implementasi" class="mb-0">
                           <div class="font-weight-bold">Implementasi:</div>
-                          <div class="text-muted">{{ item.implementasi.substring(0, 150) }}{{ item.implementasi.length > 150 ? "..." : "" }}</div>
+                          <div class="text-muted">{{ selectedImplementasi.implementasi }}</div>
                         </div>
-                        <div class="mt-2 d-flex justify-content-end">
-                          <button class="btn btn-sm btn-info mr-1" @click="editImplementasi(item)" title="Edit">
-                            <i class="ri-pencil-line"></i>
-                          </button>
-                          <button class="btn btn-sm btn-danger" @click="confirmDeleteImplementasi(item)" title="Hapus">
-                            <i class="ri-delete-bin-line"></i>
-                          </button>
+                      </div>
+
+                      <div v-if="evaluasiList.length === 0" class="text-center py-5">
+                        <i class="ri-clipboard-line" style="font-size: 48px; color: #ccc"></i>
+                        <p class="text-muted mt-3">Belum ada data evaluasi untuk implementasi ini</p>
+                      </div>
+
+                      <div v-else class="evaluasi-list">
+                        <div v-for="item in evaluasiList" :key="item.id" class="evaluasi-child-item mb-3 p-3 border rounded bg-white">
+                          <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                              <div class="font-weight-bolder text-dark mb-1">
+                                {{ item.waktu_evaluasi ? $moment(item.waktu_evaluasi).format("DD/MM/YYYY HH:mm") : "-" }}
+                              </div>
+                              <div class="text-muted small mb-2"><i class="ri-user-nurse-line"></i> {{ getEvaluasiPerawatName(item) }}</div>
+                              <div v-if="item.tindak_lanjut" class="mb-1">
+                                <span class="badge badge-info">Tindak Lanjut:</span>
+                                <span class="ml-1">{{ item.tindak_lanjut }}</span>
+                              </div>
+                              <div v-if="item.catatan" class="text-muted small mt-2"><i class="ri-file-text-line"></i> {{ item.catatan.substring(0, 120) }}{{ item.catatan.length > 120 ? "..." : "" }}</div>
+                            </div>
+                            <div class="ml-2">
+                              <span class="badge" :class="item.status === 'aktif' ? 'badge-success' : 'badge-secondary'">
+                                {{ item.status === "aktif" ? "Aktif" : "Non-Aktif" }}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="mt-2 d-flex justify-content-end">
+                            <button class="btn btn-sm btn-info mr-1" @click="editEvaluasi(item)" title="Edit">
+                              <i class="ri-pencil-line"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" @click="confirmDeleteEvaluasi(item)" title="Hapus">
+                              <i class="ri-delete-bin-line"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -804,7 +833,6 @@
               param: {},
             }"
             :valuee="implementasiFormData.diagnosa" />
-          {{ implementasiFormData.diagnosa }}
         </div>
 
         <div class="form-group">
@@ -900,10 +928,10 @@ export default {
       evaluasiList: [],
       evaluasiLoading: false,
       evaluasiSaving: false,
-      selectedEvaluasi: null,
+      selectedImplementasi: null,
       evaluasiFormData: {
         id: null,
-        observasi_id: "",
+        observasi_evaluasi_implementasi_id: "",
         perawat_id: "",
         perawat: null,
         waktu_evaluasi: "",
@@ -917,7 +945,7 @@ export default {
       implementasiSaving: false,
       implementasiFormData: {
         id: null,
-        observasi_evaluasi_id: "",
+        observasi_id: "",
         ms_diagnosa_id: "",
         diagnosa: null,
         jenis_implementasi: "",
@@ -1033,6 +1061,7 @@ export default {
       this.vitalSignsList = [];
       this.resetForm();
       this.resetTherapyLists();
+      this.resetImplementasiEvaluasiState();
     },
 
     switchTab(tab) {
@@ -1045,6 +1074,7 @@ export default {
       this.vitalSignsList = [];
       this.resetForm();
       this.resetTherapyLists();
+      this.resetImplementasiEvaluasiState();
     },
 
     async editRecord(item) {
@@ -1076,8 +1106,8 @@ export default {
           await this.loadVitalSigns();
           // Parse therapy data from backend
           await this.parseTherapyFromBackend(observasi.infus, observasi.obat, observasi.tindakan);
-          // Load evaluasi list
-          await this.loadEvaluasiList();
+          // Load implementasi dan evaluasi child
+          await this.loadImplementasiList();
         }
       } catch (error) {
         console.error("Error loading observasi for edit:", error);
@@ -1449,38 +1479,124 @@ export default {
       };
     },
 
-    // ========== Evaluasi Methods ==========
-    async loadEvaluasiList() {
-      if (!this.selectedObservasi || !this.selectedObservasi.id) return;
+    // ========== Implementasi & Evaluasi Methods ==========
+    resetImplementasiEvaluasiState() {
+      this.implementasiList = [];
+      this.evaluasiList = [];
+      this.selectedImplementasi = null;
+      this.resetEvaluasiForm();
+      this.resetImplementasiForm();
+    },
 
+    getDiagnosaLookupValue(item) {
+      if (!item) return null;
+
+      const diagnosa = item.ms_diagnosa || item.diagnosa || {};
+      const diagnosaId = item.ms_diagnosa_id || diagnosa.id || diagnosa.ms_diagnosa_id || "";
+      const diagnosaNama = item.diagnosa_nama || diagnosa.nama_diagnosa || "";
+
+      if (!diagnosaId && !diagnosaNama) return null;
+
+      return {
+        ...diagnosa,
+        id: diagnosa.id || diagnosaId,
+        ms_diagnosa_id: diagnosa.ms_diagnosa_id || diagnosaId,
+        nama_diagnosa: diagnosaNama,
+      };
+    },
+
+    getDiagnosaId(item) {
+      const diagnosa = item && item.diagnosa ? item.diagnosa : item;
+      return (diagnosa && (diagnosa.id || diagnosa.ms_diagnosa_id)) || "";
+    },
+
+    getDiagnosaName(item) {
+      if (!item) return "";
+      return item.diagnosa_nama || (item.ms_diagnosa && item.ms_diagnosa.nama_diagnosa) || (item.diagnosa && item.diagnosa.nama_diagnosa) || "";
+    },
+
+    getPerawatLookupValue(item) {
+      if (!item) return null;
+
+      const perawat = item.perawat || item.ms_dokter || {};
+      const perawatId = item.perawat_id || perawat.ms_dokter_id || perawat.id || "";
+      const perawatNama = item.perawat_nama || perawat.nama_dokter || "";
+
+      if (!perawatId && !perawatNama) return null;
+
+      return {
+        ...perawat,
+        id: perawat.id || perawatId,
+        ms_dokter_id: perawat.ms_dokter_id || perawatId,
+        nama_dokter: perawatNama,
+      };
+    },
+
+    getPerawatId(item) {
+      const perawat = item && item.perawat ? item.perawat : item;
+      return (perawat && (perawat.ms_dokter_id || perawat.id || perawat.perawat_id)) || "";
+    },
+
+    getEvaluasiPerawatName(item) {
+      if (!item) return "-";
+      return item.perawat_nama || (item.ms_dokter && item.ms_dokter.nama_dokter) || (item.perawat && item.perawat.nama_dokter) || "-";
+    },
+
+    async loadEvaluasiList(selectedId = null) {
+      await this.loadImplementasiList(selectedId);
+    },
+
+    async loadImplementasiList(selectedId = null) {
+      if (!this.selectedObservasi || !this.selectedObservasi.id) {
+        this.resetImplementasiEvaluasiState();
+        return;
+      }
+
+      this.implementasiLoading = true;
       this.evaluasiLoading = true;
       try {
-        const response = await this.$_api.post("observasi_evaluasi/list", {
+        const response = await this.$_api.post("observasi_evaluasi_implementasi/list", {
           observasi_id: this.selectedObservasi.id,
           halaman: 1,
           jumlah: 999,
         });
 
-        if (response.data) {
-          this.evaluasiList = response.data;
-        } else {
+        this.implementasiList = Array.isArray(response.data) ? response.data : [];
+
+        if (this.implementasiList.length === 0) {
+          this.selectedImplementasi = null;
           this.evaluasiList = [];
+          return;
         }
+
+        const preferredId = selectedId || (this.selectedImplementasi && this.selectedImplementasi.id);
+        const selectedItem = (preferredId && this.implementasiList.find((item) => item.id === preferredId)) || this.implementasiList[0];
+        this.selectImplementasi(selectedItem);
       } catch (error) {
-        console.error("Error loading evaluasi data:", error);
-        this.$_alert.error({}, "Gagal memuat data evaluasi");
+        console.error("Error loading implementasi data:", error);
+        this.implementasiList = [];
+        this.selectedImplementasi = null;
+        this.evaluasiList = [];
+        this.$_alert.error({}, "Gagal memuat data implementasi");
       } finally {
+        this.implementasiLoading = false;
         this.evaluasiLoading = false;
       }
     },
 
-    selectEvaluasi(item) {
-      this.selectedEvaluasi = item;
-      this.loadImplementasiList();
+    selectImplementasi(item) {
+      this.selectedImplementasi = item || null;
+      this.evaluasiList = item && Array.isArray(item.evaluasi) ? item.evaluasi : [];
     },
 
     showEvaluasiModal() {
+      if (!this.selectedImplementasi || !this.selectedImplementasi.id) {
+        this.$_alert.error({}, "Pilih implementasi terlebih dahulu");
+        return;
+      }
+
       this.resetEvaluasiForm();
+      this.evaluasiFormData.observasi_evaluasi_implementasi_id = this.selectedImplementasi.id;
       this.$refs.evaluasiModal.show();
     },
 
@@ -1492,12 +1608,9 @@ export default {
     editEvaluasi(item) {
       this.evaluasiFormData = {
         id: item.id,
-        observasi_id: item.observasi_id,
-        perawat_id: item.perawat_id,
-        perawat: {
-          ms_dokter_id: item.perawat_id,
-          nama_dokter: item.perawat_nama,
-        },
+        observasi_evaluasi_implementasi_id: item.observasi_evaluasi_implementasi_id || (this.selectedImplementasi && this.selectedImplementasi.id) || "",
+        perawat_id: item.perawat_id || this.getPerawatId(item),
+        perawat: this.getPerawatLookupValue(item),
         waktu_evaluasi: item.waktu_evaluasi ? item.waktu_evaluasi.substring(0, 16) : "",
         tindak_lanjut: item.tindak_lanjut || "",
         catatan: item.catatan || "",
@@ -1507,8 +1620,16 @@ export default {
     },
 
     async saveEvaluasi() {
+      const perawatId = this.getPerawatId(this.evaluasiFormData);
+      const implementasiId = this.evaluasiFormData.observasi_evaluasi_implementasi_id || (this.selectedImplementasi && this.selectedImplementasi.id);
+
       // Validation
-      if (!this.evaluasiFormData.perawat || !this.evaluasiFormData.perawat.ms_dokter_id) {
+      if (!implementasiId) {
+        this.$_alert.error({}, "Implementasi harus dipilih");
+        return;
+      }
+
+      if (!perawatId) {
         this.$_alert.error({}, "Perawat harus dipilih");
         return;
       }
@@ -1525,8 +1646,8 @@ export default {
           // Update existing
           response = await this.$_api.post("observasi_evaluasi/update", {
             id: this.evaluasiFormData.id,
-            observasi_id: this.evaluasiFormData.observasi_id || this.selectedObservasi.id,
-            perawat_id: this.evaluasiFormData.perawat.ms_dokter_id,
+            observasi_evaluasi_implementasi_id: implementasiId,
+            perawat_id: perawatId,
             waktu_evaluasi: this.evaluasiFormData.waktu_evaluasi || null,
             tindak_lanjut: this.evaluasiFormData.tindak_lanjut || null,
             catatan: this.evaluasiFormData.catatan || null,
@@ -1535,8 +1656,8 @@ export default {
         } else {
           // Create new
           response = await this.$_api.post("observasi_evaluasi/register", {
-            observasi_id: this.selectedObservasi.id,
-            perawat_id: this.evaluasiFormData.perawat.ms_dokter_id,
+            observasi_evaluasi_implementasi_id: implementasiId,
+            perawat_id: perawatId,
             waktu_evaluasi: this.evaluasiFormData.waktu_evaluasi || null,
             tindak_lanjut: this.evaluasiFormData.tindak_lanjut || null,
             catatan: this.evaluasiFormData.catatan || null,
@@ -1546,7 +1667,7 @@ export default {
 
         this.$_alert.success({}, response.message || "Data evaluasi berhasil disimpan");
         this.closeEvaluasiModal();
-        await this.loadEvaluasiList();
+        await this.loadImplementasiList(implementasiId);
       } catch (error) {
         console.error("Error saving evaluasi data:", error);
         let message = "Gagal menyimpan data evaluasi";
@@ -1580,14 +1701,7 @@ export default {
         });
 
         this.$_alert.success({}, "Data evaluasi berhasil dihapus");
-
-        // If deleted evaluasi was selected, clear selection
-        if (this.selectedEvaluasi && this.selectedEvaluasi.id === item.id) {
-          this.selectedEvaluasi = null;
-          this.implementasiList = [];
-        }
-
-        await this.loadEvaluasiList();
+        await this.loadImplementasiList((this.selectedImplementasi && this.selectedImplementasi.id) || item.observasi_evaluasi_implementasi_id || null);
       } catch (error) {
         console.error("Error deleting evaluasi data:", error);
         let message = "Gagal menghapus data evaluasi";
@@ -1605,7 +1719,7 @@ export default {
     resetEvaluasiForm() {
       this.evaluasiFormData = {
         id: null,
-        observasi_id: "",
+        observasi_evaluasi_implementasi_id: "",
         perawat_id: "",
         perawat: null,
         waktu_evaluasi: "",
@@ -1615,33 +1729,9 @@ export default {
       };
     },
 
-    // ========== Implementasi Methods ==========
-    async loadImplementasiList() {
-      if (!this.selectedEvaluasi || !this.selectedEvaluasi.id) return;
-
-      this.implementasiLoading = true;
-      try {
-        const response = await this.$_api.post("observasi_evaluasi_implementasi/list", {
-          observasi_evaluasi_id: this.selectedEvaluasi.id,
-          halaman: 1,
-          jumlah: 999,
-        });
-
-        if (response.data) {
-          this.implementasiList = response.data;
-        } else {
-          this.implementasiList = [];
-        }
-      } catch (error) {
-        console.error("Error loading implementasi data:", error);
-        this.$_alert.error({}, "Gagal memuat data implementasi");
-      } finally {
-        this.implementasiLoading = false;
-      }
-    },
-
     showImplementasiModal() {
       this.resetImplementasiForm();
+      this.implementasiFormData.observasi_id = (this.selectedObservasi && this.selectedObservasi.id) || "";
       this.$refs.implementasiModal.show();
     },
 
@@ -1653,12 +1743,9 @@ export default {
     editImplementasi(item) {
       this.implementasiFormData = {
         id: item.id,
-        observasi_evaluasi_id: item.observasi_evaluasi_id,
+        observasi_id: item.observasi_id || (this.selectedObservasi && this.selectedObservasi.id) || "",
         ms_diagnosa_id: item.ms_diagnosa_id,
-        diagnosa: {
-          ms_diagnosa_id: item.ms_diagnosa_id,
-          nama_diagnosa: item.diagnosa_nama,
-        },
+        diagnosa: this.getDiagnosaLookupValue(item),
         jenis_implementasi: item.jenis_implementasi || "",
         respon_pasien: item.respon_pasien || "",
         implementasi: item.implementasi || "",
@@ -1667,6 +1754,13 @@ export default {
     },
 
     async saveImplementasi() {
+      if (!this.selectedObservasi || !this.selectedObservasi.id) {
+        this.$_alert.error({}, "Data observasi belum dipilih");
+        return;
+      }
+
+      const diagnosaId = this.getDiagnosaId(this.implementasiFormData);
+
       this.implementasiSaving = true;
       try {
         let response;
@@ -1674,8 +1768,7 @@ export default {
           // Update existing
           response = await this.$_api.post("observasi_evaluasi_implementasi/update", {
             id: this.implementasiFormData.id,
-            observasi_evaluasi_id: this.implementasiFormData.observasi_evaluasi_id || this.selectedEvaluasi.id,
-            ms_diagnosa_id: this.implementasiFormData.diagnosa ? this.implementasiFormData.diagnosa.id : null,
+            ms_diagnosa_id: diagnosaId || null,
             jenis_implementasi: this.implementasiFormData.jenis_implementasi || null,
             respon_pasien: this.implementasiFormData.respon_pasien || null,
             implementasi: this.implementasiFormData.implementasi || null,
@@ -1683,8 +1776,8 @@ export default {
         } else {
           // Create new
           response = await this.$_api.post("observasi_evaluasi_implementasi/register", {
-            observasi_evaluasi_id: this.selectedEvaluasi.id,
-            ms_diagnosa_id: this.implementasiFormData.diagnosa ? this.implementasiFormData.diagnosa.id : null,
+            observasi_id: this.selectedObservasi.id,
+            ms_diagnosa_id: diagnosaId || null,
             jenis_implementasi: this.implementasiFormData.jenis_implementasi || null,
             respon_pasien: this.implementasiFormData.respon_pasien || null,
             implementasi: this.implementasiFormData.implementasi || null,
@@ -1692,8 +1785,9 @@ export default {
         }
 
         this.$_alert.success({}, response.message || "Data implementasi berhasil disimpan");
+        const preferredId = (response.data && response.data.id) || this.implementasiFormData.id || (this.selectedImplementasi && this.selectedImplementasi.id) || null;
         this.closeImplementasiModal();
-        await this.loadImplementasiList();
+        await this.loadImplementasiList(preferredId);
       } catch (error) {
         console.error("Error saving implementasi data:", error);
         let message = "Gagal menyimpan data implementasi";
@@ -1727,7 +1821,7 @@ export default {
         });
 
         this.$_alert.success({}, "Data implementasi berhasil dihapus");
-        await this.loadImplementasiList();
+        await this.loadImplementasiList(this.selectedImplementasi && this.selectedImplementasi.id !== item.id ? this.selectedImplementasi.id : null);
       } catch (error) {
         console.error("Error deleting implementasi data:", error);
         let message = "Gagal menghapus data implementasi";
@@ -1745,7 +1839,7 @@ export default {
     resetImplementasiForm() {
       this.implementasiFormData = {
         id: null,
-        observasi_evaluasi_id: "",
+        observasi_id: "",
         ms_diagnosa_id: "",
         diagnosa: null,
         jenis_implementasi: "",
@@ -1779,18 +1873,7 @@ export default {
   opacity: 0.6;
 }
 
-.evaluasi-item {
-  transition: all 0.2s ease;
-}
-
-.evaluasi-item:hover {
-  background-color: #f0f0f0;
-  border-color: #007bff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
-}
-
-.evaluasi-item.active-evaluasi {
+.active-implementasi {
   background-color: #e8f4ff;
   border-color: #007bff !important;
   box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
@@ -1804,5 +1887,14 @@ export default {
   background-color: #f8f9fa !important;
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.evaluasi-child-item {
+  transition: all 0.2s ease;
+}
+
+.evaluasi-child-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 </style>
