@@ -143,8 +143,15 @@ export default {
     },
     handleData() {
       console.log('handleData')
+      if (!this.mData.data_anatomi) this.$set(this.mData, 'data_anatomi', [])
       if (!this.mData.medis) this.mData.medis = []
       if (!this.mData.kebidanan) this.mData.kebidanan = []
+    },
+    close_popup() {
+      const closebtn = document.getElementsByClassName('leaflet-popup-close-button')
+      for (let ii = 0; ii < closebtn.length; ii++) {
+        closebtn[ii].click()
+      }
     },
     switchTab(key) {
       this.tabActive = key
@@ -154,7 +161,7 @@ export default {
         if (status.isDismissed) return
         else {
           this.mData.data_anatomi.splice(index, 1)
-          this.$emit('submit', { key: 'assesment', open_tab: 'assesment', data: this.mData })
+          this.$emit('submit', { key: 'anatomi', open_tab: 'anatomi', data: this.mData })
         }
       });
     },
@@ -429,10 +436,9 @@ export default {
               "properties": data
             }
             
-            vm.$emit('submit', { key: 'anatomi', open_tab: 'anatomi', data: vm.mData }).then(() => {
-              vm.close_popup()
-              vm.getDataAnatomi();
-            })
+            vm.$emit('submit', { key: 'anatomi', open_tab: 'anatomi', data: vm.mData })
+            vm.close_popup()
+            vm.getDataAnatomi();
 
           } else {
             vm.$store.commit('set_alert', { variant: "warning", msg: "GAGAL, DATA TIDAK LENGKAP", showing: true })

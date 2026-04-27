@@ -32,9 +32,8 @@
               <thead>
                 <tr>
                   <th width="120">No & Tanggal</th>
-                  <th>Pemeriksaan</th>
-                  <th>Tindakan Medis</th>
-                  <th>Kesimpulan</th>
+                  <th>Anatomi</th>
+                  <th>Kesimpulan Akhir</th>
                   <th width="200">Aksi</th>
                 </tr>
               </thead>
@@ -47,57 +46,25 @@
                     </div>
                   </td>
                   <td>
-                    <div v-if="item.bibir_kemaluan" class="small">
-                      <strong>Bibir:</strong> {{ truncate(item.bibir_kemaluan, 30) }}
+                    <div v-if="getAnatomiList(item).length > 0">
+                      <div
+                        v-for="(anatomi, index) in getAnatomiList(item).slice(0, 2)"
+                        :key="`${item.id || item.nomor_urut}-anatomi-${index}`"
+                        class="small">
+                        <strong>{{ anatomi.properties.bagian_tubuh || 'Bagian Tubuh' }}:</strong>
+                        {{ truncate(anatomi.properties.keterangan, 40) }}
+                      </div>
+                      <div v-if="getAnatomiList(item).length > 2" class="mt-1">
+                        <span class="badge badge-light-primary">+{{ getAnatomiList(item).length - 2 }} anatomi lain</span>
+                      </div>
                     </div>
-                    <div v-if="item.serambi_kemaluan" class="small">
-                      <strong>Serambi:</strong> {{ truncate(item.serambi_kemaluan, 30) }}
-                    </div>
-                    <div v-if="item.selaput_dara" class="small">
-                      <strong>Selaput Dara:</strong> {{ truncate(item.selaput_dara, 30) }}
-                    </div>
-                    <div v-if="item.liang_senggama" class="small">
-                      <strong>Liang Senggama:</strong> {{ truncate(item.liang_senggama, 30) }}
-                    </div>
-                    <div v-if="item.perineum" class="small">
-                      <strong>Perineum:</strong> {{ truncate(item.perineum, 30) }}
-                    </div>
-                    <div v-if="item.anus" class="small">
-                      <strong>Anus:</strong> {{ truncate(item.anus, 30) }}
-                    </div>
-                    <div v-if="item.bagian_tubuh_lain" class="small">
-                      <strong>Lainnya:</strong> {{ truncate(item.bagian_tubuh_lain, 30) }}
-                    </div>
-                    <div v-if="!item.bibir_kemaluan && !item.serambi_kemaluan && !item.selaput_dara && !item.liang_senggama && !item.perineum && !item.anus && !item.bagian_tubuh_lain" class="text-muted">
+                    <div v-else class="text-muted">
                       -
                     </div>
                   </td>
                   <td>
-                    <div v-if="item.tes_kehamilan" class="small">
-                      <strong>Tes Kehamilan:</strong> {{ truncate(item.tes_kehamilan, 30) }}
-                    </div>
-                    <div v-if="item.tinggi_fundus_uteri" class="small">
-                      <strong>Fundus Uteri:</strong> {{ truncate(item.tinggi_fundus_uteri, 30) }}
-                    </div>
-                    <div v-if="item.rawat_luka" class="mt-1">
-                      <span class="badge badge-success">Rawat Luka</span>
-                    </div>
-                    <div v-if="item.rawat_inap" class="mt-1">
-                      <span class="badge badge-info">Rawat Inap</span>
-                    </div>
-                    <div v-if="item.penunjang_lain" class="small mt-1">
-                      <strong>Penunjang:</strong> {{ truncate(item.penunjang_lain, 30) }}
-                    </div>
-                    <div v-if="!item.tes_kehamilan && !item.tinggi_fundus_uteri && !item.rawat_luka && !item.rawat_inap && !item.penunjang_lain" class="text-muted">
-                      -
-                    </div>
-                  </td>
-                  <td>
-                    <div v-if="item.kesimpulan_pertama" class="small">
-                      {{ truncate(item.kesimpulan_pertama, 50) }}
-                    </div>
-                    <div v-if="item.jumlah_kesimpulan > 1" class="mt-1">
-                      <span class="badge badge-light-primary">+{{ item.jumlah_kesimpulan - 1 }} kesimpulan lain</span>
+                    <div v-if="getFirstKesimpulan(item)" class="small">
+                      {{ truncate(getFirstKesimpulan(item), 80) }}
                     </div>
                     <div v-else class="text-muted">-</div>
                   </td>
@@ -151,86 +118,39 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 mb-3" v-if="selectedVisum.bibir_kemaluan">
-                <label class="font-weight-bold">Bibir Kemaluan</label>
-                <p class="text-muted mb-0">{{ selectedVisum.bibir_kemaluan }}</p>
-              </div>
-              <div class="col-md-6 mb-3" v-if="selectedVisum.serambi_kemaluan">
-                <label class="font-weight-bold">Serambi Kemaluan</label>
-                <p class="text-muted mb-0">{{ selectedVisum.serambi_kemaluan }}</p>
-              </div>
-              <div class="col-md-6 mb-3" v-if="selectedVisum.selaput_dara">
-                <label class="font-weight-bold">Selaput Dara</label>
-                <p class="text-muted mb-0">{{ selectedVisum.selaput_dara }}</p>
-              </div>
-              <div class="col-md-6 mb-3" v-if="selectedVisum.liang_senggama">
-                <label class="font-weight-bold">Liang Senggama</label>
-                <p class="text-muted mb-0">{{ selectedVisum.liang_senggama }}</p>
-              </div>
-              <div class="col-md-6 mb-3" v-if="selectedVisum.perineum">
-                <label class="font-weight-bold">Perineum</label>
-                <p class="text-muted mb-0">{{ selectedVisum.perineum }}</p>
-              </div>
-              <div class="col-md-6 mb-3" v-if="selectedVisum.anus">
-                <label class="font-weight-bold">Anus</label>
-                <p class="text-muted mb-0">{{ selectedVisum.anus }}</p>
-              </div>
-              <div class="col-md-12 mb-3" v-if="selectedVisum.bagian_tubuh_lain">
-                <label class="font-weight-bold">Bagian Tubuh Lain</label>
-                <p class="text-muted mb-0">{{ selectedVisum.bagian_tubuh_lain }}</p>
+              <div class="col-12">
+                <div v-if="getAnatomiList(selectedVisum).length > 0" class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead class="bg-light">
+                      <tr>
+                        <th width="60">No</th>
+                        <th>Bagian Tubuh</th>
+                        <th>Keterangan</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(anatomi, index) in getAnatomiList(selectedVisum)" :key="`detail-anatomi-${index}`">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ anatomi.properties.bagian_tubuh || '-' }}</td>
+                        <td>{{ anatomi.properties.keterangan || '-' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p v-else class="text-muted mb-0">Belum ada data anatomi.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Section 2: Tindakan Medis -->
-        <div class="card card-custom mb-5" v-if="selectedVisum">
-          <!-- <div class="card-header">
-            <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
-          </div> -->
-          <div class="card-body">
-            <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
-              <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
-            </div>
-            <div class="row">
-              <div class="col-md-6 mb-3" v-if="selectedVisum.tes_kehamilan">
-                <label class="font-weight-bold">Tes Kehamilan</label>
-                <p class="text-muted mb-0">{{ selectedVisum.tes_kehamilan }}</p>
-              </div>
-              <div class="col-md-6 mb-3" v-if="selectedVisum.tinggi_fundus_uteri">
-                <label class="font-weight-bold">Tinggi Fundus Uteri</label>
-                <p class="text-muted mb-0">{{ selectedVisum.tinggi_fundus_uteri }}</p>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label class="font-weight-bold">Rawat Luka</label>
-                <p class="text-muted mb-0">
-                  <span v-if="selectedVisum.rawat_luka" class="badge badge-success">Ya</span>
-                  <span v-else class="badge badge-secondary">Tidak</span>
-                </p>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label class="font-weight-bold">Rawat Inap</label>
-                <p class="text-muted mb-0">
-                  <span v-if="selectedVisum.rawat_inap" class="badge badge-success">Ya</span>
-                  <span v-else class="badge badge-secondary">Tidak</span>
-                </p>
-              </div>
-              <div class="col-md-12 mb-3" v-if="selectedVisum.penunjang_lain">
-                <label class="font-weight-bold">Penunjang Lain</label>
-                <p class="text-muted mb-0">{{ selectedVisum.penunjang_lain }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 3: Kesimpulan -->
+        <!-- Section 2: Kesimpulan -->
         <div class="card card-custom" v-if="selectedVisum && selectedVisum.kesimpulan_list">
           <div class="card-body">
             <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
-              <h5 class="mb-0 font-weight-bolder">Kesimpulan ({{ selectedVisum.kesimpulan_list.length }})</h5>
+              <h5 class="mb-0 font-weight-bolder">Kesimpulan Akhir</h5>
             </div>
             <div v-if="selectedVisum.kesimpulan_list.length === 0" class="text-center py-5">
-              <p class="text-muted">Tidak ada kesimpulan</p>
+              <p class="text-muted">Tidak ada kesimpulan akhir</p>
             </div>
             <div v-else>
               <div
@@ -296,197 +216,29 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Bibir Kemaluan (labium mayora)</label>
-                  <textarea
-                    v-model="formData.bibir_kemaluan"
-                    class="form-control"
-                    rows="2"
-                    placeholder="Hasil pemeriksaan bibir kemaluan..."
-                  ></textarea>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Serambi Kemaluan (vestibulum vaginae)</label>
-                  <textarea
-                    v-model="formData.serambi_kemaluan"
-                    class="form-control"
-                    rows="2"
-                    placeholder="Hasil pemeriksaan serambi kemaluan..."
-                  ></textarea>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Selaput Dara</label>
-                  <textarea
-                    v-model="formData.selaput_dara"
-                    class="form-control"
-                    rows="2"
-                    placeholder="Hasil pemeriksaan selaput dara..."
-                  ></textarea>
-                  <small>tampak luka robek lama arah jam 3, 5, 9, 12 yang sampai dasar</small>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Liang Senggama (introitus vaginae)</label>
-                  <textarea
-                    v-model="formData.liang_senggama"
-                    class="form-control"
-                    rows="2"
-                    placeholder="Hasil pemeriksaan liang senggama..."
-                  ></textarea>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Perineum (perineum)</label>
-                  <textarea
-                    v-model="formData.perineum"
-                    class="form-control"
-                    rows="2"
-                    placeholder="Hasil pemeriksaan perineum..."
-                  ></textarea>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Lubang Dubur (anus)</label>
-                  <textarea
-                    v-model="formData.anus"
-                    class="form-control"
-                    rows="2"
-                    placeholder="Hasil pemeriksaan anus..."
-                  ></textarea>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="font-weight-bold">Bagian Tubuh Lain</label>
-                  <textarea
-                    v-model="formData.bagian_tubuh_lain"
-                    class="form-control"
-                    rows="2"
-                    placeholder="Hasil pemeriksaan bagian tubuh lain..."
-                  ></textarea>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        <!-- Section 2: Tindakan Medis -->
+        <triage-anatomi
+          v-if="formData.anatomi"
+          :is_validasi="false"
+          :objectDataAssesmen="anatomiContext"
+          :mData="formData.anatomi"></triage-anatomi>
+
+        <!-- Section 2: Kesimpulan -->
         <div class="card card-custom mb-5">
-          <!-- <div class="card-header">
-            <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
-          </div> -->
           <div class="card-body">
             <div style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
-              <h5 class="mb-0 font-weight-bolder">Tindakan Medis</h5>
+              <h5 class="mb-0 font-weight-bolder">Kesimpulan Akhir</h5>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Tes Kehamilan</label>
-                  <input
-                    v-model="formData.tes_kehamilan"
-                    type="text"
-                    class="form-control"
-                    placeholder="Hasil tes kehamilan..."
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Tinggi Fundus Uteri</label>
-                  <input
-                    v-model="formData.tinggi_fundus_uteri"
-                    type="text"
-                    class="form-control"
-                    placeholder="Tinggi fundus uteri..."
-                  />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="font-weight-bold">Rawat Luka</label>
-                  <div class="checkbox mt-4">
-                    <label class="checkbox checkbox-single">
-                      <input type="checkbox" v-model="formData.rawat_luka" />
-                      <span> </span> &ensp; Ya
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="font-weight-bold">Rawat Inap</label>
-                  <div class="checkbox mt-4">
-                    <label class="checkbox checkbox-single">
-                      <input type="checkbox" v-model="formData.rawat_inap" />
-                      <span></span> &ensp; Ya
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="font-weight-bold">Penunjang Lain</label>
-                  <input
-                    v-model="formData.penunjang_lain"
-                    type="text"
-                    class="form-control"
-                    placeholder="Penunjang lain..."
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 3: Kesimpulan (Multiple) -->
-        <div class="card card-custom mb-5">
-          <!-- <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center">
-              <h5 class="mb-0 font-weight-bolder">Kesimpulan</h5>
-              <button class="btn btn-primary btn-sm" @click="addKesimpulan">
-                <i class="ri-add-line"></i> Tambah Kesimpulan
-              </button>
-            </div>
-          </div> -->
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center" style="background-color: #c4c4c4;padding: .7rem;margin-bottom: 1rem;">
-              <h5 class="mb-0 font-weight-bolder">Kesimpulan</h5>
-              <button class="btn btn-primary btn-sm" @click="addKesimpulan">
-                <i class="ri-add-line"></i> Tambah Kesimpulan
-              </button>
-            </div>
-            <div v-if="formData.kesimpulan.length === 0" class="text-center py-5">
-              <p class="text-muted">Belum ada kesimpulan. Klik "Tambah Kesimpulan" untuk menambahkan.</p>
-            </div>
-            <div v-else>
-              <div v-for="(kesimpulan, index) in formData.kesimpulan" :key="index" class="mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <label class="font-weight-bold">Kesimpulan {{ index + 1 }}</label>
-                  <button
-                    class="btn btn-sm btn-danger"
-                    @click="removeKesimpulan(index)"
-                    v-if="formData.kesimpulan.length > 1"
-                  >
-                    <i class="ri-delete-bin-line"></i>
-                  </button>
-                </div>
-                <textarea
-                  v-model="formData.kesimpulan[index].kesimpulan"
-                  class="form-control"
-                  rows="3"
-                  placeholder="Masukkan kesimpulan..."
-                ></textarea>
-              </div>
+            <div class="form-group mb-0">
+              <label class="font-weight-bold">Kesimpulan Akhir</label>
+              <textarea
+                v-model="formData.kesimpulan[0].kesimpulan"
+                class="form-control"
+                rows="4"
+                placeholder="Masukkan kesimpulan akhir visum..."
+              ></textarea>
             </div>
           </div>
         </div>
@@ -592,87 +344,26 @@
             <tr>
               <td colspan="3">
                 <table class="custom-table">
-                  <tr v-if="cetakData.bibir_kemaluan">
-                    <td style="width: 30%; vertical-align: top;">Bibir Kemaluan</td>
-                    <td style="width: 2%; vertical-align: top;">:</td>
-                    <td style="vertical-align: top;">{{ cetakData.bibir_kemaluan }}</td>
-                  </tr>
-                  <tr v-if="cetakData.serambi_kemaluan">
-                    <td style="vertical-align: top;">Serambi Kemaluan</td>
+                  <template v-if="getAnatomiList(cetakData).length > 0">
+                    <tr v-for="(anatomi, index) in getAnatomiList(cetakData)" :key="`cetak-anatomi-${index}`">
+                      <td style="width: 30%; vertical-align: top;">{{ anatomi.properties.bagian_tubuh || `Anatomi ${index + 1}` }}</td>
+                      <td style="width: 2%; vertical-align: top;">:</td>
+                      <td style="vertical-align: top;">{{ anatomi.properties.keterangan || '-' }}</td>
+                    </tr>
+                  </template>
+                  <tr v-else>
+                    <td style="vertical-align: top;">Anatomi</td>
                     <td style="vertical-align: top;">:</td>
-                    <td style="vertical-align: top;">{{ cetakData.serambi_kemaluan }}</td>
-                  </tr>
-                  <tr v-if="cetakData.selaput_dara">
-                    <td style="vertical-align: top;">Selaput Dara</td>
-                    <td style="vertical-align: top;">:</td>
-                    <td style="vertical-align: top;">{{ cetakData.selaput_dara }}</td>
-                  </tr>
-                  <tr v-if="cetakData.liang_senggama">
-                    <td style="vertical-align: top;">Liang Senggama</td>
-                    <td style="vertical-align: top;">:</td>
-                    <td style="vertical-align: top;">{{ cetakData.liang_senggama }}</td>
-                  </tr>
-                  <tr v-if="cetakData.perineum">
-                    <td style="vertical-align: top;">Perineum</td>
-                    <td style="vertical-align: top;">:</td>
-                    <td style="vertical-align: top;">{{ cetakData.perineum }}</td>
-                  </tr>
-                  <tr v-if="cetakData.anus">
-                    <td style="vertical-align: top;">Anus</td>
-                    <td style="vertical-align: top;">:</td>
-                    <td style="vertical-align: top;">{{ cetakData.anus }}</td>
-                  </tr>
-                  <tr v-if="cetakData.bagian_tubuh_lain">
-                    <td style="vertical-align: top;">Bagian Tubuh Lain</td>
-                    <td style="vertical-align: top;">:</td>
-                    <td style="vertical-align: top;">{{ cetakData.bagian_tubuh_lain }}</td>
+                    <td style="vertical-align: top;">-</td>
                   </tr>
                 </table>
               </td>
             </tr>
 
-            <!-- Section 2: Tindakan Medis -->
+            <!-- Section 2: Kesimpulan -->
             <tr class="bg-dark">
               <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px;">
-                Tindakan Medis
-              </td>
-            </tr>
-            <tr>
-              <td colspan="3">
-                <table class="custom-table">
-                  <tr v-if="cetakData.tes_kehamilan">
-                    <td style="width: 30%">Tes Kehamilan</td>
-                    <td style="width: 2%">:</td>
-                    <td>{{ cetakData.tes_kehamilan }}</td>
-                  </tr>
-                  <tr v-if="cetakData.tinggi_fundus_uteri">
-                    <td>Tinggi Fundus Uteri</td>
-                    <td>:</td>
-                    <td>{{ cetakData.tinggi_fundus_uteri }}</td>
-                  </tr>
-                  <tr>
-                    <td>Rawat Luka</td>
-                    <td>:</td>
-                    <td>{{ cetakData.rawat_luka ? 'Ya' : 'Tidak' }}</td>
-                  </tr>
-                  <tr>
-                    <td>Rawat Inap</td>
-                    <td>:</td>
-                    <td>{{ cetakData.rawat_inap ? 'Ya' : 'Tidak' }}</td>
-                  </tr>
-                  <tr v-if="cetakData.penunjang_lain">
-                    <td>Penunjang Lain</td>
-                    <td>:</td>
-                    <td>{{ cetakData.penunjang_lain }}</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-
-            <!-- Section 3: Kesimpulan -->
-            <tr class="bg-dark">
-              <td colspan="3" style="text-align: center; vertical-align: middle; font-weight: 600; height: 20px;">
-                Kesimpulan
+                Kesimpulan Akhir
               </td>
             </tr>
             <tr>
@@ -724,8 +415,21 @@
 
 <script>
 import print from "../../components/print.js";
+import TriageAnatomi from "../registrasi/layanan_igd/_components/triage/anatomi.vue";
+
+const createDefaultAnatomiData = () => ({
+  data_anatomi: []
+});
+
+const createDefaultKesimpulan = () => ([
+  { id: null, kesimpulan: '' }
+]);
+
 export default {
   name: 'VisumForm',
+  components: {
+    TriageAnatomi
+  },
   props: {
     dataRegistrasi: {
       type: Object,
@@ -748,21 +452,18 @@ export default {
         registrasi_id: this.registrasiId,
         tanggal_pemeriksaan: '',
         nomor_urut: '',
-        bibir_kemaluan: '',
-        serambi_kemaluan: '',
-        selaput_dara: '',
-        liang_senggama: '',
-        perineum: '',
-        anus: '',
-        bagian_tubuh_lain: '',
-        tes_kehamilan: '',
-        tinggi_fundus_uteri: '',
-        rawat_luka: false,
-        rawat_inap: false,
-        penunjang_lain: '',
-        kesimpulan: []
+        anatomi: createDefaultAnatomiData(),
+        kesimpulan: createDefaultKesimpulan()
       },
       cetakData: null
+    }
+  },
+  computed: {
+    anatomiContext() {
+      return {
+        id: this.formData.id || this.registrasiId || 'visum-anatomi',
+        jenis_kelamin: this.dataRegistrasi.jenis_kelamin || ''
+      }
     }
   },
   watch: {
@@ -776,6 +477,35 @@ export default {
     this.loadVisumData()
   },
   methods: {
+    normalizeAnatomiData(anatomi) {
+      return {
+        data_anatomi: Array.isArray(anatomi && anatomi.data_anatomi) ? anatomi.data_anatomi : []
+      }
+    },
+
+    ensureKesimpulanField() {
+      if (!Array.isArray(this.formData.kesimpulan) || this.formData.kesimpulan.length === 0) {
+        this.formData.kesimpulan = createDefaultKesimpulan()
+      }
+
+      if (!this.formData.kesimpulan[0]) {
+        this.formData.kesimpulan = createDefaultKesimpulan()
+      }
+    },
+
+    getAnatomiList(record) {
+      return this.normalizeAnatomiData(record && record.anatomi).data_anatomi
+    },
+
+    getFirstKesimpulan(record) {
+      if (!record) return ''
+      if (record.kesimpulan_pertama) return record.kesimpulan_pertama
+      if (Array.isArray(record.kesimpulan_list) && record.kesimpulan_list.length > 0) {
+        return record.kesimpulan_list[0].kesimpulan || ''
+      }
+      return ''
+    },
+
     truncate(text, length) {
       if (!text) return ''
       if (text.length <= length) return text
@@ -794,7 +524,10 @@ export default {
         })
 
         if (response.data) {
-          this.visumList = response.data
+          this.visumList = response.data.map((item) => ({
+            ...item,
+            anatomi: this.normalizeAnatomiData(item.anatomi)
+          }))
         } else {
           this.visumList = []
         }
@@ -826,7 +559,10 @@ export default {
         })
 
         if (response.data) {
-          this.selectedVisum = response.data
+          this.selectedVisum = {
+            ...response.data,
+            anatomi: this.normalizeAnatomiData(response.data.anatomi)
+          }
           this.isViewingDetail = true
           this.isEditing = false
         }
@@ -863,23 +599,13 @@ export default {
             registrasi_id: visum.registrasi_id,
             tanggal_pemeriksaan: visum.tanggal_pemeriksaan || '',
             nomor_urut: visum.nomor_urut || '',
-            bibir_kemaluan: visum.bibir_kemaluan || '',
-            serambi_kemaluan: visum.serambi_kemaluan || '',
-            selaput_dara: visum.selaput_dara || '',
-            liang_senggama: visum.liang_senggama || '',
-            perineum: visum.perineum || '',
-            anus: visum.anus || '',
-            bagian_tubuh_lain: visum.bagian_tubuh_lain || '',
-            tes_kehamilan: visum.tes_kehamilan || '',
-            tinggi_fundus_uteri: visum.tinggi_fundus_uteri || '',
-            rawat_luka: visum.rawat_luka || false,
-            rawat_inap: visum.rawat_inap || false,
-            penunjang_lain: visum.penunjang_lain || '',
+            anatomi: this.normalizeAnatomiData(visum.anatomi),
             kesimpulan: visum.kesimpulan_list ? visum.kesimpulan_list.map(k => ({
               id: k.id,
               kesimpulan: k.kesimpulan
-            })) : []
+            })) : createDefaultKesimpulan()
           }
+          this.ensureKesimpulanField()
           this.isEditing = true
           this.isViewingDetail = false
         }
@@ -897,20 +623,17 @@ export default {
       }
     },
 
-    addKesimpulan() {
-      this.formData.kesimpulan.push({
-        id: null,
-        kesimpulan: ''
-      })
-    },
-
-    removeKesimpulan(index) {
-      this.formData.kesimpulan.splice(index, 1)
-    },
-
     async submitForm() {
+      this.ensureKesimpulanField()
       this.loading = true
       try {
+        const kesimpulanPayload = this.formData.kesimpulan
+          .filter((item) => item && item.kesimpulan && item.kesimpulan.trim())
+          .map((item) => ({
+            ...(item.id ? { id: item.id } : {}),
+            kesimpulan: item.kesimpulan.trim()
+          }))
+
         let response
         if (this.formData.id) {
           // Update existing
@@ -918,38 +641,16 @@ export default {
             id: this.formData.id,
             registrasi_id: this.formData.registrasi_id,
             tanggal_pemeriksaan: this.formData.tanggal_pemeriksaan || null,
-            bibir_kemaluan: this.formData.bibir_kemaluan || null,
-            serambi_kemaluan: this.formData.serambi_kemaluan || null,
-            selaput_dara: this.formData.selaput_dara || null,
-            liang_senggama: this.formData.liang_senggama || null,
-            perineum: this.formData.perineum || null,
-            anus: this.formData.anus || null,
-            bagian_tubuh_lain: this.formData.bagian_tubuh_lain || null,
-            tes_kehamilan: this.formData.tes_kehamilan || null,
-            tinggi_fundus_uteri: this.formData.tinggi_fundus_uteri || null,
-            rawat_luka: this.formData.rawat_luka,
-            rawat_inap: this.formData.rawat_inap,
-            penunjang_lain: this.formData.penunjang_lain || null,
-            kesimpulan: this.formData.kesimpulan
+            anatomi: this.normalizeAnatomiData(this.formData.anatomi),
+            kesimpulan: kesimpulanPayload
           })
         } else {
           // Create new
           response = await this.$_api.post('visum/register', {
             registrasi_id: this.registrasiId,
             tanggal_pemeriksaan: this.formData.tanggal_pemeriksaan || null,
-            bibir_kemaluan: this.formData.bibir_kemaluan || null,
-            serambi_kemaluan: this.formData.serambi_kemaluan || null,
-            selaput_dara: this.formData.selaput_dara || null,
-            liang_senggama: this.formData.liang_senggama || null,
-            perineum: this.formData.perineum || null,
-            anus: this.formData.anus || null,
-            bagian_tubuh_lain: this.formData.bagian_tubuh_lain || null,
-            tes_kehamilan: this.formData.tes_kehamilan || null,
-            tinggi_fundus_uteri: this.formData.tinggi_fundus_uteri || null,
-            rawat_luka: this.formData.rawat_luka,
-            rawat_inap: this.formData.rawat_inap,
-            penunjang_lain: this.formData.penunjang_lain || null,
-            kesimpulan: this.formData.kesimpulan.map(k => k.kesimpulan)
+            anatomi: this.normalizeAnatomiData(this.formData.anatomi),
+            kesimpulan: kesimpulanPayload.map((item) => item.kesimpulan)
           })
         }
 
@@ -1021,7 +722,10 @@ export default {
         })
 
         if (response.data) {
-          this.cetakData = response.data
+          this.cetakData = {
+            ...response.data,
+            anatomi: this.normalizeAnatomiData(response.data.anatomi)
+          }
           console.log('Data untuk cetak:', this.cetakData)
           let options = {
             name: "_blank",
@@ -1053,19 +757,8 @@ export default {
         registrasi_id: this.registrasiId,
         tanggal_pemeriksaan: '',
         nomor_urut: '',
-        bibir_kemaluan: '',
-        serambi_kemaluan: '',
-        selaput_dara: '',
-        liang_senggama: '',
-        perineum: '',
-        anus: '',
-        bagian_tubuh_lain: '',
-        tes_kehamilan: '',
-        tinggi_fundus_uteri: '',
-        rawat_luka: false,
-        rawat_inap: false,
-        penunjang_lain: '',
-        kesimpulan: [{ id: null, kesimpulan: '' }]
+        anatomi: createDefaultAnatomiData(),
+        kesimpulan: createDefaultKesimpulan()
       }
     }
   }
