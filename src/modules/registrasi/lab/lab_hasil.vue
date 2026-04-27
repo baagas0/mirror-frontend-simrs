@@ -508,6 +508,8 @@ export default {
                       { label: "fL", code: "fL", description: "fL" },
                       { label: "Pg", code: "Pg", description: "Pg" },
                       { label: "%", code: "%", description: "%" },
+                      { label: "10^6/uL", code: "10^6/uL", description: "10^6/uL" },
+                      { label: "/mm^3", code: "/mm^3", description: "/mm^3" },
                       { label: "mg/dL", code: "mg/dL", description: "mg/dL" },
                       { label: "U/l", code: "U/l", description: "U/l" },
                       { label: "mmol/L", code: "mmol/L", description: "mmol/L" },
