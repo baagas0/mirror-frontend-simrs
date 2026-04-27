@@ -219,11 +219,10 @@
           </div>
         </div>
 
-        <triage-anatomi
+        <visum-anatomi
           v-if="formData.anatomi"
-          :is_validasi="false"
-          :objectDataAssesmen="anatomiContext"
-          :mData="formData.anatomi"></triage-anatomi>
+          v-model="formData.anatomi"
+          :jenis-kelamin="dataRegistrasi.jenis_kelamin"></visum-anatomi>
 
         <!-- Section 2: Kesimpulan -->
         <div class="card card-custom mb-5">
@@ -415,7 +414,7 @@
 
 <script>
 import print from "../../components/print.js";
-import TriageAnatomi from "../registrasi/layanan_igd/_components/triage/anatomi.vue";
+import VisumAnatomi from "./visum_anatomi.vue";
 
 const createDefaultAnatomiData = () => ({
   data_anatomi: []
@@ -428,7 +427,7 @@ const createDefaultKesimpulan = () => ([
 export default {
   name: 'VisumForm',
   components: {
-    TriageAnatomi
+    VisumAnatomi
   },
   props: {
     dataRegistrasi: {
@@ -456,14 +455,6 @@ export default {
         kesimpulan: createDefaultKesimpulan()
       },
       cetakData: null
-    }
-  },
-  computed: {
-    anatomiContext() {
-      return {
-        id: this.formData.id || this.registrasiId || 'visum-anatomi',
-        jenis_kelamin: this.dataRegistrasi.jenis_kelamin || ''
-      }
     }
   },
   watch: {
